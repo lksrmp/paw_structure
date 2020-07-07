@@ -1,13 +1,17 @@
 # SOURCE: https://github.com/pybind/python_example (6.07.2020)
 
-from setuptools import setup, Extension
+from setuptools import setup, Extension, find_packages
 from setuptools.command.build_ext import build_ext
 import sys
 import setuptools
+import pathlib
+
+#TODO: adapt file
 
 
 __version__ = '0.0.1'
 
+here = pathlib.Path(__file__).parent.resolve()
 
 class get_pybind_include(object):
     """Helper class to determine the pybind11 include path
@@ -23,20 +27,10 @@ class get_pybind_include(object):
 
 ext_modules = [
     Extension(
-        'test2',
+        'paw_structure.hbonds_c',
         # Sort input source files to ensure bit-for-bit reproducible builds
         # (https://github.com/pybind/python_example/pull/53)
-        sorted(['src/test_c.cpp']),
-        include_dirs=[
-            # Path to pybind11 headers
-            get_pybind_include(),
-        ],
-        language='c++'
-    ), Extension(
-        'test1',
-        # Sort input source files to ensure bit-for-bit reproducible builds
-        # (https://github.com/pybind/python_example/pull/53)
-        sorted(['src/main.cpp']),
+        sorted(['src/hbonds_c.cpp']),
         include_dirs=[
             # Path to pybind11 headers
             get_pybind_include(),
@@ -123,10 +117,18 @@ setup(
     url='https://github.com/lksrmp/paw_structure',
     description='CP-PAW structure analysis',
     long_description='Structural analysis of trajectory output by CP-PAW code with focus on water and ion in water analysis.',
-    skripts=['bin'],
-    packages=['src'],
+    package_dir={'paw_structure': 'src'},
+    packages=['paw_structure'],# find_packages(where='src'),
     ext_modules=ext_modules,
     setup_requires=['pybind11>=2.5.0'],
+    install_requires=['pybind11>=2.5.0'],
     cmdclass={'build_ext': BuildExt},
     zip_safe=False,
+    entry_points={
+        "console_scripts": [
+            "paw_structure_fast = paw_structure.structure_fast:main",
+            "paw_structure_ion = paw_structure.structure_ion:main",
+            "paw_structure_water = paw_structure.structure_water:main"
+            ]
+    }
 )
