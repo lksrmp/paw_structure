@@ -7,6 +7,15 @@
 using namespace std;
 namespace py = pybind11;
 
+void calc_dist_vec(double * pos1, double * pos2, double * v);
+double calc_skalar(double * v1, double * v2);
+double calc_norm(double * v1);
+double calc_angle(double * pos1, double * pos2, double * pos3);
+void pbc_3x3(const double * pos, int len, double * pbc, double a);
+int hbonds_number(const double* array1, int len1, const double* array2, int len2,
+        double cut1, double cut2, double angle, double a);
+int hbonds(py::array_t<const double>& array1, py::array_t<const double>& array2,
+        double cut1, double cut2, double angle, double a);
 
 // calculate vector from pos1 to pos2
 void calc_dist_vec(double * pos1, double * pos2, double * v){
@@ -63,7 +72,8 @@ void pbc_3x3(const double * pos, int len, double * pbc, double a){
 }
 
 
-int hbonds_number(const double* array1, int len1, const double* array2, int len2, double cut1, double cut2, double angle, double a){
+int hbonds_number(const double* array1, int len1, const double* array2, int len2,
+        double cut1, double cut2, double angle, double a){
     int counter = 0;
     double center[3], neighbor1[3], neighbor2[3], v11[3], v12[3], v21[3];
 
@@ -117,7 +127,8 @@ int hbonds_number(const double* array1, int len1, const double* array2, int len2
     return counter;
 }
 
-int hbonds(py::array_t<const double>& array1, py::array_t<const double>& array2, double cut1, double cut2, double angle, double a){
+int hbonds(py::array_t<const double>& array1, py::array_t<const double>& array2,
+        double cut1, double cut2, double angle, double a){
     py::buffer_info buf1 = array1.request();
     py::buffer_info buf2 = array2.request();
     if (buf1.ndim != 1 || buf2.ndim != 1)
@@ -135,15 +146,61 @@ int hbonds(py::array_t<const double>& array1, py::array_t<const double>& array2,
 }
 
 PYBIND11_MODULE(hbonds_c, m){
-m.doc() = "Hydrogen bond number calculation"; // optional module docstring
-m.def("hbonds_number", &hbonds_number);  //, "A function which adds two numbers", py::arg("array1"), py::arg("len1"), py::arg("array2"),
-//  py::arg("len2"), py::arg("cut"), py::arg("angle"));
-m.def("calc_dist_vec", &calc_dist_vec);
-m.def("calc_skalar", &calc_skalar);
-m.def("calc_norm", &calc_norm);
-m.def("calc_angle", &calc_angle);
-// m.def("calc_dist", &calc_dist);
-m.def("hbonds", &hbonds);
+    m.doc() = R"pbdoc(
+        paw_structure.hbonds_c
+        ----------------------
+
+        .. currentmodule:: paw_structure.hbonds_c
+
+        Dependencies:
+        :py:mod:`numpy`
+        :mod:`paw_structure.pbc`
+
+        .. autosummary::
+            :toctree: _generate
+
+            calc_dist_vec
+            calc_skalar
+            calc_norm
+            calc_angle
+            pbc_3x3
+            hbonds
+            hbonds_number
+    )pbdoc"; // optional module docstring
+
+    m.def("hbonds_number", &hbonds_number); /*, R"pbdoc(
+            Count hydrogen bonds.
+
+            Args:
+                array1 (array): erstes array
+
+        )pbdoc", py::arg("array1"), py::arg("len1"), py::arg("array2"), py::arg("len2"),
+        py::arg("cut1"), py::arg("cut2"), py::arg("angle"), py::arg("a")
+    );
+    */
+      //, "A function which adds two numbers", py::arg("array1"), py::arg("len1"), py::arg("array2"),
+    //  py::arg("len2"), py::arg("cut"), py::arg("angle"));
+    m.def("calc_dist_vec", &calc_dist_vec);
+    m.def("calc_skalar", &calc_skalar, R"pbdoc(
+        Calculate scalar.
+
+        Args:
+            v1 (double *): pointer on 3-dim. vector
+            v2 (double *): pointer on 3-dim. vector
+
+        Returns:
+            double
+    )pbdoc", py::arg("v1"), py::arg("v2"));
+    m.def("calc_norm", &calc_norm);
+    m.def("calc_angle", &calc_angle);
+    m.def("pbc_3x3", &pbc_3x3);
+    m.def("hbonds", &hbonds);
+
+#ifdef VERSION_INFO
+m.attr("__version__") = VERSION_INFO;
+#else
+m.attr("__version__") = "dev";
+#endif
 }
 
 
