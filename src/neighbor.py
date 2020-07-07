@@ -1,3 +1,21 @@
+"""
+paw_structure.neighbor
+----------------------
+Helper functions for atomic neighbor search.
+
+Dependencies:
+:py:mod:`numpy`
+:mod:`paw_structure.pbc`
+
+.. autosummary::
+   :toctree: _generate
+
+      neighbor_single_name
+      neighbor_find_name
+      neighbor_single
+      neighbor_find
+"""
+
 import numpy as np
 # MODULES WITHIN PROJECT
 from . import pbc

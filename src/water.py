@@ -1,3 +1,27 @@
+"""
+paw_structure.water
+-------------------
+Water complex detection.
+
+Dependencies:
+:py:mod:`functools`
+:py:mod:`miniutils.progress_bar`
+:py:mod:`numpy`
+:py:mod:`pandas`
+:mod:`paw_structure.neighbors`
+:mod:`paw_structure.utility`
+:class:`paw_structure.tra.Snap`
+
+.. autosummary::
+   :toctree: _generate
+
+      water_single
+      water_save
+      water_load
+      water_find_wrapper
+      water_find_parallel
+"""
+
 import numpy as np
 import pandas as pd
 from functools import partial

@@ -1,3 +1,32 @@
+"""
+paw_structure.radial
+--------------------
+Radial distribution function calculation.
+
+Dependencies:
+:py:mod:`functools`
+:py:mod:`matplotlib`
+:py:mod:`miniutils.progress_bar`
+:py:mod:`numpy`
+:py:mod:`pandas`
+:py:mod:`scipy`
+:mod:`paw_structure.pbc`
+:mod:`paw_structure.utility`
+
+.. autosummary::
+   :toctree: _generate
+
+      radial_distance_single
+      radial_distance
+      radial_distance_wrapper
+      radial_distance_parallel
+      radial_calculate
+      radial_integrate
+      radial_plot
+      radial_save
+      radial_load
+"""
+
 import numpy as np
 from functools import partial
 import miniutils.progress_bar as progress
@@ -6,7 +35,6 @@ import matplotlib
 from scipy.ndimage.interpolation import shift
 import scipy.integrate as si
 
-from . import tra
 from . import utility
 from . import pbc
 

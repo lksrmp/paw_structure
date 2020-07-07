@@ -1,6 +1,6 @@
 """
 paw_structure.utility
-_____________________
+---------------------
 Error and input handling.
 
 Dependencies:

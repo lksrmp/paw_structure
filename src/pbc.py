@@ -1,8 +1,7 @@
 """
 paw_structure.pbc
 -----------------
-
-Periodic boundary conditions.
+Helper functions for periodic boundary conditions.
 
 Dependencies:
 :py:mod:`copy`

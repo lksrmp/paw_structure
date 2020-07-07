@@ -1,9 +1,25 @@
 """
-ion
-___
-.. module:: ion
+paw_structure.ion
+-----------------
+Ion complex detection.
 
-Ion complex search
+Dependencies:
+:py:mod:`functools`
+:py:mod:`miniutils.progress_bar`
+:py:mod:`numpy`
+:py:mod:`pandas`
+:mod:`paw_structure.neighbors`
+:mod:`paw_structure.utility`
+:class:`paw_structure.tra.Snap`
+
+.. autosummary::
+   :toctree: _generate
+
+      ion_single
+      ion_save
+      ion_load
+      ion_find_wrapper
+      ion_find_parallel
 """
 
 import numpy as np
@@ -33,6 +49,19 @@ from .tra import Snap
 # pandas DataFrame  contains the whole complex centered around id1
 ########################################################################################################################
 def ion_single(snap, id1, id2, id3, cut1, cut2):
+    """
+
+    Args:
+        snap:
+        id1:
+        id2:
+        id3:
+        cut1:
+        cut2:
+
+    Returns:
+
+    """
     # check if only one atom is selected as ion
     if len(snap.atoms[snap.atoms['id'] == id1]) != 1:
         utility.err('ion_single', 0, [len(snap.atoms[snap.atoms['id'] == id1])])
@@ -70,6 +99,21 @@ def ion_single(snap, id1, id2, id3, cut1, cut2):
 # str ext (optional)            extension for the saved file: name = root + ext
 ########################################################################################################################
 def ion_save(root, snapshots, id1, id2, id3, cut1, cut2, ext='.ion'):
+    """
+
+    Args:
+        root:
+        snapshots:
+        id1:
+        id2:
+        id3:
+        cut1:
+        cut2:
+        ext:
+
+    Returns:
+
+    """
     # open file
     path = root + ext
     try:
@@ -112,6 +156,15 @@ def ion_save(root, snapshots, id1, id2, id3, cut1, cut2, ext='.ion'):
 # list class Snap snapshots     list of all information
 ########################################################################################################################
 def ion_load(root, ext='.ion'):
+    """
+
+    Args:
+        root:
+        ext:
+
+    Returns:
+
+    """
     path = root + ext
     try:
         f = open(path, 'r')
@@ -183,6 +236,19 @@ def ion_load(root, ext='.ion'):
 # class Snap res        ion complex information extracted from snap
 ########################################################################################################################
 def ion_find_wrapper(snap, id1, id2, id3, cut1, cut2):
+    """
+
+    Args:
+        snap:
+        id1:
+        id2:
+        id3:
+        cut1:
+        cut2:
+
+    Returns:
+
+    """
     comp = ion_single(snap, id1, id2, id3, cut1, cut2)  # find ion complex as pandas DataFrame
     # create new class Snap with ion complex information
     res = Snap(snap.iter, snap.time, snap.cell, None, None, dataframe=comp)
@@ -206,6 +272,20 @@ def ion_find_wrapper(snap, id1, id2, id3, cut1, cut2):
 # list class Snap ion_comp      list of ion complexes found
 ########################################################################################################################
 def ion_find_parallel(root, snapshots, id1, id2, id3, cut1=3.0, cut2=1.4):
+    """
+
+    Args:
+        root:
+        snapshots:
+        id1:
+        id2:
+        id3:
+        cut1:
+        cut2:
+
+    Returns:
+
+    """
     print("ION COMPLEX DETECTION IN PROGRESS")
     # set other arguments (necessary for parallel computing)
     multi_one = partial(ion_find_wrapper, id1=id1, id2=id2, id3=id3, cut1=cut1, cut2=cut2)

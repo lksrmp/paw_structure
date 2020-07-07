@@ -1,11 +1,30 @@
+"""
+paw_structure.scntl
+-------------------
+Read control input file for :mod:`paw_structure.structure_fast`.
+
+Dependencies:
+:py:mod:`os`
+:mod:`paw_structure.utility`
+
+.. autosummary::
+   :toctree: _generate
+
+      scntl_text
+      scntl_read_tra
+      scntl_read_ion
+      scntl_read_water
+      scntl_read_hbonds
+      scntl_read_radial
+      scntl_read_scntl
+      scntl_read
+"""
+
 import os
 # MODULES WITHIN PROJECT
 from . import utility
 
 # TODO: remove forced line structure (flatten text and search for keywords)
-def test():
-    return "Erfolgreich"
-
 ########################################################################################################################
 # OBTAIN TEXT AND BRACKET INDICES (GIVEN BY !KEY ... !END)
 # WARNING: METHOD IS LINE SENSITIVE, EACH ARGUMENT MUST HAVE ITS OWN LINE

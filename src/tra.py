@@ -1,3 +1,25 @@
+"""
+paw_structure.tra
+-----------------
+Trajectory file handling and data storage.
+
+Dependencies:
+:py:mod:`numpy`
+:py:mod:`pandas`
+:mod:`paw_structure.utility`
+
+.. autosummary::
+   :toctree: _generate
+
+      Snap
+      tra_strc_read
+      tra_index
+      tra_extract
+      tra_read
+      tra_save
+      tra_load
+"""
+
 import numpy as np
 import pandas as pd
 # MODULES WITHIN PROJECT
