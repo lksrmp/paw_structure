@@ -18,7 +18,9 @@ import os
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-sys.path.insert(0, os.path.abspath('./../src/'))
+sys.path.insert(0, os.path.abspath('../src/'))
+print(sys.path)
+
 
 # -- General configuration ------------------------------------------------
 
@@ -52,7 +54,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'structure_c'
+project = u'paw_structure'
 copyright = u'2020, Lukas Rump'
 author = u'Lukas Rump'
 
@@ -206,7 +208,7 @@ html_static_path = ['_static']
 #html_search_scorer = 'scorer.js'
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'structure_cdoc'
+htmlhelp_basename = 'paw_structuredoc'
 
 # -- Options for LaTeX output ---------------------------------------------
 
@@ -228,7 +230,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'structure_c.tex', u'structure_c Documentation',
+    (master_doc, 'paw_structure.tex', u'paw_structure Documentation',
      u'Lukas Rump', 'manual'),
 ]
 
@@ -258,7 +260,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'structure_c', u'structure_c Documentation',
+    (master_doc, 'paw_structure', u'paw_structure Documentation',
      [author], 1)
 ]
 
@@ -272,8 +274,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'structure_c', u'structure_c Documentation',
-     author, 'structure_c', 'One line description of project.',
+    (master_doc, 'paw_structure', u'paw_structure Documentation',
+     author, 'paw_structure', 'One line description of project.',
      'Miscellaneous'),
 ]
 

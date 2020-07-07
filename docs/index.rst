@@ -1,20 +1,17 @@
 paw_structure Documentation
-=========================
+===========================
+
+
 
 Contents:
 
 .. toctree::
    :maxdepth: 2
    
-   test1
+   Introduction
+   Installation
+   Documentation
 
-.. toctree::
-   :maxdepth: 2
 
-   test2
 
-.. toctree::
-   :maxdepth: 2
-
-   resourcetest
 
