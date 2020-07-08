@@ -1,4 +1,4 @@
-# structure_c
+# paw_structure
 Structural analysis program containing Python and C++
 
 Installation
