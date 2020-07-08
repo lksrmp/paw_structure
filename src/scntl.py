@@ -1,23 +1,24 @@
 """
 paw_structure.scntl
 -------------------
-Read control input file for :mod:`paw_structure.structure_fast`.
+Read control input file for :mod:`.structure_fast`.
 
 Dependencies:
+:mod:`.utility`
 :py:mod:`os`
-:mod:`paw_structure.utility`
+
 
 .. autosummary::
    :toctree: _generate
 
+      scntl_read
       scntl_text
+      scntl_read_scntl
       scntl_read_tra
       scntl_read_ion
       scntl_read_water
       scntl_read_hbonds
       scntl_read_radial
-      scntl_read_scntl
-      scntl_read
 """
 
 import os
@@ -38,6 +39,25 @@ from . import utility
 # dict brackets         dictionary to save position of each bracket for later extraction
 ########################################################################################################################
 def scntl_text(root, ext='.scntl'):
+    """
+    Read text from :data:`root`.scntl file and identify different control blocks.
+
+    XXX REFERENCE TO CONTROL FILE STRUCTURE XXX
+
+    Note:
+        Remove forced line structure (flatten text and search for key words).
+
+        Implement variable extension.
+
+    Args:
+        root (str): root name for the ".scntl" file
+        ext (str, optional): Default ".scntl". DO NOT USE!
+
+    Returns:
+        list[list[str]]: text from the control file; each line is a list of words within the outer list
+        dict: dictionary with control blocks and their position within the text
+
+    """
     # TODO: working directory was wrong on the laptop
     path = root + ext
     # open file
@@ -97,6 +117,16 @@ def scntl_text(root, ext='.scntl'):
 
 
 def scntl_read_tra(text, idx):
+    """
+    Interpret the control block for :mod:`.tra`.
+
+    Args:
+        text (list[list[str]]): text from the control file; each line is a list of words within the outer list
+        idx (list[int]): list with two indices marking beginning and end of control block
+
+    Returns:
+        dict: dictionary containing all information obtained from the control block
+    """
     text = text[idx[0] + 1:idx[1]]
     tra_dict = {
         'T1': None,
@@ -129,6 +159,16 @@ def scntl_read_tra(text, idx):
 
 
 def scntl_read_ion(text, idx):
+    """
+    Interpret the control block for :mod:`.ion`.
+
+    Args:
+        text (list[list[str]]): text from the control file; each line is a list of words within the outer list
+        idx (list[int]): list with two indices marking beginning and end of control block
+
+    Returns:
+        dict: dictionary containing all information obtained from the control block
+    """
     text = text[idx[0] + 1:idx[1]]
     ion_dict = {
         'ID1': None,
@@ -155,6 +195,16 @@ def scntl_read_ion(text, idx):
 
 
 def scntl_read_water(text, idx):
+    """
+    Interpret the control block for :mod:`.water`.
+
+    Args:
+        text (list[list[str]]): text from the control file; each line is a list of words within the outer list
+        idx (list[int]): list with two indices marking beginning and end of control block
+
+    Returns:
+        dict: dictionary containing all information obtained from the control block
+    """
     text = text[idx[0] + 1:idx[1]]
     water_dict = {
         'ID1': None,
@@ -175,6 +225,16 @@ def scntl_read_water(text, idx):
 
 
 def scntl_read_hbonds(text, idx):
+    """
+    Interpret the control block for :mod:`.hbonds`.
+
+    Args:
+        text (list[list[str]]): text from the control file; each line is a list of words within the outer list
+        idx (list[int]): list with two indices marking beginning and end of control block
+
+    Returns:
+        dict: dictionary containing all information obtained from the control block
+    """
     text = text[idx[0] + 1:idx[1]]
     hbonds_dict = {
         'ID1': None,
@@ -220,6 +280,19 @@ def scntl_read_hbonds(text, idx):
 
 
 def scntl_read_radial(text, idx):
+    """
+    Interpret the control block for :mod:`.radial`.
+
+    Note:
+        Implement name identification for central atoms.
+
+    Args:
+        text (list[list[str]]): text from the control file; each line is a list of words within the outer list
+        idx (list[int]): list with two indices marking beginning and end of control block
+
+    Returns:
+        dict: dictionary containing all information obtained from the control block
+    """
     # TODO: read names for center atoms
     text = text[idx[0] + 1:idx[1]]
     radial_dict = {
@@ -274,6 +347,16 @@ def scntl_read_radial(text, idx):
 
 
 def scntl_read_scntl(text, idx, delete):
+    """
+    Interpret the control block for general information.
+
+    Args:
+        text (list[list[str]]): text from the control file; each line is a list of words within the outer list
+        idx (list[int]): list with two indices marking beginning and end of control block
+
+    Returns:
+        dict: dictionary containing all information obtained from the control block
+    """
     idx_set = set(range(idx[0] + 1, idx[1])) - set(delete)
     control_dict = {
         'ROOT': None,
@@ -294,33 +377,50 @@ def scntl_read_scntl(text, idx, delete):
 
 
 def scntl_read(root):
+    """
+    Read and interpret the control file <root>.scntl.
+
+    Args:
+        root (str): root name for the ".scntl" file
+
+    Returns:
+        dict[dict]: dictionary of all dictionaries obtained from all the control blocks
+    """
     scntl_dict = {}
     delete = []
     text, brackets = scntl_text(root)
+    # read !TRA control block if present
     if '!TRA' in brackets.keys():
         tra_dict = scntl_read_tra(text, brackets['!TRA'])
         scntl_dict['!TRA'] = tra_dict
         delete = delete + [*range(brackets['!TRA'][0], brackets['!TRA'][1] + 1)]
+    # read !ION control block if present
     if '!ION' in brackets.keys():
         ion_dict = scntl_read_ion(text, brackets['!ION'])
         scntl_dict['!ION'] = ion_dict
         delete = delete + [*range(brackets['!ION'][0], brackets['!ION'][1] + 1)]
+    # read !WATER control block if present
     if '!WATER' in brackets.keys():
         water_dict = scntl_read_water(text, brackets['!WATER'])
         scntl_dict['!WATER'] = water_dict
         delete = delete + [*range(brackets['!WATER'][0], brackets['!WATER'][1] + 1)]
+    # read !HBONDS control block if present
     if '!HBONDS' in brackets.keys():
         hbonds_dict = scntl_read_hbonds(text, brackets['!HBONDS'])
         scntl_dict['!HBONDS'] = hbonds_dict
         delete = delete + [*range(brackets['!HBONDS'][0], brackets['!HBONDS'][1] + 1)]
+    # read !RADIAL control block if present
     if '!RADIAL' in brackets.keys():
         radial_dict = scntl_read_radial(text, brackets['!RADIAL'])
         scntl_dict['!RADIAL'] = radial_dict
         delete = delete + [*range(brackets['!RADIAL'][0], brackets['!RADIAL'][1] + 1)]
+    # delete unused blocks
     for i in range(int(len(brackets['DELETE']) / 2)):
         delete = delete + [*range(brackets['DELETE'][i*2], brackets['DELETE'][i*2+1] + 1)]
+    # read !SCNTL control block
     scntl_dict['GENERAL'] = scntl_read_scntl(text, brackets['!SCNTL'], delete)
     # ensure existence of !TRA except only !RADIAL is given with LOAD or its own data extraction active
+    #TODO: error checking does not work properly
     if '!TRA' not in scntl_dict.keys():
         if not (set(['GENERAL', '!RADIAL']) == set(scntl_dict.keys()) and scntl_dict['!RADIAL']['LOAD']):
             if not scntl_dict['!RADIAL']['TRA_EXTRACT']:

@@ -246,22 +246,22 @@ def hbonds_find_parallel(root, snapshots, id1, id2, cut1=3.5, cut2=3.1, args=[2.
 
 
     # initialize other parameters (necessary for parallelization
-    multi_one = partial(hbonds_find_wrapper, id1=id1, id2=id2, cut1=cut1, cut2=cut2, args=args)
+    # multi_one = partial(hbonds_find_wrapper, id1=id1, id2=id2, cut1=cut1, cut2=cut2, args=args)
 
     # hydrogen bonds number search C++
-    # multi_two = partial(hbonds_number_wrapper, id1=id1, id2=id2, cut1=cut1, cut2=cut2, angle=140.0)
-    # save_two = progress.parallel_progbar(multi_two, snapshots)
-    # save_two = np.array(save_two) / len(snapshots[0].atoms[snapshots[0].atoms['id'] == id1])
-    # time = np.array([snap.time for snap in snapshots])
-    # hbonds_c_save(root, time, save_two, snapshots, id1, id2)
-    # hbonds_c_plot(time, save_two)
+    multi_two = partial(hbonds_number_wrapper, id1=id1, id2=id2, cut1=cut1, cut2=cut2, angle=140.0)
+    save_two = progress.parallel_progbar(multi_two, snapshots)
+    save_two = np.array(save_two) / len(snapshots[0].atoms[snapshots[0].atoms['id'] == id1])
+    time = np.array([snap.time for snap in snapshots])
+    hbonds_c_save(root, time, save_two, snapshots, id1, id2)
+    hbonds_c_plot(time, save_two)
     
     
     # run hbonds search
-    save = progress.parallel_progbar(multi_one, snapshots)
+    # save = progress.parallel_progbar(multi_one, snapshots)
 
     # save results to file
-    hbonds_save(root, save, id1, id2, cut1, cut2, args)
+    # hbonds_save(root, save, id1, id2, cut1, cut2, args)
     print("HYDROGEN BOND DETECTION FINISHED")
 
-    return save
+    return save_two

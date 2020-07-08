@@ -1,18 +1,18 @@
 """
 paw_structure.pbc
 -----------------
-Helper functions for periodic boundary conditions.
+Functions for application of periodic boundary conditions.
 
 Dependencies:
+:mod:`.utility`
 :py:mod:`copy`
 :py:mod:`numpy`
-:mod:`paw_structure.utility`
 
 .. autosummary::
    :toctree: _generate
 
-      pbc_folding
       pbc_apply3x3
+      pbc_folding
       pbc_general
 """
 
@@ -35,13 +35,20 @@ from . import utility
 #  0  0 az
 def pbc_folding(snapshots):
     """
-    Folding
+    Folding of atoms into a single unit cell.
+
+    Note:
+        Only works for cubic unit cells.
+        Directly operates and alters the atomic positions.
 
     Args:
-        snapshots:
+        snapshots (list[:class:`.Snap`]): list of Snap objects of which the atomic positions should be adjusted
 
-    Returns:
 
+    During AIMD simulations atoms can move outside of the initial unit cell. For easier calculation and later analysis
+    it is advised to project them into a common unit cell.
+
+    The origin is at (0,0,0).
     """
     print("PROJECTION OF ATOMS INTO CUBIC UNIT CELL")
     for snap in snapshots:  # loop through list
@@ -70,15 +77,23 @@ def pbc_folding(snapshots):
 # TODO: make id optional as well
 def pbc_apply3x3(snap, id=None, names=None):
     """
-    Periodic 3x3
+    Create 3x3 supercell.
+
+    Note:
+        Implement creation of smaller super cell that still garantees periodic boundary conditions.
 
     Args:
-        snap:
-        id:
-        names:
+        snap (:class:`.Snap`): single snapshot containing the initial atomic positions
+        id (list[str], optional): list of identifiers of selected atom species (e.g. "O_" or "H_")
+        names (list[str], optional): list of names of selected atoms (e.g. "O_43" or "H_15")
+
+    Takes all atoms if :data:`id` and :data:`names` is not given.
 
     Returns:
+        :class:`.Snap`: snapshot with atomic positions of a 3x3 supercell
 
+    Is used to apply periodic boundary conditions when for example searching for atomic neighbors
+    (see e.g. :mod:`.neighbor`). Original unit cell is in the middle.
     """
     if id is not None and names is None:
         snap_pbc = snap.atoms[snap.atoms['id'].isin(id)]  # filter for atoms of correct type
@@ -110,14 +125,16 @@ def pbc_apply3x3(snap, id=None, names=None):
 ########################################################################################################################
 def pbc_general(snap, directions):
     """
-    General periodic boundary conditions.
+    Apply general periodic boundary conditions.
 
     Args:
-        snap:
-        directions:
+        snap (:class:`.Snap`):
+        directions (list[int]):
 
     Returns:
+        :class:`.Snap`: snapshot with periodic boundary conditions applied to atomic positions
 
+    Original unit cell is at the corner of the supercell.
     """
     snap_pbc = deepcopy(snap)
     # loop through three directions

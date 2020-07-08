@@ -11,8 +11,8 @@ Dependencies:
 .. autosummary::
    :toctree: _generate
 
-      err_file
       err
+      err_file
       argcheck
       structure_ion_input
       structure_water_input
@@ -39,7 +39,7 @@ def err_file(func, path):
         func (str): name of function in which error occured
         path (str): path of file where opening failed
 
-    Raises:
+    Returns:
         :py:func:`sys.exit()` displaying an error message
 
     >>> PROGRAM TERMINATED
@@ -69,80 +69,80 @@ def err(func, id, arg, info=''):
 
     Args:
         func (str): name of function in which error occured
-        id (int): number of needed error entry for function :py:data:`func`
+        id (int): number of dictionary entry for function :py:data:`func`
         arg (list): list of arguments specific for each error (can vary in length and type)
-        info (str): optional - test displayed in error message
+        info (str, optional): text displayed in error message
 
-    Raises:
+    Returns:
         :py:func:`sys.exit()` displaying an error message
     """
     # define functions returning the right error message
-    def err_tra_index_1(args):
+    def _err_tra_index_1(args):
         return ("INVALID NUMBER OF SNAPSHOTS\n%-24s%d\n%-24s%d"
                 % ("SELECTED NUMBER N:", args[0], "TOTAL STEPS:", args[1]))
 
-    def err_tra_index_2(args):
+    def _err_tra_index_2(args):
         return ("T2 NEEDS TO BE LARGER THAN T1\n%-24s%.8f\n%-24s%.8f\n"
                 % ("SELECTED TIME T1:", args[0], "SELECTED TIME T2:", args[1]))
 
-    def err_tra_index_3(args):
+    def _err_tra_index_3(args):
         return ("INVALID INTERVAL SELECTION\n%-24s%.8f\n%-24s%.8f\n%-24s%.8f\n%-24s%.8f"
                 % ("SELECTED TIME T1:", args[0], "SELECTED TIME T2:",
                     args[1], "FIRST TIME STEP:", args[2], "LAST TIME STEP:", args[3]))
 
-    def err_tra_index_4(args):
+    def _err_tra_index_4(args):
         return ("INVALID NUMBER OF SNAPSHOTS FOR INTERVAL\n%-24s%d\n%-24s%d"
                 % ("SELECTED NUMBER N:", args[0], "STEPS IN INTERVAL:", args[1]))
 
-    def err_pbc_apply3x3(args):
+    def _err_pbc_apply3x3(args):
         return "INVALID ARGUMENTS\nEITHER SELECTION BY ID OR NAME, NOT BOTH"
 
-    def err_ion_single1(args):
+    def _err_ion_single1(args):
         return "%s\n%-24s%d" % ("ONLY ONE ION ALLOWED", "IONS SELECTED:", args[0])
 
-    def err_ion_single2(args):
+    def _err_ion_single2(args):
         return ("%s\n%-24s%-6s%-6s%-6s"
                 % ("THREE DIFFERENT SPECIES NEEDED", "SELECTED SPECIES:", args[0], args[1], args[2]))
 
-    def err_water_single(args):
+    def _err_water_single(args):
         return "%s\n%-24s%-6s%-6s" % ("TWO DIFFERENT SPECIES NEEDED", "SELECTED SPECIES:", args[0], args[1])
 
-    def err_hbonds_load1(args):
+    def _err_hbonds_load1(args):
         return ("%s\n%-6d%s\n%-6d%s"
                 % ("NUMBER OF SNAPSHOTS DOES NOT MATCH IN FILES:", args[0], args[1], args[2], args[3]))
 
-    def err_hbonds_load2(args):
+    def _err_hbonds_load2(args):
         return "%s\n%s\n%s\n%s" % ("DATA OF FILES DOES NOT MATCH", "ITERATION VALUES NOT COMPATIBLE", args[0], args[1])
 
-    def err_scntl_text1(args):
+    def _err_scntl_text1(args):
         return "MORE BRACKETS CLOSED THAN OPENED"
 
-    def err_scntl_text2(args):
+    def _err_scntl_text2(args):
         return "%s\n%d %s" % ("MORE BRACKETS OPENED THAN CLOSED", args[0], "STILL OPEN")
 
-    def err_scntl_read1(args):
+    def _err_scntl_read1(args):
         return "MISSING PARAMETER IN %s\nPLEASE PROVIDE PARAMETER" % args[0]
 
-    def err_scntl_read2(args):
+    def _err_scntl_read2(args):
         return "PLEASE PROVIDE BLOCK !TRA IN %s.scntl" % args[0]
 
-    def err_argcheck1(args):
+    def _err_argcheck1(args):
         return "WRONG NUMBER OF ARGUMENTS GIVEN\n%-12s%d\n%-12s%d" % ("EXPECTED:", 1, "GIVEN:", args[0])
 
-    def err_argcheck2(args):
+    def _err_argcheck2(args):
         return "WRONG FILE ENDING\nPLEASE USE %s" % args[0]
 
     # store functions in dictionary (function name = key, id = position in list)
     error = {
-        'tra_index': [err_tra_index_1, err_tra_index_2, err_tra_index_3, err_tra_index_4],
-        'pbc_apply3x3': [err_pbc_apply3x3],
-        'ion_single': [err_ion_single1, err_ion_single2],
-        'water_single': [err_water_single],
-        'hbonds_load': [err_hbonds_load1, err_hbonds_load2],
-        'scntl_text': [err_scntl_text1, err_scntl_text2],
-        'scntl_read': [err_scntl_read1, err_scntl_read2],
-        'argcheck': [err_argcheck1, err_argcheck2],
-        'structure_water': [err_hbonds_load1, err_hbonds_load2]
+        'tra_index': [_err_tra_index_1, _err_tra_index_2, _err_tra_index_3, _err_tra_index_4],
+        'pbc_apply3x3': [_err_pbc_apply3x3],
+        'ion_single': [_err_ion_single1, _err_ion_single2],
+        'water_single': [_err_water_single],
+        'hbonds_load': [_err_hbonds_load1, _err_hbonds_load2],
+        'scntl_text': [_err_scntl_text1, _err_scntl_text2],
+        'scntl_read': [_err_scntl_read1, _err_scntl_read2],
+        'argcheck': [_err_argcheck1, _err_argcheck2],
+        'structure_water': [_err_hbonds_load1, _err_hbonds_load2]
     }
     try:
         sys.exit("\nPROGRAM TERMINATED\nERROR IN FUNCTION: %s\n\n%s\n%s" % (func, error[func][id](arg), info))
@@ -198,11 +198,10 @@ def argcheck(argv, extension):
         argv (list[str]):  two element list with arguments being extracted with :py:func:`sys.argv`
         extension (str):  expected extension of second argument (e.g. '.ion', '.water', '.hbonds')
 
-    Return:
+    Returns:
         str: name with extension removed
 
-    Raises:
-        :py:func:`sys.exit()` displaying an error message
+    Calls :func:`.utility.err` in case of wrong input.
     """
     if len(argv) != 2:
         err('argcheck', 0, [len(argv) - 1], info="PLEASE GIVE PATH OF *%s FILE" % extension)
@@ -213,12 +212,10 @@ def argcheck(argv, extension):
 
 def structure_ion_input():
     """
-    Check console input
-
-    Uses :py:mod:`argparse`
+    Get console input for :mod:`.structure_ion`.
 
     Returns:
-
+        :py:mod:`argparse` object
     """
     parser = argparse.ArgumentParser()
     parser.add_argument("ion", type=str, help="give path of ion complex file\nproduced by structure_fast.py")
@@ -229,10 +226,10 @@ def structure_ion_input():
 
 def structure_water_input():
     """
-    Check console input
+    Get console input for :mod:`.structure_ion`.
 
     Returns:
-
+        :py:mod:`argparse` object
     """
     parser = argparse.ArgumentParser()
     parser.add_argument("water", type=str, help="give path of water complex file\nproduced by structure_fast.py")
