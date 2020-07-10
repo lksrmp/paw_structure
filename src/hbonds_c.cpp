@@ -1,86 +1,31 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/numpy.h>
 #include <iostream>
-#include <cmath>
 #include <vector>
+
+#include "pbc_c.h"
+#include "calc_c.h"
 
 using namespace std;
 namespace py = pybind11;
 
-void calc_dist_vec(double * pos1, double * pos2, double * v);
-double calc_skalar(double * v1, double * v2);
-double calc_norm(double * v1);
-double calc_angle(double * pos1, double * pos2, double * pos3);
-void pbc_3x3(const double * pos, int len, double * pbc, double a);
+
+// void pbc_apply3x3(const double * pos, int len, double * pbc, double a);
 int hbonds_number(const double* array1, int len1, const double* array2, int len2,
         double cut1, double cut2, double angle, double a);
 int hbonds(py::array_t<const double>& array1, py::array_t<const double>& array2,
         double cut1, double cut2, double angle, double a);
 
-// calculate vector from pos1 to pos2
-void calc_dist_vec(double * pos1, double * pos2, double * v){
-    for(int i = 0; i < 3; i++){
-        v[i] = pos2[i] - pos1[i];
-    }
-    return;
-}
-
-// calculate skalar product between two vectors
-double calc_skalar(double * v1, double * v2){
-    double skalar = 0.0;
-    for(int i = 0; i < 3; i++){
-        skalar += v1[i] * v2[i];
-    }
-    return skalar;
-}
-
-// calculate norm of a vector
-double calc_norm(double * v1){
-    double sum = 0.0;
-    for(int i = 0; i < 3; i++){
-        sum += v1[i] * v1[i];
-    }
-    return sqrt(sum);
-}
-
-//calculate angle between three points
-double calc_angle(double * pos1, double * pos2, double * pos3){
-    double v1[3], v2[3];
-    calc_dist_vec(pos2, pos1, v1);
-    calc_dist_vec(pos2, pos3, v2);
-    double angle = calc_skalar(v1, v2) / (calc_norm(v1) * calc_norm(v2));
-    angle = acos(angle);
-    angle = angle / M_PI * 180.0;
-    return angle;
-}
-
-void pbc_3x3(const double * pos, int len, double * pbc, double a){
-    int index = 0;
-    for(int i = -1; i < 2; i++){
-        for(int j = -1; j < 2; j++){
-            for(int k = -1; k < 2; k++){
-                for(int l = 0; l < len; l++){
-                    pbc[3 * (len * index + l) + 0] = pos[3 * l + 0] + a * i;
-                    pbc[3 * (len * index + l) + 1] = pos[3 * l + 1] + a * j;
-                    pbc[3 * (len * index + l) + 2] = pos[3 * l + 2] + a * k;
-                }
-                index++;
-            }
-        }
-    }
-    return;
-}
 
 
 int hbonds_number(const double* array1, int len1, const double* array2, int len2,
         double cut1, double cut2, double angle, double a){
-    int counter = 0;
-    double center[3], neighbor1[3], neighbor2[3], v11[3], v12[3], v21[3];
 
-    double pbc1[27 * len1 * 3];
-    double pbc2[27 * len2 * 3];
-    pbc_3x3(array1, len1, pbc1, a);
-    pbc_3x3(array2, len2, pbc2, a);
+    int counter = 0;
+    double center[3], neighbor1[3], neighbor2[3];
+
+    double * pbc1 = pbc_apply3x3(array1, len1, a);
+    double * pbc2 = pbc_apply3x3(array2, len2, a);
     double dist11, dist12, dist21, angle121;
     int center_count = 0;
 
@@ -94,8 +39,9 @@ int hbonds_number(const double* array1, int len1, const double* array2, int len2
             neighbor1[1] = pbc1[3 * j + 1];
             neighbor1[2] = pbc1[3 * j + 2];
 
-            calc_dist_vec(center, neighbor1, v11);
+            double * v11 = calc_dist_vec(center, neighbor1);
             dist11 = calc_norm(v11);
+            delete [] v11;
 
             if(dist11 < cut1 && dist11 > 0.01) {
                 for(int k = 0; k < 27 * len2; k++){
@@ -103,13 +49,13 @@ int hbonds_number(const double* array1, int len1, const double* array2, int len2
                     neighbor2[1] = pbc2[3 * k + 1];
                     neighbor2[2] = pbc2[3 * k + 2];
 
-                    calc_dist_vec(center, neighbor2, v12);
+                    double * v12 = calc_dist_vec(center, neighbor2);
                     dist12 = calc_norm(v12);
-
+                    delete [] v12;
                     if(dist12 < cut2){
-                        calc_dist_vec(neighbor2, neighbor1, v21);
+                        double * v21 = calc_dist_vec(neighbor2, neighbor1);
                         dist21 = calc_norm(v21);
-
+                        delete [] v21;
                         if(dist21 < cut2){
                             angle121 = calc_angle(center, neighbor2, neighbor1);
                             //cout << angle121 << "\n";
@@ -124,6 +70,8 @@ int hbonds_number(const double* array1, int len1, const double* array2, int len2
         }
         center_count++;
     }
+    delete [] pbc1;
+    delete [] pbc2;
     return counter;
 }
 
@@ -159,13 +107,13 @@ PYBIND11_MODULE(hbonds_c, m){
         .. autosummary::
             :toctree: _generate
 
+            hbonds
+            hbonds_number
+            pbc_apply3x3
             calc_dist_vec
             calc_skalar
             calc_norm
             calc_angle
-            pbc_3x3
-            hbonds
-            hbonds_number
     )pbdoc"; // optional module docstring
 
     m.def("hbonds_number", &hbonds_number); /*, R"pbdoc(
@@ -193,7 +141,7 @@ PYBIND11_MODULE(hbonds_c, m){
     )pbdoc", py::arg("v1"), py::arg("v2"));
     m.def("calc_norm", &calc_norm);
     m.def("calc_angle", &calc_angle);
-    m.def("pbc_3x3", &pbc_3x3);
+    m.def("pbc_apply3x3", &pbc_apply3x3);
     m.def("hbonds", &hbonds);
 
 #ifdef VERSION_INFO
