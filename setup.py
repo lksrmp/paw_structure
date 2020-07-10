@@ -5,6 +5,7 @@ from setuptools.command.build_ext import build_ext
 import sys
 import setuptools
 import pathlib
+import os
 
 #TODO: adapt file
 
@@ -30,12 +31,23 @@ ext_modules = [
         'paw_structure.hbonds_c',
         # Sort input source files to ensure bit-for-bit reproducible builds
         # (https://github.com/pybind/python_example/pull/53)
-        sorted(['src/hbonds_c.cpp']),
+        sorted(['src/calc_c.cpp', 'src/pbc_c.cpp', 'src/hbonds_c.cpp']),
+        language='c++',
         include_dirs=[
             # Path to pybind11 headers
             get_pybind_include(),
         ],
-        language='c++'
+    ),
+    Extension(
+        'paw_structure.radial_c',
+        # Sort input source files to ensure bit-for-bit reproducible builds
+        # (https://github.com/pybind/python_example/pull/53)
+        sorted(['src/calc_c.cpp', 'src/pbc_c.cpp', 'src/radial_c.cpp']),
+        language='c++',
+        include_dirs=[
+            # Path to pybind11 headers
+            get_pybind_include(),
+        ],
     ),
 ]
 
