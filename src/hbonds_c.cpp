@@ -102,18 +102,17 @@ PYBIND11_MODULE(hbonds_c, m){
 
         Dependencies:
         :py:mod:`numpy`
-        :mod:`paw_structure.pbc`
+        :mod:`.pbc`
 
         .. autosummary::
-            :toctree: _generate
 
-            hbonds
-            hbonds_number
-            pbc_apply3x3
-            calc_dist_vec
-            calc_skalar
-            calc_norm
             calc_angle
+            calc_dist_vec
+            calc_norm
+            calc_skalar
+            hbonds_number
+            hbonds
+            pbc_apply3x3
     )pbdoc"; // optional module docstring
 
     m.def("hbonds_number", &hbonds_number); /*, R"pbdoc(

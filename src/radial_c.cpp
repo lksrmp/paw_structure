@@ -64,7 +64,6 @@ PYBIND11_MODULE(radial_c, m){
         :mod:`paw_structure.pbc`
 
         .. autosummary::
-            :toctree: _generate
 
             radial
             radial_calculate
