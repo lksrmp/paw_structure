@@ -9,7 +9,6 @@ Dependencies:
 :py:mod:`numpy`
 
 .. autosummary::
-   :toctree: _generate
 
       pbc_apply3x3
       pbc_folding
@@ -37,10 +36,6 @@ def pbc_folding(snapshots):
     """
     Folding of atoms into a single unit cell.
 
-    Note:
-        Only works for cubic unit cells.
-        Directly operates and alters the atomic positions.
-
     Args:
         snapshots (list[:class:`.Snap`]): list of Snap objects of which the atomic positions should be adjusted
 
@@ -49,6 +44,10 @@ def pbc_folding(snapshots):
     it is advised to project them into a common unit cell.
 
     The origin is at (0,0,0).
+
+    Note:
+        Only works for cubic unit cells.
+        Directly operates and alters the atomic positions.
     """
     print("PROJECTION OF ATOMS INTO CUBIC UNIT CELL")
     for snap in snapshots:  # loop through list
@@ -79,9 +78,6 @@ def pbc_apply3x3(snap, id=None, names=None):
     """
     Create 3x3 supercell.
 
-    Note:
-        Implement creation of smaller super cell that still garantees periodic boundary conditions.
-
     Args:
         snap (:class:`.Snap`): single snapshot containing the initial atomic positions
         id (list[str], optional): list of identifiers of selected atom species (e.g. "O_" or "H_")
@@ -94,6 +90,9 @@ def pbc_apply3x3(snap, id=None, names=None):
 
     Is used to apply periodic boundary conditions when for example searching for atomic neighbors
     (see e.g. :mod:`.neighbor`). Original unit cell is in the middle.
+
+    Note:
+        Implement creation of smaller super cell that still garantees periodic boundary conditions.
     """
     if id is not None and names is None:
         snap_pbc = snap.atoms[snap.atoms['id'].isin(id)]  # filter for atoms of correct type

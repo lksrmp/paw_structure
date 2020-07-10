@@ -8,12 +8,11 @@ Dependencies:
 :mod:`paw_structure.pbc`
 
 .. autosummary::
-   :toctree: _generate
 
-      neighbor_single_name
+      neighbor_find
       neighbor_find_name
       neighbor_single
-      neighbor_find
+      neighbor_single_name
 """
 
 import numpy as np
@@ -66,6 +65,18 @@ def neighbor_single_name(center, pbc_atoms, cut):
 # list list str             list of list of atom names; first element is center, the following are neighbors of center
 ########################################################################################################################
 def neighbor_find_name(snap, id1, id2, cut, names=None):
+    """
+
+    Args:
+        snap:
+        id1:
+        id2:
+        cut:
+        names:
+
+    Returns:
+
+    """
     pbc_atoms = pbc.pbc_apply3x3(snap, id=[id2])  # create 3x3 unit cell of atom species id2
     neighbors = []  # initialize dictionary for storage of neighbor names
     if names is None:
@@ -92,6 +103,16 @@ def neighbor_find_name(snap, id1, id2, cut, names=None):
 # pandas DataFrame neighbors    contains all information about the neighbors found
 ########################################################################################################################
 def neighbor_single(center, pbc_atoms, cut):
+    """
+
+    Args:
+        center:
+        pbc_atoms:
+        cut:
+
+    Returns:
+
+    """
     dist = np.linalg.norm(center['pos'] - pbc_atoms['pos'], axis=1)  # calculate distance to center
     neighbors = pbc_atoms[[a and not b for a, b in zip(dist < cut, np.isclose(dist, 0.0))]]  # select fitting atoms
     return neighbors  # return dataframe
@@ -111,6 +132,18 @@ def neighbor_single(center, pbc_atoms, cut):
 # dict DataFrame neighbors  dictionary with center atom names as key and pandas DataFrame of neighbors as entry
 ########################################################################################################################
 def neighbor_find(snap, id1, id2, cut, names=None):
+    """
+
+    Args:
+        snap:
+        id1:
+        id2:
+        cut:
+        names:
+
+    Returns:
+
+    """
     pbc_atoms = pbc.pbc_apply3x3(snap, id=[id2])  # create 3x3 unit cell of atom species id2
     neighbors = {}  # initialize dictionary for storage of neighbor names
     if names is None:

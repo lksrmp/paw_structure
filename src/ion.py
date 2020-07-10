@@ -3,23 +3,26 @@ paw_structure.ion
 -----------------
 Ion complex detection.
 
+Main routine is :func:`.ion_find_parallel`.
+
 Dependencies:
 :py:mod:`functools`
-:py:mod:`miniutils.progress_bar`
+:py:mod:`miniutils`
 :py:mod:`numpy`
 :py:mod:`pandas`
-:mod:`paw_structure.neighbors`
-:mod:`paw_structure.utility`
-:class:`paw_structure.tra.Snap`
+:mod:`.neighbor`
+:mod:`.utility`
+:class:`.Snap`
 
 .. autosummary::
-   :toctree: _generate
 
-      ion_single
-      ion_save
-      ion_load
-      ion_find_wrapper
       ion_find_parallel
+      ion_find_wrapper
+      ion_load
+      ion_save
+      ion_single
+
+XXX REFERENCE TO ALGORITHM EXPLANATION XXX
 """
 
 import numpy as np
@@ -50,17 +53,21 @@ from .tra import Snap
 ########################################################################################################################
 def ion_single(snap, id1, id2, id3, cut1, cut2):
     """
+    Find ion complex of a single snapshot of atomic positions.
 
     Args:
-        snap:
-        id1:
-        id2:
-        id3:
-        cut1:
-        cut2:
+        snap (:class:`.Snap`): single snapshot containing the atomic information
+        id1 (str): identifier for atom used as center (e.g. 'MN')
+        id2 (str): identifier for atoms as possible first neighbors (e.g. 'O_')
+        id3 (str): identifier for atoms as possible neighbors of first neighbors (e.g. 'H_')
+        cut1 (float): cutoff distance for first neighbor search
+        cut2 (float): cutoff distance for second neighbor search
 
     Returns:
+        :py:mod:`pandas.DataFrame`: atomic information about complex centered around id1
 
+    Note:
+        Implement possibility for more atoms or allow selection by name.
     """
     # check if only one atom is selected as ion
     if len(snap.atoms[snap.atoms['id'] == id1]) != 1:
@@ -100,19 +107,19 @@ def ion_single(snap, id1, id2, id3, cut1, cut2):
 ########################################################################################################################
 def ion_save(root, snapshots, id1, id2, id3, cut1, cut2, ext='.ion'):
     """
+    Save results to file.
+
+    XXX REFERENCE TO EXPLANATION OF .ion FILE FORMAT XXX
 
     Args:
-        root:
-        snapshots:
-        id1:
-        id2:
-        id3:
-        cut1:
-        cut2:
-        ext:
-
-    Returns:
-
+        root (str): root name for saving file
+        snapshots (list[:class:`.Snap`]): list of snapshots containing an ion complex
+        id1 (str): identifier for atom used as center (e.g. 'MN')
+        id2 (str): identifier for atoms as possible first neighbors (e.g. 'O_')
+        id3 (str): identifier for atoms as possible neighbors of first neighbors (e.g. 'H_')
+        cut1 (float): cutoff distance for first neighbor search
+        cut2 (float): cutoff distance for second neighbor search
+        ext (str, optional): default ".ion" - extension for the saved file: name = root + ext
     """
     # open file
     path = root + ext
@@ -157,13 +164,17 @@ def ion_save(root, snapshots, id1, id2, id3, cut1, cut2, ext='.ion'):
 ########################################################################################################################
 def ion_load(root, ext='.ion'):
     """
+    Load information previously saved by :func:`.ion_save`.
 
     Args:
-        root:
-        ext:
+        root (str): root name for the file to be loaded
+        ext (str, optional): default ".ion" - extension for the file to be loaded: name = root + ext
 
     Returns:
+        list[:class:`.Snap`]: list of snapshots containing an ion complex
 
+    Note:
+        Reading is line sensitive. Do not alter the output file before loading.
     """
     path = root + ext
     try:
@@ -237,17 +248,18 @@ def ion_load(root, ext='.ion'):
 ########################################################################################################################
 def ion_find_wrapper(snap, id1, id2, id3, cut1, cut2):
     """
+    Wrapper for :func:`.ion_single`.
 
     Args:
-        snap:
-        id1:
-        id2:
-        id3:
-        cut1:
-        cut2:
+        snap (:class:`.Snap`): single snapshot containing the atomic information
+        id1 (str): identifier for atom used as center (e.g. 'MN')
+        id2 (str): identifier for atoms as possible first neighbors (e.g. 'O_')
+        id3 (str): identifier for atoms as possible neighbors of first neighbors (e.g. 'H_')
+        cut1 (float): cutoff distance for first neighbor search
+        cut2 (float): cutoff distance for second neighbor search
 
     Returns:
-
+        :class:`.Snap`: snapshot containing an ion complex
     """
     comp = ion_single(snap, id1, id2, id3, cut1, cut2)  # find ion complex as pandas DataFrame
     # create new class Snap with ion complex information
@@ -271,20 +283,26 @@ def ion_find_wrapper(snap, id1, id2, id3, cut1, cut2):
 # OUTPUT
 # list class Snap ion_comp      list of ion complexes found
 ########################################################################################################################
-def ion_find_parallel(root, snapshots, id1, id2, id3, cut1=3.0, cut2=1.4):
+def ion_find_parallel(root, snapshots, id1, id2, id3, cut1, cut2):
     """
+    Find ion complexes for multiple snapshots of atomic configurations.
 
     Args:
-        root:
-        snapshots:
-        id1:
-        id2:
-        id3:
-        cut1:
-        cut2:
+        root (str): root name of the files
+        snapshots (list[:class:`.Snap`]): list of snapshots containing the atomic information
+        id1 (str): identifier for atom used as center (e.g. 'MN')
+        id2 (str): identifier for atoms as possible first neighbors (e.g. 'O_')
+        id3 (str): identifier for atoms as possible neighbors of first neighbors (e.g. 'H_')
+        cut1 (float): cutoff distance for first neighbor search
+        cut2 (float): cutoff distance for second neighbor search
 
     Returns:
+        list[:class:`.Snap`]: list of snapshots containing an ion complex
 
+    Parallelization based on :py:mod:`multiprocessing`.
+
+    Note:
+        Only one atom of type :data:`id1` allowed to be in a snapshot at the moment.
     """
     print("ION COMPLEX DETECTION IN PROGRESS")
     # set other arguments (necessary for parallel computing)

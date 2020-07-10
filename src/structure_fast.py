@@ -58,8 +58,7 @@ def main():
     # check for ION COMPLEX ANALYSIS
     if '!ION' in scntl.keys():
         ion_complex = ion.ion_find_parallel(root, snapshots, scntl['!ION']['ID1'], scntl['!ION']['ID2'],
-                                            scntl['!ION']['ID3'], cut1=scntl['!ION']['CUT1'],
-                                            cut2=scntl['!ION']['CUT2'])
+                                            scntl['!ION']['ID3'], scntl['!ION']['CUT1'], scntl['!ION']['CUT2'])
 
     # check for WATER COMPLEX ANALYSIS
     if '!WATER' in scntl.keys():

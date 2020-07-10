@@ -3,22 +3,23 @@ paw_structure.scntl
 -------------------
 Read control input file for :mod:`.structure_fast`.
 
+Main routine is :func:`.scntl_read`.
+
 Dependencies:
 :mod:`.utility`
 :py:mod:`os`
 
 
 .. autosummary::
-   :toctree: _generate
 
       scntl_read
-      scntl_text
+      scntl_read_hbonds
+      scntl_read_ion
+      scntl_read_radial
       scntl_read_scntl
       scntl_read_tra
-      scntl_read_ion
       scntl_read_water
-      scntl_read_hbonds
-      scntl_read_radial
+      scntl_text
 """
 
 import os
@@ -45,19 +46,18 @@ def scntl_text(root, ext='.scntl'):
 
     XXX REFERENCE TO CONTROL FILE STRUCTURE XXX
 
-    Note:
-        Remove forced line structure (flatten text and search for key words).
-
-        Implement variable extension.
-
     Args:
-        root (str): root name for the ".scntl" file
+        root (str): root name for the control file
         ext (str, optional): Default ".scntl". DO NOT USE!
 
     Returns:
         list[list[str]]: text from the control file; each line is a list of words within the outer list
         dict: dictionary with control blocks and their position within the text
 
+    Note:
+        Remove forced line structure (flatten text and search for key words).
+
+        Implement variable extension.
     """
     # TODO: working directory was wrong on the laptop
     path = root + ext
@@ -284,15 +284,16 @@ def scntl_read_radial(text, idx):
     """
     Interpret the control block for :mod:`.radial`.
 
-    Note:
-        Implement name identification for central atoms.
-
     Args:
         text (list[list[str]]): text from the control file; each line is a list of words within the outer list
         idx (list[int]): list with two indices marking beginning and end of control block
 
     Returns:
         dict: dictionary containing all information obtained from the control block
+
+
+    Note:
+        Implement name identification for central atoms.
     """
     # TODO: read names for center atoms
     text = text[idx[0] + 1:idx[1]]
@@ -388,10 +389,13 @@ def scntl_read(root):
     Read and interpret the control file <root>.scntl.
 
     Args:
-        root (str): root name for the ".scntl" file
+        root (str): root name for the control file
 
     Returns:
         dict[dict]: dictionary of all dictionaries obtained from all the control blocks
+
+    Note:
+        Error checking with !TRA and !RADIAL does not work properly.
     """
     scntl_dict = {}
     delete = []

@@ -10,20 +10,19 @@ Dependencies:
 :py:mod:`numpy`
 :py:mod:`pandas`
 :py:mod:`scipy`
-:mod:`paw_structure.pbc`
-:mod:`paw_structure.utility`
+:mod:`.pbc`
+:mod:`.utility`
 
 .. autosummary::
-   :toctree: _generate
 
-      radial_distance_single
+      radial_calculate
       radial_distance
       radial_distance_parallel
-      radial_calculate
+      radial_distance_single
       radial_integrate
+      radial_load
       radial_plot
       radial_save
-      radial_load
 """
 
 import numpy as np
@@ -54,6 +53,16 @@ from . import radial_c
 # ndarray float                 distances found which are smaller than cutoff distance
 ########################################################################################################################
 def radial_distance_single(center, pbc_atoms, cut):
+    """
+
+    Args:
+        center:
+        pbc_atoms:
+        cut:
+
+    Returns:
+
+    """
     dist = np.linalg.norm(center['pos'] - pbc_atoms['pos'], axis=1)  # calculate distance to center
     # select distances smaller than cut and not close to 0 to avoid finding the center itself
     return dist[[a and not b for a, b in zip(dist < cut, np.isclose(dist, 0.0))]]
@@ -73,6 +82,18 @@ def radial_distance_single(center, pbc_atoms, cut):
 # list float distances      list of distances found which are smaller than cut
 ########################################################################################################################
 def radial_distance(snap, id1, id2, cut, names=None):
+    """
+
+    Args:
+        snap:
+        id1:
+        id2:
+        cut:
+        names:
+
+    Returns:
+
+    """
     # create 3x3 unit cell to account for periodic boundary conditions
     pbc_atoms = pbc.pbc_apply3x3(snap, id=[id2])
     distances = []
@@ -96,6 +117,18 @@ def radial_distance(snap, id1, id2, cut, names=None):
 
 
 def radial_distance_c(snap, id1, id2, cut, names=None):
+    """
+
+    Args:
+        snap:
+        id1:
+        id2:
+        cut:
+        names:
+
+    Returns:
+
+    """
     if names is None:
         atoms1 = snap.atoms[snap.atoms['id'] == id1]['pos'].values
         atoms1 = atoms1.reshape(len(atoms1) * 3)
@@ -144,6 +177,18 @@ def radial_distance_c(snap, id1, id2, cut, names=None):
 #                                   (one for each snapshot)
 ########################################################################################################################
 def radial_distance_parallel(snapshots, id1, id2, cut, names=None):
+    """
+
+    Args:
+        snapshots:
+        id1:
+        id2:
+        cut:
+        names:
+
+    Returns:
+
+    """
     # set other arguments (necessary for parallel computing)
     multi_one = partial(radial_distance, id1=id1, id2=id2, cut=cut, names=names)
     # run data extraction
@@ -152,6 +197,18 @@ def radial_distance_parallel(snapshots, id1, id2, cut, names=None):
 
 
 def radial_distance_c_parallel(snapshots, id1, id2, cut, names=None):
+    """
+
+    Args:
+        snapshots:
+        id1:
+        id2:
+        cut:
+        names:
+
+    Returns:
+
+    """
     # set other arguments (necessary for parallel computing)
     multi_one = partial(radial_distance_c, id1=id1, id2=id2, cut=cut, names=names)
     # run data extraction
@@ -178,6 +235,19 @@ def radial_distance_c_parallel(snapshots, id1, id2, cut, names=None):
 # float rho                     overall density of atom type id2 (needed for later integration)
 ########################################################################################################################
 def radial_calculate(snapshots, id1, id2, cut, nbins, names=None):
+    """
+
+    Args:
+        snapshots:
+        id1:
+        id2:
+        cut:
+        nbins:
+        names:
+
+    Returns:
+
+    """
     print("RDF CALCULATION IN PROGRESS")
 
     # calculate distances
@@ -222,6 +292,16 @@ def radial_calculate(snapshots, id1, id2, cut, nbins, names=None):
 # ndarray float integration     coordination number for different radii
 ########################################################################################################################
 def radial_integrate(radius, rdf, rho):
+    """
+
+    Args:
+        radius:
+        rdf:
+        rho:
+
+    Returns:
+
+    """
     int_count = rdf * radius * radius
     integration = si.cumtrapz(int_count, x=radius)
     integration = 4.0 * np.pi * rho * integration
@@ -237,6 +317,16 @@ def radial_integrate(radius, rdf, rho):
 # ndarray float integration     coordination number for different radii
 ########################################################################################################################
 def radial_plot(radius, rdf, integration=None):
+    """
+
+    Args:
+        radius:
+        rdf:
+        integration:
+
+    Returns:
+
+    """
     matplotlib.rcParams.update({'font.size': 14})
     plt.figure()
     plt.plot(radius, rdf)
@@ -264,6 +354,23 @@ def radial_plot(radius, rdf, integration=None):
 # str ext (optional)            extension for the saved file: name = root + ext
 ########################################################################################################################
 def radial_save(root, radius, rdf, snapshots, id1, id2, cut, nbins, rho, ext='.radial'):
+    """
+
+    Args:
+        root:
+        radius:
+        rdf:
+        snapshots:
+        id1:
+        id2:
+        cut:
+        nbins:
+        rho:
+        ext:
+
+    Returns:
+
+    """
     # open file
     path = root + ext
     try:
@@ -301,6 +408,15 @@ def radial_save(root, radius, rdf, snapshots, id1, id2, cut, nbins, rho, ext='.r
 # float rho             overall density of atom type id2 (needed for later integration)
 ########################################################################################################################
 def radial_load(root, ext='.radial'):
+    """
+    
+    Args:
+        root:
+        ext:
+
+    Returns:
+
+    """
     # open file
     path = root + ext
     try:

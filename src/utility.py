@@ -5,26 +5,35 @@ Error and input handling.
 
 Dependencies:
 :py:mod:`argparse`
-:py:mod:`numpy`
 :py:mod:`sys`
+:py:mod:`time`
 
 .. autosummary::
-   :toctree: _generate
 
-      err
-      err_file
-      argcheck
-      structure_ion_input
-      structure_water_input
+    argcheck
+    err
+    err_file
+    structure_ion_input
+    structure_water_input
+    timing
 """
+
 
 import sys
 import argparse
-import numpy as np
 import time
 
 
 def timing(f):
+    """
+    Time of execution for a function.
+
+    Use as decorator::
+
+        @timing
+        def function():
+            #code
+    """
     def wrap(*args):
         time1 = time.time()
         ret = f(*args)
@@ -51,13 +60,13 @@ def err_file(func, path):
         path (str): path of file where opening failed
 
     Returns:
-        :py:func:`sys.exit()` displaying an error message
+        :py:func:`sys.exit()` displaying an error message::
 
-    >>> PROGRAM TERMINATED
-    >>> ERROR IN FUNCTION: <func>
-    >>>
-    >>> COULD NOT OPEN FILE
-    >>> <path>
+            PROGRAM TERMINATED
+            ERROR IN FUNCTION: <func>
+
+            COULD NOT OPEN FILE
+            <path>
 
     """
     sys.exit("PROGRAM TERMINATED\nERROR IN FUNCTION: %s\n\nCOULD NOT OPEN FILE\n%s" % (func, path))

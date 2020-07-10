@@ -6,18 +6,17 @@ Trajectory file handling and data storage.
 Dependencies:
 :py:mod:`numpy`
 :py:mod:`pandas`
-:mod:`paw_structure.utility`
+:mod:`.utility`
 
 .. autosummary::
-   :toctree: _generate
 
       Snap
-      tra_strc_read
-      tra_index
       tra_extract
+      tra_index
+      tra_load
       tra_read
       tra_save
-      tra_load
+      tra_strc_read
 """
 
 import numpy as np
@@ -39,6 +38,9 @@ from . import utility
 # dict hbonds                   hydrogen bond information
 ########################################################################################################################
 class Snap:
+    """
+
+    """
     def __init__(self, iter, time, cell, pos, atoms, dataframe=None, hbonds=None):
         self.iter = iter
         self.time = time
@@ -61,6 +63,14 @@ class Snap:
 # pandas DataFrame df   contains atom information ('name', 'id', 'index')
 ########################################################################################################################
 def tra_strc_read(root):
+    """
+
+    Args:
+        root:
+
+    Returns:
+
+    """
     path = root + '.strc_out'
     # open file
     try:
@@ -99,6 +109,17 @@ def tra_strc_read(root):
 # list int idx      index of selected snapshots
 ########################################################################################################################
 def tra_index(times, t1, t2, n):
+    """
+
+    Args:
+        times:
+        t1:
+        t2:
+        n:
+
+    Returns:
+
+    """
     times = np.asarray(times)  # times is array of actual simulation times
     # catch wrong input
     if n > len(times):
@@ -129,6 +150,15 @@ def tra_index(times, t1, t2, n):
 # ndarray data      data structure containing information
 ########################################################################################################################
 def tra_extract(root, n_atoms):
+    """
+
+    Args:
+        root:
+        n_atoms:
+
+    Returns:
+
+    """
     path = root + '_r.tra'
     tau = 2.418884E-05  # converts a.u. (time) into ps
     angstrom = 0.52917721  # converts Bohr radius into Angstrom
@@ -165,6 +195,17 @@ def tra_extract(root, n_atoms):
 # list class Snap snapshots     list of data structures, each ones describes one snapshot
 ########################################################################################################################
 def tra_read(root, t1, t2, n):
+    """
+
+    Args:
+        root:
+        t1:
+        t2:
+        n:
+
+    Returns:
+
+    """
     atoms = tra_strc_read(root)  # get atom identifiers
     n_atoms = len(atoms['index'].values)  # get number of atoms
     data = tra_extract(root, n_atoms)  # read trajectory file
@@ -186,6 +227,15 @@ def tra_read(root, t1, t2, n):
 ########################################################################################################################
 # TODO: losing information about unit cell size for each time step (only constant unit cell works)
 def tra_save(root, snapshots):
+    """
+
+    Args:
+        root:
+        snapshots:
+
+    Returns:
+
+    """
     # open file
     path = root + '.snap'
     try:
@@ -223,6 +273,14 @@ def tra_save(root, snapshots):
 # list class Snap snapshots     data for every selected snapshot
 ########################################################################################################################
 def tra_load(root):
+    """
+
+    Args:
+        root:
+
+    Returns:
+
+    """
     path = root + '.snap'
     try:
         f = open(path, 'r')

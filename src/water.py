@@ -3,23 +3,28 @@ paw_structure.water
 -------------------
 Water complex detection.
 
+Find configurations that deviate from the normal molecule structure.
+
+Main routine is :func:`water_find_parallel`.
+
 Dependencies:
 :py:mod:`functools`
-:py:mod:`miniutils.progress_bar`
+:py:mod:`miniutils`
 :py:mod:`numpy`
 :py:mod:`pandas`
-:mod:`paw_structure.neighbors`
-:mod:`paw_structure.utility`
-:class:`paw_structure.tra.Snap`
+:mod:`.neighbors`
+:mod:`.utility`
+:class:`.Snap`
 
 .. autosummary::
-   :toctree: _generate
 
-      water_single
-      water_save
-      water_load
-      water_find_wrapper
       water_find_parallel
+      water_find_wrapper
+      water_load
+      water_save
+      water_single
+
+XXX REFERENCE TO ALGORITHM EXPLANATION XXX
 """
 
 import numpy as np
@@ -46,6 +51,21 @@ from . import utility
 # pandas DataFrame  contains the whole complex centered around id1
 ########################################################################################################################
 def water_single(snap, id1, id2, cut):
+    """
+    Find water complex of a single snapshot of atomic positions.
+
+    Args:
+        snap (:class:`.Snap`): single snapshot containing the atomic information
+        id1 (str): identifier for atom used as center (e.g. 'O_')
+        id2 (str): identifier for atoms as possible neighbors (e.g. 'H_')
+        cut (float): cutoff distance for neighbor search
+
+    Returns:
+        :py:mod:`pandas.DataFrame`: atomic information about unusual complexes
+
+    Note:
+        Refine detection criteria.
+    """
     if id1 == id2:
         utility.err('water_single', 0, [id1, id2])
     next = neighbor.neighbor_find_name(snap, id1, id2, cut)
@@ -90,6 +110,19 @@ def water_single(snap, id1, id2, cut):
 # str ext (optional)            extension for the saved file: name = root + ext
 ########################################################################################################################
 def water_save(root, snapshots, id1, id2, cut, ext='.water'):
+    """
+    Save results to file.
+
+    XXX REFERENCE TO EXPLANATION OF .water FILE FORMAT XXX
+
+    Args:
+        root (str): root name for saving file
+        snapshots (list[:class:`.Snap`]): list of snapshots containing the water complexes
+        id1 (str): identifier for atom used as center (e.g. 'O_')
+        id2 (str): identifier for atoms as possible neighbors (e.g. 'H_')
+        cut (float): cutoff distance for neighbor search
+        ext (str, optional): default ".water" - extension for the saved file: name = root + ext
+    """
     # open file
     path = root + ext
     try:
@@ -130,6 +163,19 @@ def water_save(root, snapshots, id1, id2, cut, ext='.water'):
 # list class Snap snapshots     list of all information
 ########################################################################################################################
 def water_load(root, ext='.water'):
+    """
+    Load information previously saved by :func:`.water_save`.
+
+    Args:
+        root (str): root name for the file to be loaded
+        ext (str, optional): default ".water" - extension for the file to be loaded: name = root + ext
+
+    Returns:
+        list[:class:`.Snap`]: list of snapshots containing water complexes
+
+    Note:
+        Reading is line sensitive. Do not alter the output file before loading.
+    """
     # open file
     path = root + ext
     try:
@@ -203,6 +249,18 @@ def water_load(root, ext='.water'):
 # class Snap res        water complex information extracted from snap
 ########################################################################################################################
 def water_find_wrapper(snap, id1, id2, cut):
+    """
+    Wrapper for :func:`.water_single`.
+
+    Args:
+        snap (:class:`.Snap`): single snapshot containing the atomic information
+        id1 (str): identifier for atom used as center (e.g. 'O_')
+        id2 (str): identifier for atoms as possible neighbors (e.g. 'H_')
+        cut (float): cutoff distance for neighbor search
+
+    Returns:
+        :class:`.Snap`: snapshot containing water complexes
+    """
     comp = water_single(snap, id1, id2, cut)
     res = Snap(snap.iter, snap.time, snap.cell, None, None, dataframe=comp)
     return res
@@ -223,6 +281,21 @@ def water_find_wrapper(snap, id1, id2, cut):
 # list class Snap ion_comp      list of water complexes found
 ########################################################################################################################
 def water_find_parallel(root, snapshots, id1, id2, cut=1.4):
+    """
+    Find water complexes for multiple snapshots of atomic configurations.
+
+    Args:
+        root (str): root name of the files
+        snapshots (list[:class:`.Snap`]): list of snapshots containing the atomic information
+        id1 (str): identifier for atom used as center (e.g. 'O_')
+        id2 (str): identifier for atoms as possible neighbors (e.g. 'H_')
+        cut (float): cutoff distance for neighbor search
+
+    Returns:
+        list[:class:`.Snap`]: list of snapshots containing water complexes
+
+    Parallelization based on :py:mod:`multiprocessing`.
+    """
     print("WATER COMPLEX DETECTION IN PROGRESS")
     # set other arguments (necessary for parallel computing)
     multi_one = partial(water_find_wrapper, id1=id1, id2=id2, cut=cut)
