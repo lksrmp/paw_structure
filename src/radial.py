@@ -18,7 +18,6 @@ Dependencies:
 
       radial_distance_single
       radial_distance
-      radial_distance_wrapper
       radial_distance_parallel
       radial_calculate
       radial_integrate
@@ -37,6 +36,8 @@ import scipy.integrate as si
 
 from . import utility
 from . import pbc
+
+from . import radial_c
 
 
 
@@ -94,6 +95,21 @@ def radial_distance(snap, id1, id2, cut, names=None):
     return distances
 
 
+def radial_distance_c(snap, id1, id2, cut, names=None):
+    if names is None:
+        atoms1 = snap.atoms[snap.atoms['id'] == id1]['pos'].values
+        atoms1 = atoms1.reshape(len(atoms1) * 3)
+        atoms2 = snap.atoms[snap.atoms['id'] == id2]['pos'].values
+        atoms2 = atoms2.reshape(len(atoms2) * 3)
+        dist = radial_c.radial(atoms1, atoms2, cut, snap.cell[0][0])
+    else:
+        atoms1 = snap.atoms[snap.atoms['name'].isin(names)]['pos'].values
+        atoms1 = atoms1.reshape(len(atoms1) * 3)
+        atoms2 = snap.atoms[snap.atoms['id'] == id2]['pos'].values
+        atoms2 = atoms2.reshape(len(atoms2) * 3)
+        dist = radial_c.radial(atoms1, atoms2, cut, snap.cell[0][0])
+    return dist
+
 ########################################################################################################################
 # WRAPPER FOR PARALLEL DISTANCE SEARCH
 # HELPER FUNCTION TO FIND DISTANCES FOR SINGLE SNAPSHOT (NECESSARY FOR PARALLEL COMPUTING)
@@ -108,9 +124,9 @@ def radial_distance(snap, id1, id2, cut, names=None):
 # OUTPUT
 # list float dist           list of distances found which are smaller than cut
 ########################################################################################################################
-def radial_distance_wrapper(snap, id1, id2, cut, names=None):
-    dist = radial_distance(snap, id1, id2, cut, names=names)
-    return dist
+# def radial_distance_wrapper(snap, id1, id2, cut, names=None):
+#     dist = radial_distance(snap, id1, id2, cut, names=names)
+#     return dist
 
 
 ########################################################################################################################
@@ -130,6 +146,14 @@ def radial_distance_wrapper(snap, id1, id2, cut, names=None):
 def radial_distance_parallel(snapshots, id1, id2, cut, names=None):
     # set other arguments (necessary for parallel computing)
     multi_one = partial(radial_distance, id1=id1, id2=id2, cut=cut, names=names)
+    # run data extraction
+    radial_dist = progress.parallel_progbar(multi_one, snapshots)
+    return radial_dist
+
+
+def radial_distance_c_parallel(snapshots, id1, id2, cut, names=None):
+    # set other arguments (necessary for parallel computing)
+    multi_one = partial(radial_distance_c, id1=id1, id2=id2, cut=cut, names=names)
     # run data extraction
     radial_dist = progress.parallel_progbar(multi_one, snapshots)
     return radial_dist
@@ -155,10 +179,15 @@ def radial_distance_parallel(snapshots, id1, id2, cut, names=None):
 ########################################################################################################################
 def radial_calculate(snapshots, id1, id2, cut, nbins, names=None):
     print("RDF CALCULATION IN PROGRESS")
+
     # calculate distances
-    radial_dist = radial_distance_parallel(snapshots, id1, id2, cut, names=names)
+    # radial_dist = radial_distance_parallel(snapshots, id1, id2, cut, names=names)
+
+    radial_dist = radial_distance_c_parallel(snapshots, id1, id2, cut, names=names)
+
     # combine the list of lists into a flat array
     radial_dist = np.array([y for x in radial_dist for y in x])
+    # TODO: only works if N > 1
     # sort data in a histogram
     hist = np.histogram(radial_dist, bins=nbins, range=(0.0, cut), normed=False)
     # extract radius and radial distribution function

@@ -21,6 +21,17 @@ Dependencies:
 import sys
 import argparse
 import numpy as np
+import time
+
+
+def timing(f):
+    def wrap(*args):
+        time1 = time.time()
+        ret = f(*args)
+        time2 = time.time()
+        print("%s function took %f s" % (f.__name__, (time2 - time1)))
+        return ret
+    return wrap
 
 
 

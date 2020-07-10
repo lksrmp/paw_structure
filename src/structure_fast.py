@@ -1,5 +1,6 @@
 #!/usr/lib/env python3
 import sys
+
 # MODULES WITHIN PROJECT
 from . import utility
 from . import tra

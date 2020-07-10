@@ -26,6 +26,7 @@ import os
 from . import utility
 
 # TODO: remove forced line structure (flatten text and search for keywords)
+# TODO: if initialized with None, check for that first, then casefold()
 ########################################################################################################################
 # OBTAIN TEXT AND BRACKET INDICES (GIVEN BY !KEY ... !END)
 # WARNING: METHOD IS LINE SENSITIVE, EACH ARGUMENT MUST HAVE ITS OWN LINE
@@ -320,14 +321,20 @@ def scntl_read_radial(text, idx):
         radial_dict['NBINS'] = 1000
     else:
         radial_dict['NBINS'] = int(radial_dict['NBINS'])
-    if radial_dict['INT'].casefold() == 'true':
-        radial_dict['INT'] = True
-    else:
+    if radial_dict['INT'] is None:
         radial_dict['INT'] = False
-    if radial_dict['PLOT'].casefold() == 'true':
-        radial_dict['PLOT'] = True
     else:
+        if radial_dict['INT'].casefold() == 'true':
+            radial_dict['INT'] = True
+        else:
+            radial_dict['INT'] = False
+    if radial_dict['PLOT'] is None:
         radial_dict['PLOT'] = False
+    else:
+        if radial_dict['PLOT'].casefold() == 'true':
+            radial_dict['PLOT'] = True
+        else:
+            radial_dict['PLOT'] = False
     if radial_dict['LOAD'].casefold() == 'true':
         radial_dict['LOAD'] = True
     else:

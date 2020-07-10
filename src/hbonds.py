@@ -195,11 +195,11 @@ def hbonds_find_wrapper(snap, id1, id2, cut1, cut2, args):
 
 # C++
 def hbonds_number_wrapper(snap, id1, id2, cut1, cut2, angle):
-    o_atoms = snap.atoms[snap.atoms['id'] == id1]['pos'].values
-    o_atoms = o_atoms.reshape(len(o_atoms) * 3)
-    h_atoms = snap.atoms[snap.atoms['id'] == id2]['pos'].values
-    h_atoms = h_atoms.reshape(len(h_atoms) * 3)
-    number = hbonds_c.hbonds(o_atoms, h_atoms, cut1, cut2, angle, snap.cell[0][0])
+    atoms1 = snap.atoms[snap.atoms['id'] == id1]['pos'].values
+    atoms1 = atoms1.reshape(len(atoms1) * 3)
+    atoms2 = snap.atoms[snap.atoms['id'] == id2]['pos'].values
+    atoms2 = atoms2.reshape(len(atoms2) * 3)
+    number = hbonds_c.hbonds(atoms1, atoms2, cut1, cut2, angle, snap.cell[0][0])
     return number
 
 
