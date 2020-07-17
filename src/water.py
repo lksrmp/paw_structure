@@ -19,7 +19,6 @@ Dependencies:
 .. autosummary::
 
       water_find_parallel
-      water_find_wrapper
       water_load
       water_save
       water_single
@@ -61,7 +60,7 @@ def water_single(snap, id1, id2, cut):
         cut (float): cutoff distance for neighbor search
 
     Returns:
-        :py:mod:`pandas.DataFrame`: atomic information about unusual complexes
+        :class:`.Snap`: snapshot containing water complexes
 
     Note:
         Refine detection criteria.
@@ -95,7 +94,7 @@ def water_single(snap, id1, id2, cut):
         atoms = [x for y in atoms for x in y]  # flatten list
         atoms = np.unique(atoms).tolist()  # unique names
     atoms = snap.atoms.loc[snap.atoms['name'].isin(atoms)]  # select parts of DataFrame
-    return atoms
+    return Snap(snap.iter, snap.time, snap.cell, None, None, dataframe=atoms)
 
 
 ########################################################################################################################
@@ -236,37 +235,6 @@ def water_load(root, ext='.water'):
 
 
 ########################################################################################################################
-# WRAPPER FOR THE PARALLEL VERSIONS OF ion_find
-# HELPER FUNCTION TO FIND WATER COMPLEXES FOR SINGLE SNAPSHOT (NECESSARY FOR PARALLEL COMPUTING)
-########################################################################################################################
-# INPUT
-# class Snap snap
-# str id1               identifier for atoms used as center (e.g. 'O_')
-# str id2               identifier for atoms as possible neighbors (e.g. 'H_')
-# float cut            cutoff distance for neighbor search
-#####
-# OUTPUT
-# class Snap res        water complex information extracted from snap
-########################################################################################################################
-def water_find_wrapper(snap, id1, id2, cut):
-    """
-    Wrapper for :func:`.water_single`.
-
-    Args:
-        snap (:class:`.Snap`): single snapshot containing the atomic information
-        id1 (str): identifier for atom used as center (e.g. 'O_')
-        id2 (str): identifier for atoms as possible neighbors (e.g. 'H_')
-        cut (float): cutoff distance for neighbor search
-
-    Returns:
-        :class:`.Snap`: snapshot containing water complexes
-    """
-    comp = water_single(snap, id1, id2, cut)
-    res = Snap(snap.iter, snap.time, snap.cell, None, None, dataframe=comp)
-    return res
-
-
-########################################################################################################################
 # ROUTINE TO FIND WATER COMPLEXES FOR MULTIPLE SNAPSHOTS
 # PARALLEL VERSION OF water_find() WITH PROGRESS BAR IN CONSOLE
 ########################################################################################################################
@@ -298,7 +266,7 @@ def water_find_parallel(root, snapshots, id1, id2, cut=1.4):
     """
     print("WATER COMPLEX DETECTION IN PROGRESS")
     # set other arguments (necessary for parallel computing)
-    multi_one = partial(water_find_wrapper, id1=id1, id2=id2, cut=cut)
+    multi_one = partial(water_single, id1=id1, id2=id2, cut=cut)
     # run data extraction
     complex = progress.parallel_progbar(multi_one, snapshots)
     # create output file

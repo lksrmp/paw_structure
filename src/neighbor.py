@@ -5,7 +5,7 @@ Helper functions for atomic neighbor search.
 
 Dependencies:
 :py:mod:`numpy`
-:mod:`paw_structure.pbc`
+:mod:`.pbc`
 
 .. autosummary::
 

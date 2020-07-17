@@ -17,7 +17,6 @@ Dependencies:
 .. autosummary::
 
       ion_find_parallel
-      ion_find_wrapper
       ion_load
       ion_save
       ion_single
@@ -64,7 +63,7 @@ def ion_single(snap, id1, id2, id3, cut1, cut2):
         cut2 (float): cutoff distance for second neighbor search
 
     Returns:
-        :py:mod:`pandas.DataFrame`: atomic information about complex centered around id1
+        :class:`.Snap`: snapshot containing an ion complex
 
     Note:
         Implement possibility for more atoms or allow selection by name.
@@ -88,7 +87,8 @@ def ion_single(snap, id1, id2, id3, cut1, cut2):
     id1_list = snap.atoms.loc[snap.atoms['name'].isin(id1_list)]
     id2_list = snap.atoms.loc[snap.atoms['name'].isin(id2_list)]
     id3_list = snap.atoms.loc[snap.atoms['name'].isin(id3_list)]
-    return pd.concat([id1_list, id2_list, id3_list])
+    comp = pd.concat([id1_list, id2_list, id3_list])
+    return Snap(snap.iter, snap.time, snap.cell, None, None, dataframe=comp)
 
 
 ########################################################################################################################
@@ -232,42 +232,6 @@ def ion_load(root, ext='.ion'):
 
 
 ########################################################################################################################
-# WRAPPER FOR THE PARALLEL VERSIONS OF ion_find
-# HELPER FUNCTION TO FIND ION COMPLEX FOR SINGLE SNAPSHOT (NECESSARY FOR PARALLEL COMPUTING)
-########################################################################################################################
-# INPUT
-# class Snap snap
-# str id1               identifier for atom used as center (e.g. 'MN'); only one allowed to be in snap
-# str id2               identifier for atoms as possible first neighbors (e.g. 'O_')
-# str id3               identifier for atoms as possible neighbors of first neighbors (e.g. 'H_')
-# float cut1            cutoff distance for first neighbor search
-# float cut2            cutoff distance for second neighbor search
-#####
-# OUTPUT
-# class Snap res        ion complex information extracted from snap
-########################################################################################################################
-def ion_find_wrapper(snap, id1, id2, id3, cut1, cut2):
-    """
-    Wrapper for :func:`.ion_single`.
-
-    Args:
-        snap (:class:`.Snap`): single snapshot containing the atomic information
-        id1 (str): identifier for atom used as center (e.g. 'MN')
-        id2 (str): identifier for atoms as possible first neighbors (e.g. 'O_')
-        id3 (str): identifier for atoms as possible neighbors of first neighbors (e.g. 'H_')
-        cut1 (float): cutoff distance for first neighbor search
-        cut2 (float): cutoff distance for second neighbor search
-
-    Returns:
-        :class:`.Snap`: snapshot containing an ion complex
-    """
-    comp = ion_single(snap, id1, id2, id3, cut1, cut2)  # find ion complex as pandas DataFrame
-    # create new class Snap with ion complex information
-    res = Snap(snap.iter, snap.time, snap.cell, None, None, dataframe=comp)
-    return res
-
-
-########################################################################################################################
 # ROUTINE TO FIND ION COMPLEXES FOR MULTIPLE SNAPSHOTS
 # PARALLEL VERSION OF ion_find() WITH PROGRESS BAR IN CONSOLE
 ########################################################################################################################
@@ -306,7 +270,7 @@ def ion_find_parallel(root, snapshots, id1, id2, id3, cut1, cut2):
     """
     print("ION COMPLEX DETECTION IN PROGRESS")
     # set other arguments (necessary for parallel computing)
-    multi_one = partial(ion_find_wrapper, id1=id1, id2=id2, id3=id3, cut1=cut1, cut2=cut2)
+    multi_one = partial(ion_single, id1=id1, id2=id2, id3=id3, cut1=cut1, cut2=cut2)
     # run data extraction
     ion_comp = progress.parallel_progbar(multi_one, snapshots)
     # create output file

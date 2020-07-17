@@ -12,17 +12,18 @@ Dependencies:
 :py:mod:`scipy`
 :mod:`.pbc`
 :mod:`.utility`
+:mod:`.radial_c`
 
 .. autosummary::
 
       radial_calculate
       radial_distance
-      radial_distance_parallel
-      radial_distance_single
       radial_integrate
       radial_load
       radial_plot
       radial_save
+      radial_single
+      radial_single_c
 """
 
 import numpy as np
@@ -30,15 +31,12 @@ from functools import partial
 import miniutils.progress_bar as progress
 import matplotlib.pyplot as plt
 import matplotlib
-from scipy.ndimage.interpolation import shift
 import scipy.integrate as si
 
 from . import utility
 from . import pbc
 
 from . import radial_c
-
-
 
 
 ########################################################################################################################
@@ -52,16 +50,20 @@ from . import radial_c
 # OUTPUT
 # ndarray float                 distances found which are smaller than cutoff distance
 ########################################################################################################################
-def radial_distance_single(center, pbc_atoms, cut):
+def radial_distance(center, pbc_atoms, cut):
     """
+    Find distance values smaller than a cutoff distance.
+
+    Note:
+        Not in use. Replaced by C++ routines.
 
     Args:
-        center:
-        pbc_atoms:
-        cut:
+        center (:py:mod:`pandas.DataFrame`): central atom of reference
+        pbc_atoms (:py:mod:`pandas.DataFrame`): atoms as possible neighbors
+        cut (float): cutoff distance
 
     Returns:
-
+        ndarray[float]: distances found which are smaller than cutoff distance
     """
     dist = np.linalg.norm(center['pos'] - pbc_atoms['pos'], axis=1)  # calculate distance to center
     # select distances smaller than cut and not close to 0 to avoid finding the center itself
@@ -81,18 +83,23 @@ def radial_distance_single(center, pbc_atoms, cut):
 # OUTPUT
 # list float distances      list of distances found which are smaller than cut
 ########################################################################################################################
-def radial_distance(snap, id1, id2, cut, names=None):
+def radial_single(snap, id1, id2, cut, names=None):
     """
+    Collect distances between all atoms of type :data:`id1` and type :data:`id2`.
+    If :data:`names` is given, those atoms are used as centers instead of :data:`id1`.
+
+    Note:
+        Not in use. Replaced by C++ routines.
 
     Args:
-        snap:
-        id1:
-        id2:
-        cut:
-        names:
+        snap (:class:`.Snap`): single snapshot containing the atomic information
+        id1 (str): identifier for atoms used as center (e.g. 'MN', 'O_')
+        id2 (str): identifier for atoms as possible neighbors (e.g. 'O_', 'H_')
+        cut (float): cutoff distance for radial calculation
+        names (list[str], optional): names of atoms to use as centers (e.g. 'O_43', 'H_23')
 
     Returns:
-
+        list[float]: list of distances found which are smaller than :data:`cut`
     """
     # create 3x3 unit cell to account for periodic boundary conditions
     pbc_atoms = pbc.pbc_apply3x3(snap, id=[id2])
@@ -101,7 +108,7 @@ def radial_distance(snap, id1, id2, cut, names=None):
         # loop through atoms with id1
         for index, row in snap.atoms.iterrows():
             if row['id'] == id1:
-                dist = radial_distance_single(row, pbc_atoms, cut)
+                dist = radial_distance(row, pbc_atoms, cut)
                 # store distances
                 dist = dist.tolist()
                 distances += dist
@@ -109,111 +116,43 @@ def radial_distance(snap, id1, id2, cut, names=None):
         # loop through atoms in names
         for index, row in snap.atoms.iterrows():
             if row['name'] in names:
-                dist = radial_distance_single(row, pbc_atoms, cut)
+                dist = radial_distance(row, pbc_atoms, cut)
                 # store distances
                 dist = dist.tolist()
                 distances += dist
     return distances
 
 
-def radial_distance_c(snap, id1, id2, cut, names=None):
+def radial_single_c(snap, id1, id2, cut, names=None):
     """
+    Binding of C++ routines for distance calculation of a single snapshot.
 
     Args:
-        snap:
-        id1:
-        id2:
-        cut:
-        names:
+        snap (:class:`.Snap`): single snapshot containing the atomic information
+        id1 (str): identifier for atoms used as center (e.g. 'MN', 'O_')
+        id2 (str): identifier for atoms as possible neighbors (e.g. 'O_', 'H_')
+        cut (float): cutoff distance for radial calculation
+        names (list[str], optional): names of atoms to use as centers (e.g. 'O_43', 'H_23')
 
     Returns:
+        list[float]: list of distances found which are smaller than :data:`cut`
 
     """
     if names is None:
+        # transform atomic coordinates into necessary shape
         atoms1 = snap.atoms[snap.atoms['id'] == id1]['pos'].values
         atoms1 = atoms1.reshape(len(atoms1) * 3)
         atoms2 = snap.atoms[snap.atoms['id'] == id2]['pos'].values
         atoms2 = atoms2.reshape(len(atoms2) * 3)
         dist = radial_c.radial(atoms1, atoms2, cut, snap.cell[0][0])
     else:
+        # transform atomic coordinates into necessary shape
         atoms1 = snap.atoms[snap.atoms['name'].isin(names)]['pos'].values
         atoms1 = atoms1.reshape(len(atoms1) * 3)
         atoms2 = snap.atoms[snap.atoms['id'] == id2]['pos'].values
         atoms2 = atoms2.reshape(len(atoms2) * 3)
         dist = radial_c.radial(atoms1, atoms2, cut, snap.cell[0][0])
     return dist
-
-########################################################################################################################
-# WRAPPER FOR PARALLEL DISTANCE SEARCH
-# HELPER FUNCTION TO FIND DISTANCES FOR SINGLE SNAPSHOT (NECESSARY FOR PARALLEL COMPUTING)
-########################################################################################################################
-# INPUT
-# class Snap snap           snapshot with all information
-# str id1                   identifier for atoms used as center (e.g. 'MN', 'H_' or 'O_')
-# str id2                   identifier for atoms used as potential neighbors
-# float cut                 cutoff distance for search
-# list str names (optional) use names (e.g. 'O_43', 'H_23') of atoms as center instead of identifiers (replaces id1)
-#####
-# OUTPUT
-# list float dist           list of distances found which are smaller than cut
-########################################################################################################################
-# def radial_distance_wrapper(snap, id1, id2, cut, names=None):
-#     dist = radial_distance(snap, id1, id2, cut, names=names)
-#     return dist
-
-
-########################################################################################################################
-# FIND DISTANCES FOR MULTIPLE SNAPSHOTS FOR RADIAL DISTRIBUTION FUNCTION COMPUTATION
-########################################################################################################################
-# INPUT
-# list class Snap snapshots     list with all information about atoms
-# str id1                       identifier for atoms used as center (e.g. 'MN', 'H_' or 'O_')
-# str id2                       identifier for atoms used as potential neighbors
-# float cut                     cutoff distance for search
-# list str names (optional)     use names (e.g. 'O_43', 'H_23') of atoms as center instead of identifiers (replaces id1)
-#####
-# OUTPUT
-# list list float radial_dist   list contains lists of distances found which are smaller than cut
-#                                   (one for each snapshot)
-########################################################################################################################
-def radial_distance_parallel(snapshots, id1, id2, cut, names=None):
-    """
-
-    Args:
-        snapshots:
-        id1:
-        id2:
-        cut:
-        names:
-
-    Returns:
-
-    """
-    # set other arguments (necessary for parallel computing)
-    multi_one = partial(radial_distance, id1=id1, id2=id2, cut=cut, names=names)
-    # run data extraction
-    radial_dist = progress.parallel_progbar(multi_one, snapshots)
-    return radial_dist
-
-
-def radial_distance_c_parallel(snapshots, id1, id2, cut, names=None):
-    """
-
-    Args:
-        snapshots:
-        id1:
-        id2:
-        cut:
-        names:
-
-    Returns:
-
-    """
-    # set other arguments (necessary for parallel computing)
-    multi_one = partial(radial_distance_c, id1=id1, id2=id2, cut=cut, names=names)
-    # run data extraction
-    radial_dist = progress.parallel_progbar(multi_one, snapshots)
-    return radial_dist
 
 
 ########################################################################################################################
@@ -236,24 +175,33 @@ def radial_distance_c_parallel(snapshots, id1, id2, cut, names=None):
 ########################################################################################################################
 def radial_calculate(snapshots, id1, id2, cut, nbins, names=None):
     """
+    Calculate the radial distribution function (rdf) including multiple snapshots.
+
+    Note:
+        Use of :data:`names` is not implemented yet in the control file.
 
     Args:
-        snapshots:
-        id1:
-        id2:
-        cut:
-        nbins:
-        names:
+        snapshots (list[:class:`.Snap`]): list of snapshots containing the atomic information
+        id1 (str): identifier for atoms used as centers (e.g. 'MN', 'O_')
+        id2 (str): identifier for atoms as possible neighbors (e.g. 'O_', 'H_')
+        cut (float): cutoff distance for radial calculation
+        nbins (int): number of radius intervals; influences resolutions together with :data:`cut`
+        names (list[str], optional): names of atoms to use as centers (e.g. 'O_43', 'H_23')
 
     Returns:
-
+        ndarray[float]: radii used for rdf calculation
+        ndarray[float]: value of rdf corresponding to these radii
+        float: average atom density of type :data:`id2`
     """
     print("RDF CALCULATION IN PROGRESS")
 
     # calculate distances
-    # radial_dist = radial_distance_parallel(snapshots, id1, id2, cut, names=names)
 
-    radial_dist = radial_distance_c_parallel(snapshots, id1, id2, cut, names=names)
+    # Python code
+    # multi_one = partial(radial_single, id1=id1, id2=id2, cut=cut, names=names)
+    # C++ code
+    multi_one = partial(radial_single_c, id1=id1, id2=id2, cut=cut, names=names)
+    radial_dist = progress.parallel_progbar(multi_one, snapshots)
 
     # combine the list of lists into a flat array
     radial_dist = np.array([y for x in radial_dist for y in x])
@@ -293,14 +241,19 @@ def radial_calculate(snapshots, id1, id2, cut, nbins, names=None):
 ########################################################################################################################
 def radial_integrate(radius, rdf, rho):
     """
+    Integration of radial distribution function (rdf).
+
+    Uses :py:func:`scipy.cumtrapz` for numerical integration.
+
+    XXX REFERENCE TO COORDINATION NUMBER CALCULATION XXX
 
     Args:
-        radius:
-        rdf:
-        rho:
+        radius (ndarray[float]): radii used for rdf calculation
+        rdf (ndarray[float]): value of rdf corresponding to these radii
+        rho (float): average atom density of type :data:`id2`
 
     Returns:
-
+        ndarray[float]: value of integration corresponding to the radii
     """
     int_count = rdf * radius * radius
     integration = si.cumtrapz(int_count, x=radius)
@@ -318,14 +271,15 @@ def radial_integrate(radius, rdf, rho):
 ########################################################################################################################
 def radial_plot(radius, rdf, integration=None):
     """
+    Plot the radial distribution function (rdf) and the coordination number integration if selected.
 
     Args:
-        radius:
-        rdf:
-        integration:
+        radius (ndarray[float]): radii used for rdf calculation
+        rdf (ndarray[float]): value of rdf corresponding to these radii
+        integration (ndarray[float], optional): coordination number for different radii
 
-    Returns:
-
+    Note:
+        Implement better display of plot. Spawn subprocess to let the core program finish.
     """
     matplotlib.rcParams.update({'font.size': 14})
     plt.figure()
@@ -355,21 +309,21 @@ def radial_plot(radius, rdf, integration=None):
 ########################################################################################################################
 def radial_save(root, radius, rdf, snapshots, id1, id2, cut, nbins, rho, ext='.radial'):
     """
+    Save results to file.
+
+    XXX REFERENCE TO EXPLANATION OF .radial FILE FORMAT
 
     Args:
-        root:
-        radius:
-        rdf:
-        snapshots:
-        id1:
-        id2:
-        cut:
-        nbins:
-        rho:
-        ext:
-
-    Returns:
-
+        root (str): root name for saving file
+        radius (ndarray[float]): radii used for rdf calculation
+        rdf (ndarray[float]): value of rdf corresponding to these radii
+        snapshots (list[:class:`.Snap`]): list of snapshots containing the water complexes
+        id1 (str): identifier for atoms used as centers (e.g. 'MN', 'O_')
+        id2 (str): identifier for atoms as possible neighbors (e.g. 'O_', 'H_')
+        cut (float): cutoff distance for radial calculation
+        nbins (int): number of radius intervals; influences resolutions together with :data:`cut`
+        rho (float): average atom density of type :data:`id2`
+        ext (str, optional): default ".radial" - extension for the saved file: name = root + ext
     """
     # open file
     path = root + ext
@@ -409,12 +363,15 @@ def radial_save(root, radius, rdf, snapshots, id1, id2, cut, nbins, rho, ext='.r
 ########################################################################################################################
 def radial_load(root, ext='.radial'):
     """
-    
+    Load information previously saved by :func:`.radial_save`.
+
     Args:
-        root:
-        ext:
+        root (str): root name for the file to be loaded
+        ext (str, optional): default ".radial" - extension for the file to be loaded: name = root + ext
 
     Returns:
+        ndarray(float): 2D array containing radii and values of rdf
+        float: average atom density of type :data:`id2`
 
     """
     # open file
