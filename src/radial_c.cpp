@@ -61,7 +61,7 @@ PYBIND11_MODULE(radial_c, m){
 
         Dependencies:
         :py:mod:`numpy`
-        :mod:`paw_structure.pbc`
+        :mod:`.pbc`
 
         .. autosummary::
 
