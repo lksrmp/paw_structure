@@ -4,15 +4,15 @@ paw_structure.radial
 Radial distribution function calculation.
 
 Dependencies:
-:py:mod:`functools`
-:py:mod:`matplotlib`
-:py:mod:`miniutils.progress_bar`
-:py:mod:`numpy`
-:py:mod:`pandas`
-:py:mod:`scipy`
-:mod:`.pbc`
-:mod:`.utility`
-:mod:`.radial_c`
+    :py:mod:`functools`
+    :py:mod:`matplotlib`
+    :py:mod:`miniutils.progress_bar`
+    :py:mod:`numpy`
+    :py:mod:`pandas`
+    :py:mod:`scipy`
+    :mod:`.pbc`
+    :mod:`.utility`
+    :mod:`.radial_c`
 
 .. autosummary::
 
@@ -189,9 +189,12 @@ def radial_calculate(snapshots, id1, id2, cut, nbins, names=None):
         names (list[str], optional): names of atoms to use as centers (e.g. 'O_43', 'H_23')
 
     Returns:
-        ndarray[float]: radii used for rdf calculation
-        ndarray[float]: value of rdf corresponding to these radii
-        float: average atom density of type :data:`id2`
+        (tuple): tuple containing:
+
+            - ndarray[float]: radii used for rdf calculation
+            - ndarray[float]: value of rdf corresponding to these radii
+            - ndarray[float]: value of coordination number corresponding to these radii
+            - float: average atom density of type :data:`id2`
     """
     print("RDF CALCULATION IN PROGRESS")
 
@@ -301,6 +304,7 @@ def radial_plot(radius, rdf, integration=None):
 # str root                      root name for saving file
 # ndarray float radius          different radii from radial distribution function calculation
 # ndarray float rdf             radial distribution function corresponding to radii
+# ndarray float coord           coordination number corresponding to radii
 # str id1                       identifier for atoms used as center (e.g. 'MN', 'H_' or 'O_')
 # str id2                       identifier for atoms used as potential neighbors
 # float cut                     cutoff distance for search
@@ -372,9 +376,10 @@ def radial_load(root, ext='.radial'):
         ext (str, optional): default ".radial" - extension for the file to be loaded: name = root + ext
 
     Returns:
-        ndarray(float): 2D array containing radii and values of rdf
-        float: average atom density of type :data:`id2`
+        (tuple): touple containing:
 
+            - ndarray(float): 2D array containing radii, values of rdf and coordination number
+            - float: average atom density of type :data:`id2`
     """
     # open file
     path = root + ext

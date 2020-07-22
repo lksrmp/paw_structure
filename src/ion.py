@@ -6,13 +6,13 @@ Ion complex detection.
 Main routine is :func:`.ion_find_parallel`.
 
 Dependencies:
-:py:mod:`functools`
-:py:mod:`miniutils`
-:py:mod:`numpy`
-:py:mod:`pandas`
-:mod:`.neighbor`
-:mod:`.utility`
-:class:`.Snap`
+    :py:mod:`functools`
+    :py:mod:`miniutils`
+    :py:mod:`numpy`
+    :py:mod:`pandas`
+    :mod:`.neighbor`
+    :mod:`.utility`
+    :class:`.Snap`
 
 .. autosummary::
 

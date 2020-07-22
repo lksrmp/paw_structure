@@ -1,15 +1,46 @@
-#!/usr/lib/env python3
+"""
+paw_structure.structure_fast
+----------------------------
+Data extraction from trajectory file.
+
+**Usage in command line:**
+
+    ::
+
+        paw_structure_fast filename
+
+    :data:`filename` is the name of the structure control file XXX REFERENCE XXX
+
+Dependencies:
+    :py:mod:`sys`
+    :mod:`.hbonds`
+    :mod:`.ion`
+    :mod:`.pbc`
+    :mod:`.radial`
+    :mod:`.scntl`
+    :mod:`.tra`
+    :mod:`.utility`
+    :mod:`.water`
+
+.. autosummary::
+
+    main
+
+"""
 import sys
 
 # MODULES WITHIN PROJECT
-from . import utility
-from . import tra
-from . import pbc
-from . import ion
-from . import water
-from .scntl import scntl_read
 from . import hbonds
+from . import ion
+from . import pbc
 from . import radial
+from .scntl import scntl_read
+from . import tra
+from . import utility
+from . import water
+
+
+
 
 
 ########################################################################################################################
@@ -27,6 +58,9 @@ from . import radial
 # <root>.radial     values for radius and RDF
 ########################################################################################################################
 def main():
+    """
+    Entry point for :mod:`.structure_fast`.
+    """
     print(sys.argv)
     # check argument passed
     scntl_root = utility.argcheck(sys.argv, '.scntl')

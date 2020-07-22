@@ -4,9 +4,9 @@ paw_structure.pbc
 Functions for application of periodic boundary conditions.
 
 Dependencies:
-:mod:`.utility`
-:py:mod:`copy`
-:py:mod:`numpy`
+    :py:mod:`copy`
+    :py:mod:`numpy`
+    :mod:`.utility`
 
 .. autosummary::
 

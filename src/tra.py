@@ -4,16 +4,18 @@ paw_structure.tra
 Trajectory file handling and data storage.
 
 Dependencies:
-:py:mod:`numpy`
-:py:mod:`pandas`
-:mod:`.utility`
+    :py:mod:`numpy`
+    :py:mod:`pandas`
+    :mod:`.utility`
 
 .. autosummary::
 
       Snap
+      tra_detect_change
       tra_extract
       tra_index
       tra_load
+      tra_number_atoms
       tra_read
       tra_save
       tra_strc_read
@@ -32,14 +34,32 @@ from . import utility
 # int iter                      iteration of data
 # float time                    time of data
 # ndarray(3,3) cell             unit cell of data
-# ndarray(3,n) pos              atomic positions of data (select None if dataframe is given)
-# dict atoms                    atomic information (name, id, index) (select None if dataframe is given)
+# ndarray(3,n) pos              atomic positions of data (select **None** if dataframe is given)
+# dict atoms                    atomic information (name, id, index) (select **None** if dataframe is given)
 # pandas DataFrame dataframe    contains atoms and pos input (selection with 'name', 'id', 'index', 'pos')
 # dict hbonds                   hydrogen bond information
 ########################################################################################################################
 class Snap:
     """
+    Information storage.
 
+    Contains the relevant information for one snapshot taken from the simulation.
+
+    Args:
+        iter (int): iteration in simulation
+        time (float): time [ps] in simulation
+        cell (ndarray[float]): 3x3 array containing the unit cell of simulation
+        pos (ndarray[float]): 3xN array containing atomic positions (select **None** if :data:`dataframe` is given)
+        atoms (dict): atomic information (name, id, index) (select **None** if :data:`dataframe` is given)
+        dataframe (pandas DataFrame, optional): contains :data:`atoms` and :data:`pos` input (selection with 'name', 'id', 'index', 'pos')
+        hbonds (dict, optional): NOT IN USE; hydrogen bond information
+
+    Attributes:
+        iter (int): see above
+        time (float): see above
+        cell (ndarray[float]): see above
+        atoms (pandas DataFrame): combination of :data:`atoms` and :data:`pos` input or equal to :data:`dataframe` input if given
+        hbonds (dict, optional): default is **None**
     """
     def __init__(self, iter, time, cell, pos, atoms, dataframe=None, hbonds=None):
         self.iter = iter
@@ -64,12 +84,15 @@ class Snap:
 ########################################################################################################################
 def tra_strc_read(root):
     """
+    Read ".strc_out" file to obtain atom identifiers.
+
+    Necessary to correctly identify atomic positions extracted from the trajectory file.
 
     Args:
-        root:
+        root (str): root name of the file
 
     Returns:
-
+        pandas DataFrame: contains information 'name', 'id', 'index' of all the atoms
     """
     path = root + '.strc_out'
     # open file
@@ -110,15 +133,16 @@ def tra_strc_read(root):
 ########################################################################################################################
 def tra_index(times, t1, t2, n):
     """
+    Indices of snapshots closest to equally spaced times in a given interval.
 
     Args:
-        times:
-        t1:
-        t2:
-        n:
+        times (ndarray[float]): simulation times
+        t1 (float): beginning of interval
+        t2 (float): end of interval
+        n (int): number of wanted snapshots
 
     Returns:
-
+        list[int]: index of the selected snapshots
     """
     times = np.asarray(times)  # times is array of actual simulation times
     # catch wrong input
@@ -151,13 +175,21 @@ def tra_index(times, t1, t2, n):
 ########################################################################################################################
 def tra_extract(root, n_atoms):
     """
+    Extract raw data from trajectory file "_r.tra".
 
     Args:
-        root:
-        n_atoms:
+        root (str): root name of the trajectory file
+        n_atoms (int): number of atoms per snapshot
 
     Returns:
+        ndarray: data structure containing information
 
+    For formatting of the trajectory file please see the manual for the CP-PAW code by Peter Blöchl.
+
+    The units are transformed into ps (time) and Angstrom (distance) at this step.
+
+    Note:
+        Unit cell reading not clear if correct or transpose (not relevant for simple cubic).
     """
     path = root + '_r.tra'
     tau = 2.418884E-05  # converts a.u. (time) into ps
@@ -196,15 +228,16 @@ def tra_extract(root, n_atoms):
 ########################################################################################################################
 def tra_read(root, t1, t2, n):
     """
+    Read the trajectory file and extract relevant information for selected snapshots.
 
     Args:
-        root:
-        t1:
-        t2:
-        n:
+        root (str): root name of the trajectory file
+        t1 (float): beginning of interval
+        t2 (float): end of interval
+        n (int): number of wanted snapshots
 
     Returns:
-
+        list[:class:`.Snap`]: snapshots extracted from the trajectory file
     """
     atoms = tra_strc_read(root)  # get atom identifiers
     n_atoms = len(atoms['index'].values)  # get number of atoms
@@ -228,13 +261,16 @@ def tra_read(root, t1, t2, n):
 # TODO: losing information about unit cell size for each time step (only constant unit cell works)
 def tra_save(root, snapshots):
     """
+    Save information of selected snapshots to file ".snap".
 
     Args:
-        root:
-        snapshots:
+        root (str): root name for file
+        snapshots (list[:class:`.Snap`]): snapshots to be saved
 
-    Returns:
+    XXX REFERENCE TO FILE DESCRIPTION .snap XXX
 
+    Note:
+        Not suitable for dynamic / changing unit cells.
     """
     # open file
     path = root + '.snap'
@@ -274,12 +310,16 @@ def tra_save(root, snapshots):
 ########################################################################################################################
 def tra_load(root):
     """
+    Load information previously saved by :func:`tra_save`.
 
     Args:
-        root:
+        root (root): root name of file
 
     Returns:
+        list[:class:`.Snap`]: snapshots loaded from file
 
+    Note:
+        Reading is line sensitive. Do not alter the output file before loading.
     """
     path = root + '.snap'
     try:
@@ -305,3 +345,52 @@ def tra_load(root):
             # save information as class Snap
             snapshots.append(Snap(iter, time, cell, np.array(test[:, 3:6], dtype=np.float64), df))
     return snapshots
+
+
+def tra_number_atoms(snapshots):
+    """
+    Get atom number, time and iteration from multiple snapshots.
+
+    Args:
+        snapshots (list[:class:`.Snap`]): snapshots the atomic information
+
+    Returns:
+        (tuple): tuple containing:
+
+            - list[int]: number of atoms in each snapshot
+            - list[float]: time in simulation of the snapshots
+            - list[int]: iteration in simulation of the snapshots
+    """
+    atoms = []
+    times = []
+    iterations = []
+    # loop through snapshots and save information to list
+    for i in range(len(snapshots)):
+        atoms.append(len(snapshots[i].atoms))
+        times.append(snapshots[i].time)
+        iterations.append(snapshots[i].iter)
+    return atoms, times, iterations
+
+
+def tra_detect_change(snapshots):
+    """
+    Detect changes in atoms contained in a snapshot and save index of snapshots between which the change occurs.
+
+    Args:
+        snapshots (list[:class:`.Snap`]): snapshots containing the atoms
+
+    Returns:
+        ndarray[int]: indices of snapshots where atoms change
+    """
+    idx_change = []
+    for i in range(len(snapshots) - 1):
+        # check if atom number changes
+        if len(snapshots[i].atoms['name'].values) != len(snapshots[i + 1].atoms['name'].values):
+            idx_change.append(i)
+            idx_change.append(i + 1)
+        # check if atom names change
+        else:
+            if not (snapshots[i].atoms['name'].values == snapshots[i + 1].atoms['name'].values).all():
+                idx_change.append(i)
+                idx_change.append(i + 1)
+    return np.unique(idx_change)

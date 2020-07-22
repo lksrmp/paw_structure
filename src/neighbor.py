@@ -4,8 +4,8 @@ paw_structure.neighbor
 Helper functions for atomic neighbor search.
 
 Dependencies:
-:py:mod:`numpy`
-:mod:`.pbc`
+    :py:mod:`numpy`
+    :mod:`.pbc`
 
 .. autosummary::
 

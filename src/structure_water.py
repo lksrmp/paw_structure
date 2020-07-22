@@ -1,62 +1,46 @@
-import sys
+"""
+paw_structure.structure_water
+-----------------------------
+Analysis of water complexes output created by :mod:`.structure_fast`.
+
+**Usage in command line:**
+
+    ::
+
+        paw_structure_water [-i ion_file] water_file
+
+    :data:`water_file` is the name of the water complexes file XXX REFERENCE XXX
+
+    :data:`-i` is a flag to include a ion complex file XXX REFERENCE XXX :data:`ion_file` into the analysis
+
+The search for unusual water complexes executed by :mod:`.structure_fast` is not aware of a potential ion and can therefore
+detect parts of an ion complex. A corresponding ion complex file can be include such that these parts can be excluded or
+ion and water complexes can be combined.
+
+Dependencies:
+    :py:mod:`matplotlib`
+    :py:mod:`numpy`
+    :py:mod:`pandas`
+    :py:mod:`sys`
+    :mod:`.ion`
+    :mod:`.tra`
+    :mod:`.utility`
+    :mod:`.water`
+
+.. autosummary::
+
+    main
+"""
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import sys
 # MODULES WITHIN PROJECT
-from . import water
 from . import ion
+from . import tra
 from . import utility
-
-
-########################################################################################################################
-# COLLECT INFORMATION ABOUT ATOM NUMBER, TIME AND ITERATION FOR PLOTTING
-########################################################################################################################
-# INPUT
-# list class Snap snapshots     contains all snapshots
-#####
-# OUTPUT
-# list int atoms                number of atoms in water complexes for each snapshot
-# list float times              simulation times for each snapshot
-# list int iterations           simulation iteration for each snapshot
-########################################################################################################################
-def number_atoms(snapshots):
-    atoms = []
-    times = []
-    iterations = []
-    # loop through snapshots and save information to list
-    for i in range(len(snapshots)):
-        atoms.append(len(snapshots[i].atoms))
-        times.append(snapshots[i].time)
-        iterations.append(snapshots[i].iter)
-    return atoms, times, iterations
-
-
-
-########################################################################################################################
-# DETECT CHANGES IN ATOM CONFIGURATION AND SAVE INDEX OF SNAPSHOTS BETWEEN WHICH THE CHANGE OCCURS
-# CHANGE FROM SNAPSHOT NUMBER 12 TO 13 -> STORE 12 and 13
-########################################################################################################################
-# INPUT
-# list class Snap snapshots     contains all snapshots
-#####
-# OUTPUT
-# ndarray float                 indices of snapshots where changes occur
-########################################################################################################################
-def detect_change(snapshots):
-    idx_change = []
-    for i in range(len(snapshots) - 1):
-        # check if atom number changes
-        if len(snapshots[i].atoms['name'].values) != len(snapshots[i + 1].atoms['name'].values):
-            idx_change.append(i)
-            idx_change.append(i + 1)
-        # check if atom names change
-        else:
-            if not (snapshots[i].atoms['name'].values == snapshots[i + 1].atoms['name'].values).all():
-                idx_change.append(i)
-                idx_change.append(i + 1)
-    return np.unique(idx_change)
-
+from . import water
 
 
 ########################################################################################################################
@@ -86,7 +70,7 @@ def main():
     # load snapshots from *.water save file
     snapshots = water.water_load(root)
     # detect changes in atom number
-    idx_change = detect_change(snapshots)
+    idx_change = tra.tra_detect_change(snapshots)
     # select corresponding snapshots
     export = [snapshots[i] for i in idx_change]
     if len(export) < 2:
@@ -112,7 +96,7 @@ def main():
         ion.ion_save(root, snapshots, ref, ref, ref, 0, 0, ext='.water_ion')  # save ion + water complex to file
         print("WRITING OF %s SUCCESSFUL" % (root + '.water_ion'))
     # get data for plotting
-    atoms, times, iterations = number_atoms(snapshots)
+    atoms, times, iterations = tra.tra_number_atoms(snapshots)
     # plotting
     matplotlib.rcParams.update({'font.size': 12})
     plt.figure()
@@ -120,7 +104,7 @@ def main():
     plt.plot(times, atoms, 'ro', markersize=1)
     ticks = [np.min(atoms), np.max(atoms)]
     if ion_root is not None:
-        atoms_ion, times_ion, iterations_ion = number_atoms(snapshots_ion)
+        atoms_ion, times_ion, iterations_ion = tra.tra_number_atoms(snapshots_ion)
         atoms_water = np.array(atoms, dtype=int) - np.array(atoms_ion, dtype=int)
         plt.plot(times, atoms_water, label='complex without ion')
         plt.plot(times, atoms_water, 'go', markersize=1)

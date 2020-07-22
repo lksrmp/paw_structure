@@ -4,9 +4,9 @@ paw_structure.utility
 Error and input handling.
 
 Dependencies:
-:py:mod:`argparse`
-:py:mod:`sys`
-:py:mod:`time`
+    :py:mod:`argparse`
+    :py:mod:`sys`
+    :py:mod:`time`
 
 .. autosummary::
 
@@ -14,6 +14,7 @@ Dependencies:
     err
     err_file
     structure_ion_input
+    structure_radial_input
     structure_water_input
     timing
 """

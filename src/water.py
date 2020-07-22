@@ -8,13 +8,13 @@ Find configurations that deviate from the normal molecule structure.
 Main routine is :func:`water_find_parallel`.
 
 Dependencies:
-:py:mod:`functools`
-:py:mod:`miniutils`
-:py:mod:`numpy`
-:py:mod:`pandas`
-:mod:`.neighbors`
-:mod:`.utility`
-:class:`.Snap`
+    :py:mod:`functools`
+    :py:mod:`miniutils`
+    :py:mod:`numpy`
+    :py:mod:`pandas`
+    :mod:`.neighbors`
+    :mod:`.utility`
+    :class:`.Snap`
 
 .. autosummary::
 

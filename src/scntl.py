@@ -6,8 +6,8 @@ Read control input file for :mod:`.structure_fast`.
 Main routine is :func:`.scntl_read`.
 
 Dependencies:
-:mod:`.utility`
-:py:mod:`os`
+    :py:mod:`os`
+    :mod:`.utility`
 
 
 .. autosummary::
