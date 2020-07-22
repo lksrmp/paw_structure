@@ -74,31 +74,14 @@ def main():
 
     # check for RADIAL DISTRIBUTION FUNCTION ANALYSIS
     if '!RADIAL' in scntl.keys():
-        if not scntl['!RADIAL']['LOAD']:
-            if scntl['!RADIAL']['TRA_EXTRACT']:
-                snapshots_r = tra.tra_read(root, scntl['!RADIAL']['T1'], scntl['!RADIAL']['T2'], scntl['!RADIAL']['N'])
-                # check if atoms project into unit cell
-                if scntl['GENERAL']['PBC_FOLDING']:
-                    pbc.pbc_folding(snapshots_r)
-            else:
-                snapshots_r = snapshots
-            radius, rdf, rho = radial.radial_calculate(snapshots_r, scntl['!RADIAL']['ID1'], scntl['!RADIAL']['ID2'],
-                                           scntl['!RADIAL']['CUT'], scntl['!RADIAL']['NBINS'])
-            radial.radial_save(root, radius, rdf, snapshots_r, scntl['!RADIAL']['ID1'], scntl['!RADIAL']['ID2'],
-                               scntl['!RADIAL']['CUT'], scntl['!RADIAL']['NBINS'], rho)
-            if scntl['!RADIAL']['INT']:
-                integration = radial.radial_integrate(radius, rdf, rho)
-                if scntl['!RADIAL']['PLOT']:
-                    radial.radial_plot(radius, rdf, integration=integration)
-            else:
-                if scntl['!RADIAL']['PLOT']:
-                    radial.radial_plot(radius, rdf)
+        if scntl['!RADIAL']['TRA_EXTRACT']:
+            snapshots_r = tra.tra_read(root, scntl['!RADIAL']['T1'], scntl['!RADIAL']['T2'], scntl['!RADIAL']['N'])
+            # check if atoms project into unit cell
+            if scntl['GENERAL']['PBC_FOLDING']:
+                pbc.pbc_folding(snapshots_r)
         else:
-            data, rho = radial.radial_load(root)
-            if scntl['!RADIAL']['INT']:
-                integration = radial.radial_integrate(data[:, 0], data[:, 1], rho)
-                if scntl['!RADIAL']['PLOT']:
-                    radial.radial_plot(data[:, 0], data[:, 1], integration=integration)
-            else:
-                if scntl['!RADIAL']['PLOT']:
-                    radial.radial_plot(data[:, 0], data[:, 1])
+            snapshots_r = snapshots
+        radius, rdf, coord, rho = radial.radial_calculate(snapshots_r, scntl['!RADIAL']['ID1'], scntl['!RADIAL']['ID2'],
+                                       scntl['!RADIAL']['CUT'], scntl['!RADIAL']['NBINS'])
+        radial.radial_save(root, radius, rdf, coord, snapshots_r, scntl['!RADIAL']['ID1'], scntl['!RADIAL']['ID2'],
+                           scntl['!RADIAL']['CUT'], scntl['!RADIAL']['NBINS'], rho)

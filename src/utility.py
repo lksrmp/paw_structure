@@ -258,3 +258,17 @@ def structure_water_input():
     parser.add_argument("-p", "--plot", action="store_true", help="show graph of atom number in water complex")
     args = parser.parse_args()
     return args
+
+
+def structure_radial_input():
+    """
+    Get console input for :mod:`.structure_radial`.
+
+    Returns:
+        :py:mod:`argparse` object
+    """
+    parser = argparse.ArgumentParser()
+    parser.add_argument("radial", type=str, help="give path of radial data file\nproduced by structure_fast.py")
+    parser.add_argument("-i", "--integrate", action="store_true", help="obtain coordination number from integration")
+    args = parser.parse_args()
+    return args

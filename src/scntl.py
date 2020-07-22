@@ -302,12 +302,9 @@ def scntl_read_radial(text, idx):
         'ID2': None,
         'CUT': None,
         'NBINS': None,
-        'INT': None,
         'T1': None,
         'T2': None,
         'N': None,
-        'LOAD': None,
-        'PLOT': None,
         'TRA_EXTRACT': True
     }
     for line in text:
@@ -322,34 +319,16 @@ def scntl_read_radial(text, idx):
         radial_dict['NBINS'] = 1000
     else:
         radial_dict['NBINS'] = int(radial_dict['NBINS'])
-    if radial_dict['INT'] is None:
-        radial_dict['INT'] = False
+    if radial_dict['ID1'] is None or radial_dict['ID2'] is None:
+        utility.err('scntl_read', 0, ['!RADIAL'], info=" ID1 ID2")
+    # check for necessary arguments if snapshots are not loaded
+    if radial_dict['T1'] is None or radial_dict['T2'] is None or radial_dict['N'] is None:
+        radial_dict['TRA_EXTRACT'] = False
     else:
-        if radial_dict['INT'].casefold() == 'true':
-            radial_dict['INT'] = True
-        else:
-            radial_dict['INT'] = False
-    if radial_dict['PLOT'] is None:
-        radial_dict['PLOT'] = False
-    else:
-        if radial_dict['PLOT'].casefold() == 'true':
-            radial_dict['PLOT'] = True
-        else:
-            radial_dict['PLOT'] = False
-    if radial_dict['LOAD'].casefold() == 'true':
-        radial_dict['LOAD'] = True
-    else:
-        radial_dict['LOAD'] = False
-        if radial_dict['ID1'] is None or radial_dict['ID2'] is None:
-            utility.err('scntl_read', 0, ['!RADIAL'], info=" ID1 ID2")
-        # check for necessary arguments if snapshots are not loaded
-        if radial_dict['T1'] is None or radial_dict['T2'] is None or radial_dict['N'] is None:
-            radial_dict['TRA_EXTRACT'] = False
-        else:
-            radial_dict['TRA_EXTRACT'] = True
-            radial_dict['T1'] = float(radial_dict['T1'])
-            radial_dict['T2'] = float(radial_dict['T2'])
-            radial_dict['N'] = int(radial_dict['N'])
+        radial_dict['TRA_EXTRACT'] = True
+        radial_dict['T1'] = float(radial_dict['T1'])
+        radial_dict['T2'] = float(radial_dict['T2'])
+        radial_dict['N'] = int(radial_dict['N'])
     return radial_dict
 
 

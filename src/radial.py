@@ -224,8 +224,9 @@ def radial_calculate(snapshots, id1, id2, cut, nbins, names=None):
     volume = 4.0 / 3.0 * np.pi * volume * volume * volume  # volume for each radius
     volume = np.diff(volume)  # difference of volumes to the previous radius
     rdf = rdf / volume / rho  # normalize rdf
+    coord = radial_integrate(radius, rdf, rho)
     print("RDF CALCULATION FINISHED")
-    return radius, rdf, rho
+    return radius, rdf, coord, rho
 
 
 ########################################################################################################################
@@ -256,7 +257,7 @@ def radial_integrate(radius, rdf, rho):
         ndarray[float]: value of integration corresponding to the radii
     """
     int_count = rdf * radius * radius
-    integration = si.cumtrapz(int_count, x=radius)
+    integration = si.cumtrapz(int_count, x=radius, initial=0.0)
     integration = 4.0 * np.pi * rho * integration
     return integration
 
@@ -285,7 +286,7 @@ def radial_plot(radius, rdf, integration=None):
     plt.figure()
     plt.plot(radius, rdf)
     if integration is not None:
-        plt.plot(radius[1:], integration)
+        plt.plot(radius, integration)
     plt.grid()
     plt.xlabel("r [A]")
     plt.ylabel("g(r)")
@@ -307,7 +308,7 @@ def radial_plot(radius, rdf, integration=None):
 # float rho                     overall density of atom type id2 (needed for later integration)
 # str ext (optional)            extension for the saved file: name = root + ext
 ########################################################################################################################
-def radial_save(root, radius, rdf, snapshots, id1, id2, cut, nbins, rho, ext='.radial'):
+def radial_save(root, radius, rdf, coord, snapshots, id1, id2, cut, nbins, rho, ext='.radial'):
     """
     Save results to file.
 
@@ -317,6 +318,7 @@ def radial_save(root, radius, rdf, snapshots, id1, id2, cut, nbins, rho, ext='.r
         root (str): root name for saving file
         radius (ndarray[float]): radii used for rdf calculation
         rdf (ndarray[float]): value of rdf corresponding to these radii
+        coord (ndarray[float]): coordination number obtained from integration of rdf
         snapshots (list[:class:`.Snap`]): list of snapshots containing the water complexes
         id1 (str): identifier for atoms used as centers (e.g. 'MN', 'O_')
         id2 (str): identifier for atoms as possible neighbors (e.g. 'O_', 'H_')
@@ -343,8 +345,8 @@ def radial_save(root, radius, rdf, snapshots, id1, id2, cut, nbins, rho, ext='.r
     f.write("%-14s%14.8f\n" % ("RHO", rho))
     f.write("%-14s\n" % "UNIT CELL")
     np.savetxt(f, snapshots[0].cell, fmt="%14.8f")
-    f.write("\n%14s%14s\n" % ("RADIUS", "RDF"))
-    data = np.vstack((radius, rdf))
+    f.write("\n%14s%14s%14s\n" % ("RADIUS", "RDF", "COORDINATION"))
+    data = np.vstack((radius, rdf, coord))
     np.savetxt(f, data.T, fmt="%14.8f")
     f.close()
     return
@@ -390,7 +392,7 @@ def radial_load(root, ext='.radial'):
             if text[i][0] == 'RHO':
                 rho = float(text[i][1])
             # find beginning beginning of data
-            if text[i] == ['RADIUS', 'RDF']:
+            if text[i] == ['RADIUS', 'RDF', 'COORDINATION']:
                 data = np.array(text[i+1:], dtype=float)
                 break
     return data, rho
