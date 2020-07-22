@@ -100,33 +100,32 @@ PYBIND11_MODULE(hbonds_c, m){
 
         .. currentmodule:: paw_structure.hbonds_c
 
-        Dependencies:
-        :py:mod:`numpy`
-        :mod:`.pbc`
-
         .. autosummary::
 
-            calc_angle
-            calc_dist_vec
-            calc_norm
-            calc_skalar
             hbonds_number
             hbonds
-            pbc_apply3x3
     )pbdoc"; // optional module docstring
 
-    m.def("hbonds_number", &hbonds_number); /*, R"pbdoc(
+    m.def("hbonds_number", &hbonds_number, R"pbdoc(
             Count hydrogen bonds.
 
             Args:
-                array1 (array): erstes array
-
+                array1 (array): contains atomic positions of oxygen atoms
+                len1 (int): length of first array
+                array2 (array): contains atomic positions of hydrogen atoms
+                len2 (int): length of second array
+                cut1 (float): maximum oxygen - oxygen distance
+                cut2 (float): maximum oxygen - hydrogen distance
+                angle (float): minimum angle criterion
+                a (float): unit cell length
         )pbdoc", py::arg("array1"), py::arg("len1"), py::arg("array2"), py::arg("len2"),
         py::arg("cut1"), py::arg("cut2"), py::arg("angle"), py::arg("a")
     );
-    */
+
       //, "A function which adds two numbers", py::arg("array1"), py::arg("len1"), py::arg("array2"),
     //  py::arg("len2"), py::arg("cut"), py::arg("angle"));
+
+    /*
     m.def("calc_dist_vec", &calc_dist_vec);
     m.def("calc_skalar", &calc_skalar, R"pbdoc(
         Calculate scalar.
@@ -141,6 +140,7 @@ PYBIND11_MODULE(hbonds_c, m){
     m.def("calc_norm", &calc_norm);
     m.def("calc_angle", &calc_angle);
     m.def("pbc_apply3x3", &pbc_apply3x3);
+     */
     m.def("hbonds", &hbonds);
 
 #ifdef VERSION_INFO
