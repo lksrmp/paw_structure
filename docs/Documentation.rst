@@ -6,6 +6,9 @@ Here is the documentation of the program.
 .. toctree::
    :maxdepth: 1
 
+   ./Modules/paw_structure.structure_fast
+   ./Modules/paw_structure.structure_ion
+   ./Modules/paw_structure.structure_radial
    ./Modules/paw_structure.utility
    ./Modules/paw_structure.pbc
    ./Modules/paw_structure.neighbor
