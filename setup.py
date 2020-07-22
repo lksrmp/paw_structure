@@ -8,9 +8,10 @@ import pathlib
 import os
 
 #TODO: adapt file
+#TODO: write MANIFEST.in for including documentation
 
 
-__version__ = '0.0.1'
+__version__ = '1.0.0'
 
 here = pathlib.Path(__file__).parent.resolve()
 
@@ -139,14 +140,16 @@ setup(
                       'pandas',
                       'matplotlib',
                       'argparse',
-                      'scipy',],
+                      'scipy',
+                      'Sphinx',],
     cmdclass={'build_ext': BuildExt},
     zip_safe=False,
     entry_points={
         "console_scripts": [
             "paw_structure_fast = paw_structure.structure_fast:main",
             "paw_structure_ion = paw_structure.structure_ion:main",
-            "paw_structure_water = paw_structure.structure_water:main"
+            "paw_structure_water = paw_structure.structure_water:main",
+            "paw_structure_radial = paw_structure.structure_radial:main"
             ]
     }
 )
