@@ -1,0 +1,474 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>paw_structure.radial &mdash; paw_structure Documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="paw_structure.hbonds_c" href="paw_structure.hbonds_c.html" />
+    <link rel="prev" title="paw_structure.water" href="paw_structure.water.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> paw_structure
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../Documentation.html">Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.structure_fast.html">paw_structure.structure_fast</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.structure_ion.html">paw_structure.structure_ion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.structure_radial.html">paw_structure.structure_radial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.utility.html">paw_structure.utility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.pbc.html">paw_structure.pbc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.neighbor.html">paw_structure.neighbor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.scntl.html">paw_structure.scntl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.ion.html">paw_structure.ion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.tra.html">paw_structure.tra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.water.html">paw_structure.water</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">paw_structure.radial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.hbonds_c.html">paw_structure.hbonds_c</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.radial_c.html">paw_structure.radial_c</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">paw_structure</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../Documentation.html">Documentation</a> &raquo;</li>
+        
+      <li>paw_structure.radial</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/Modules/paw_structure.radial.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <span class="target" id="module-paw_structure.radial"></span><div class="section" id="paw-structure-radial">
+<h1>paw_structure.radial<a class="headerlink" href="#paw-structure-radial" title="Permalink to this headline">¶</a></h1>
+<p>Radial distribution function calculation.</p>
+<dl class="simple">
+<dt>Dependencies:</dt><dd><p><a class="reference external" href="https://docs.python.org/3/library/functools.html#module-functools" title="(in Python v3.8)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">functools</span></code></a>
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">matplotlib</span></code>
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">miniutils.progress_bar</span></code>
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy</span></code>
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">pandas</span></code>
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">scipy</span></code>
+<a class="reference internal" href="paw_structure.pbc.html#module-paw_structure.pbc" title="paw_structure.pbc"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pbc</span></code></a>
+<a class="reference internal" href="paw_structure.utility.html#module-paw_structure.utility" title="paw_structure.utility"><code class="xref py py-mod docutils literal notranslate"><span class="pre">utility</span></code></a>
+<a class="reference internal" href="paw_structure.radial_c.html#module-paw_structure.radial_c" title="paw_structure.radial_c"><code class="xref py py-mod docutils literal notranslate"><span class="pre">radial_c</span></code></a></p>
+</dd>
+</dl>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#paw_structure.radial.radial_calculate" title="paw_structure.radial.radial_calculate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">radial_calculate</span></code></a>(snapshots, id1, id2, cut, nbins)</p></td>
+<td><p>Calculate the radial distribution function (rdf) including multiple snapshots.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#paw_structure.radial.radial_distance" title="paw_structure.radial.radial_distance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">radial_distance</span></code></a>(center, pbc_atoms, cut)</p></td>
+<td><p>Find distance values smaller than a cutoff distance.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#paw_structure.radial.radial_integrate" title="paw_structure.radial.radial_integrate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">radial_integrate</span></code></a>(radius, rdf, rho)</p></td>
+<td><p>Integration of radial distribution function (rdf).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#paw_structure.radial.radial_load" title="paw_structure.radial.radial_load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">radial_load</span></code></a>(root[, ext])</p></td>
+<td><p>Load information previously saved by <a class="reference internal" href="#paw_structure.radial.radial_save" title="paw_structure.radial.radial_save"><code class="xref py py-func docutils literal notranslate"><span class="pre">radial_save()</span></code></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#paw_structure.radial.radial_plot" title="paw_structure.radial.radial_plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">radial_plot</span></code></a>(radius, rdf[, integration])</p></td>
+<td><p>Plot the radial distribution function (rdf) and the coordination number integration if selected.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#paw_structure.radial.radial_save" title="paw_structure.radial.radial_save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">radial_save</span></code></a>(root, radius, rdf, coord, …[, ext])</p></td>
+<td><p>Save results to file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#paw_structure.radial.radial_single" title="paw_structure.radial.radial_single"><code class="xref py py-obj docutils literal notranslate"><span class="pre">radial_single</span></code></a>(snap, id1, id2, cut[, names])</p></td>
+<td><p>Collect distances between all atoms of type <code class="xref py py-data docutils literal notranslate"><span class="pre">id1</span></code> and type <code class="xref py py-data docutils literal notranslate"><span class="pre">id2</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#paw_structure.radial.radial_single_c" title="paw_structure.radial.radial_single_c"><code class="xref py py-obj docutils literal notranslate"><span class="pre">radial_single_c</span></code></a>(snap, id1, id2, cut[, names])</p></td>
+<td><p>Binding of C++ routines for distance calculation of a single snapshot.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt id="paw_structure.radial.radial_calculate">
+<code class="sig-prename descclassname">paw_structure.radial.</code><code class="sig-name descname">radial_calculate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">snapshots</span></em>, <em class="sig-param"><span class="n">id1</span></em>, <em class="sig-param"><span class="n">id2</span></em>, <em class="sig-param"><span class="n">cut</span></em>, <em class="sig-param"><span class="n">nbins</span></em>, <em class="sig-param"><span class="n">names</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#paw_structure.radial.radial_calculate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the radial distribution function (rdf) including multiple snapshots.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Use of <code class="xref py py-data docutils literal notranslate"><span class="pre">names</span></code> is not implemented yet in the control file.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>snapshots</strong> (list[<a class="reference internal" href="paw_structure.tra.html#paw_structure.tra.Snap" title="paw_structure.tra.Snap"><code class="xref py py-class docutils literal notranslate"><span class="pre">Snap</span></code></a>]) – list of snapshots containing the atomic information</p></li>
+<li><p><strong>id1</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – identifier for atoms used as centers (e.g. ‘MN’, ‘<a href="#id1"><span class="problematic" id="id2">O_</span></a>’)</p></li>
+<li><p><strong>id2</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – identifier for atoms as possible neighbors (e.g. ‘<a href="#id3"><span class="problematic" id="id4">O_</span></a>’, ‘<a href="#id5"><span class="problematic" id="id6">H_</span></a>’)</p></li>
+<li><p><strong>cut</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – cutoff distance for radial calculation</p></li>
+<li><p><strong>nbins</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – number of radius intervals; influences resolutions together with <code class="xref py py-data docutils literal notranslate"><span class="pre">cut</span></code></p></li>
+<li><p><strong>names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>]</em><em>, </em><em>optional</em>) – names of atoms to use as centers (e.g. ‘O_43’, ‘H_23’)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>radii used for rdf calculation
+ndarray[float]: value of rdf corresponding to these radii
+ndarray[float]: value of coordination number corresponding to these radii
+float: average atom density of type <code class="xref py py-data docutils literal notranslate"><span class="pre">id2</span></code></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="paw_structure.radial.radial_distance">
+<code class="sig-prename descclassname">paw_structure.radial.</code><code class="sig-name descname">radial_distance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">center</span></em>, <em class="sig-param"><span class="n">pbc_atoms</span></em>, <em class="sig-param"><span class="n">cut</span></em><span class="sig-paren">)</span><a class="headerlink" href="#paw_structure.radial.radial_distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find distance values smaller than a cutoff distance.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Not in use. Replaced by C++ routines.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>center</strong> (<code class="xref py py-mod docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code>) – central atom of reference</p></li>
+<li><p><strong>pbc_atoms</strong> (<code class="xref py py-mod docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code>) – atoms as possible neighbors</p></li>
+<li><p><strong>cut</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – cutoff distance</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>distances found which are smaller than cutoff distance</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="paw_structure.radial.radial_integrate">
+<code class="sig-prename descclassname">paw_structure.radial.</code><code class="sig-name descname">radial_integrate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">radius</span></em>, <em class="sig-param"><span class="n">rdf</span></em>, <em class="sig-param"><span class="n">rho</span></em><span class="sig-paren">)</span><a class="headerlink" href="#paw_structure.radial.radial_integrate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Integration of radial distribution function (rdf).</p>
+<p>Uses <code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.cumtrapz()</span></code> for numerical integration.</p>
+<p>XXX REFERENCE TO COORDINATION NUMBER CALCULATION XXX</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>radius</strong> (<em>ndarray</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a><em>]</em>) – radii used for rdf calculation</p></li>
+<li><p><strong>rdf</strong> (<em>ndarray</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a><em>]</em>) – value of rdf corresponding to these radii</p></li>
+<li><p><strong>rho</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – average atom density of type <code class="xref py py-data docutils literal notranslate"><span class="pre">id2</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>value of integration corresponding to the radii</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="paw_structure.radial.radial_load">
+<code class="sig-prename descclassname">paw_structure.radial.</code><code class="sig-name descname">radial_load</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">root</span></em>, <em class="sig-param"><span class="n">ext</span><span class="o">=</span><span class="default_value">'.radial'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#paw_structure.radial.radial_load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load information previously saved by <a class="reference internal" href="#paw_structure.radial.radial_save" title="paw_structure.radial.radial_save"><code class="xref py py-func docutils literal notranslate"><span class="pre">radial_save()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>root</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – root name for the file to be loaded</p></li>
+<li><p><strong>ext</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>, </em><em>optional</em>) – default “.radial” - extension for the file to be loaded: name = root + ext</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>2D array containing radii, values of rdf and coordination number
+float: average atom density of type <code class="xref py py-data docutils literal notranslate"><span class="pre">id2</span></code></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray(<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="paw_structure.radial.radial_plot">
+<code class="sig-prename descclassname">paw_structure.radial.</code><code class="sig-name descname">radial_plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">radius</span></em>, <em class="sig-param"><span class="n">rdf</span></em>, <em class="sig-param"><span class="n">integration</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#paw_structure.radial.radial_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the radial distribution function (rdf) and the coordination number integration if selected.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>radius</strong> (<em>ndarray</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a><em>]</em>) – radii used for rdf calculation</p></li>
+<li><p><strong>rdf</strong> (<em>ndarray</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a><em>]</em>) – value of rdf corresponding to these radii</p></li>
+<li><p><strong>integration</strong> (<em>ndarray</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a><em>]</em><em>, </em><em>optional</em>) – coordination number for different radii</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Implement better display of plot. Spawn subprocess to let the core program finish.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="paw_structure.radial.radial_save">
+<code class="sig-prename descclassname">paw_structure.radial.</code><code class="sig-name descname">radial_save</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">root</span></em>, <em class="sig-param"><span class="n">radius</span></em>, <em class="sig-param"><span class="n">rdf</span></em>, <em class="sig-param"><span class="n">coord</span></em>, <em class="sig-param"><span class="n">snapshots</span></em>, <em class="sig-param"><span class="n">id1</span></em>, <em class="sig-param"><span class="n">id2</span></em>, <em class="sig-param"><span class="n">cut</span></em>, <em class="sig-param"><span class="n">nbins</span></em>, <em class="sig-param"><span class="n">rho</span></em>, <em class="sig-param"><span class="n">ext</span><span class="o">=</span><span class="default_value">'.radial'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#paw_structure.radial.radial_save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save results to file.</p>
+<p>XXX REFERENCE TO EXPLANATION OF .radial FILE FORMAT</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>root</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – root name for saving file</p></li>
+<li><p><strong>radius</strong> (<em>ndarray</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a><em>]</em>) – radii used for rdf calculation</p></li>
+<li><p><strong>rdf</strong> (<em>ndarray</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a><em>]</em>) – value of rdf corresponding to these radii</p></li>
+<li><p><strong>coord</strong> (<em>ndarray</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a><em>]</em>) – coordination number obtained from integration of rdf</p></li>
+<li><p><strong>snapshots</strong> (list[<a class="reference internal" href="paw_structure.tra.html#paw_structure.tra.Snap" title="paw_structure.tra.Snap"><code class="xref py py-class docutils literal notranslate"><span class="pre">Snap</span></code></a>]) – list of snapshots containing the water complexes</p></li>
+<li><p><strong>id1</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – identifier for atoms used as centers (e.g. ‘MN’, ‘<a href="#id7"><span class="problematic" id="id8">O_</span></a>’)</p></li>
+<li><p><strong>id2</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – identifier for atoms as possible neighbors (e.g. ‘<a href="#id9"><span class="problematic" id="id10">O_</span></a>’, ‘<a href="#id11"><span class="problematic" id="id12">H_</span></a>’)</p></li>
+<li><p><strong>cut</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – cutoff distance for radial calculation</p></li>
+<li><p><strong>nbins</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – number of radius intervals; influences resolutions together with <code class="xref py py-data docutils literal notranslate"><span class="pre">cut</span></code></p></li>
+<li><p><strong>rho</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – average atom density of type <code class="xref py py-data docutils literal notranslate"><span class="pre">id2</span></code></p></li>
+<li><p><strong>ext</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>, </em><em>optional</em>) – default “.radial” - extension for the saved file: name = root + ext</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="paw_structure.radial.radial_single">
+<code class="sig-prename descclassname">paw_structure.radial.</code><code class="sig-name descname">radial_single</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">snap</span></em>, <em class="sig-param"><span class="n">id1</span></em>, <em class="sig-param"><span class="n">id2</span></em>, <em class="sig-param"><span class="n">cut</span></em>, <em class="sig-param"><span class="n">names</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#paw_structure.radial.radial_single" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collect distances between all atoms of type <code class="xref py py-data docutils literal notranslate"><span class="pre">id1</span></code> and type <code class="xref py py-data docutils literal notranslate"><span class="pre">id2</span></code>.
+If <code class="xref py py-data docutils literal notranslate"><span class="pre">names</span></code> is given, those atoms are used as centers instead of <code class="xref py py-data docutils literal notranslate"><span class="pre">id1</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Not in use. Replaced by C++ routines.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>snap</strong> (<a class="reference internal" href="paw_structure.tra.html#paw_structure.tra.Snap" title="paw_structure.tra.Snap"><code class="xref py py-class docutils literal notranslate"><span class="pre">Snap</span></code></a>) – single snapshot containing the atomic information</p></li>
+<li><p><strong>id1</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – identifier for atoms used as center (e.g. ‘MN’, ‘<a href="#id13"><span class="problematic" id="id14">O_</span></a>’)</p></li>
+<li><p><strong>id2</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – identifier for atoms as possible neighbors (e.g. ‘<a href="#id15"><span class="problematic" id="id16">O_</span></a>’, ‘<a href="#id17"><span class="problematic" id="id18">H_</span></a>’)</p></li>
+<li><p><strong>cut</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – cutoff distance for radial calculation</p></li>
+<li><p><strong>names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>]</em><em>, </em><em>optional</em>) – names of atoms to use as centers (e.g. ‘O_43’, ‘H_23’)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list of distances found which are smaller than <code class="xref py py-data docutils literal notranslate"><span class="pre">cut</span></code></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="paw_structure.radial.radial_single_c">
+<code class="sig-prename descclassname">paw_structure.radial.</code><code class="sig-name descname">radial_single_c</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">snap</span></em>, <em class="sig-param"><span class="n">id1</span></em>, <em class="sig-param"><span class="n">id2</span></em>, <em class="sig-param"><span class="n">cut</span></em>, <em class="sig-param"><span class="n">names</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#paw_structure.radial.radial_single_c" title="Permalink to this definition">¶</a></dt>
+<dd><p>Binding of C++ routines for distance calculation of a single snapshot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>snap</strong> (<a class="reference internal" href="paw_structure.tra.html#paw_structure.tra.Snap" title="paw_structure.tra.Snap"><code class="xref py py-class docutils literal notranslate"><span class="pre">Snap</span></code></a>) – single snapshot containing the atomic information</p></li>
+<li><p><strong>id1</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – identifier for atoms used as center (e.g. ‘MN’, ‘<a href="#id19"><span class="problematic" id="id20">O_</span></a>’)</p></li>
+<li><p><strong>id2</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – identifier for atoms as possible neighbors (e.g. ‘<a href="#id21"><span class="problematic" id="id22">O_</span></a>’, ‘<a href="#id23"><span class="problematic" id="id24">H_</span></a>’)</p></li>
+<li><p><strong>cut</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – cutoff distance for radial calculation</p></li>
+<li><p><strong>names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>]</em><em>, </em><em>optional</em>) – names of atoms to use as centers (e.g. ‘O_43’, ‘H_23’)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list of distances found which are smaller than <code class="xref py py-data docutils literal notranslate"><span class="pre">cut</span></code></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="paw_structure.hbonds_c.html" class="btn btn-neutral float-right" title="paw_structure.hbonds_c" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="paw_structure.water.html" class="btn btn-neutral float-left" title="paw_structure.water" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Lukas Rump
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

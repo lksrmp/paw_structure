@@ -1,0 +1,446 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>paw_structure.scntl &mdash; paw_structure Documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="paw_structure.ion" href="paw_structure.ion.html" />
+    <link rel="prev" title="paw_structure.neighbor" href="paw_structure.neighbor.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> paw_structure
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../Documentation.html">Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.structure_fast.html">paw_structure.structure_fast</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.structure_ion.html">paw_structure.structure_ion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.structure_radial.html">paw_structure.structure_radial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.utility.html">paw_structure.utility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.pbc.html">paw_structure.pbc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.neighbor.html">paw_structure.neighbor</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">paw_structure.scntl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.ion.html">paw_structure.ion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.tra.html">paw_structure.tra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.water.html">paw_structure.water</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.radial.html">paw_structure.radial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.hbonds_c.html">paw_structure.hbonds_c</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.radial_c.html">paw_structure.radial_c</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">paw_structure</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../Documentation.html">Documentation</a> &raquo;</li>
+        
+      <li>paw_structure.scntl</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/Modules/paw_structure.scntl.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <span class="target" id="module-paw_structure.scntl"></span><div class="section" id="paw-structure-scntl">
+<h1>paw_structure.scntl<a class="headerlink" href="#paw-structure-scntl" title="Permalink to this headline">¶</a></h1>
+<p>Read control input file for <a class="reference internal" href="paw_structure.structure_fast.html#module-paw_structure.structure_fast" title="paw_structure.structure_fast"><code class="xref py py-mod docutils literal notranslate"><span class="pre">structure_fast</span></code></a>.</p>
+<p>Main routine is <a class="reference internal" href="#paw_structure.scntl.scntl_read" title="paw_structure.scntl.scntl_read"><code class="xref py py-func docutils literal notranslate"><span class="pre">scntl_read()</span></code></a>.</p>
+<dl class="simple">
+<dt>Dependencies:</dt><dd><p><a class="reference external" href="https://docs.python.org/3/library/os.html#module-os" title="(in Python v3.8)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">os</span></code></a>
+<a class="reference internal" href="paw_structure.utility.html#module-paw_structure.utility" title="paw_structure.utility"><code class="xref py py-mod docutils literal notranslate"><span class="pre">utility</span></code></a></p>
+</dd>
+</dl>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#paw_structure.scntl.scntl_read" title="paw_structure.scntl.scntl_read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scntl_read</span></code></a>(root)</p></td>
+<td><p>Read and interpret the control file &lt;root&gt;.scntl.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#paw_structure.scntl.scntl_read_hbonds" title="paw_structure.scntl.scntl_read_hbonds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scntl_read_hbonds</span></code></a>(text, idx)</p></td>
+<td><p>Interpret the control block for <code class="xref py py-mod docutils literal notranslate"><span class="pre">hbonds</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#paw_structure.scntl.scntl_read_ion" title="paw_structure.scntl.scntl_read_ion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scntl_read_ion</span></code></a>(text, idx)</p></td>
+<td><p>Interpret the control block for <a class="reference internal" href="paw_structure.ion.html#module-paw_structure.ion" title="paw_structure.ion"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ion</span></code></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#paw_structure.scntl.scntl_read_radial" title="paw_structure.scntl.scntl_read_radial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scntl_read_radial</span></code></a>(text, idx)</p></td>
+<td><p>Interpret the control block for <a class="reference internal" href="paw_structure.radial.html#module-paw_structure.radial" title="paw_structure.radial"><code class="xref py py-mod docutils literal notranslate"><span class="pre">radial</span></code></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#paw_structure.scntl.scntl_read_scntl" title="paw_structure.scntl.scntl_read_scntl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scntl_read_scntl</span></code></a>(text, idx, delete)</p></td>
+<td><p>Interpret the control block for general information.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#paw_structure.scntl.scntl_read_tra" title="paw_structure.scntl.scntl_read_tra"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scntl_read_tra</span></code></a>(text, idx)</p></td>
+<td><p>Interpret the control block for <a class="reference internal" href="paw_structure.tra.html#module-paw_structure.tra" title="paw_structure.tra"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tra</span></code></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#paw_structure.scntl.scntl_read_water" title="paw_structure.scntl.scntl_read_water"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scntl_read_water</span></code></a>(text, idx)</p></td>
+<td><p>Interpret the control block for <a class="reference internal" href="paw_structure.water.html#module-paw_structure.water" title="paw_structure.water"><code class="xref py py-mod docutils literal notranslate"><span class="pre">water</span></code></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#paw_structure.scntl.scntl_text" title="paw_structure.scntl.scntl_text"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scntl_text</span></code></a>(root[, ext])</p></td>
+<td><p>Read text from <code class="xref py py-data docutils literal notranslate"><span class="pre">root</span></code>.scntl file and identify different control blocks.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt id="paw_structure.scntl.scntl_read">
+<code class="sig-prename descclassname">paw_structure.scntl.</code><code class="sig-name descname">scntl_read</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">root</span></em><span class="sig-paren">)</span><a class="headerlink" href="#paw_structure.scntl.scntl_read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read and interpret the control file &lt;root&gt;.scntl.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>root</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – root name for the control file</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dictionary of all dictionaries obtained from all the control blocks</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a>]</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Error checking with !TRA and !RADIAL does not work properly.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="paw_structure.scntl.scntl_read_hbonds">
+<code class="sig-prename descclassname">paw_structure.scntl.</code><code class="sig-name descname">scntl_read_hbonds</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span></em>, <em class="sig-param"><span class="n">idx</span></em><span class="sig-paren">)</span><a class="headerlink" href="#paw_structure.scntl.scntl_read_hbonds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpret the control block for <code class="xref py py-mod docutils literal notranslate"><span class="pre">hbonds</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>]</em><em>]</em>) – text from the control file; each line is a list of words within the outer list</p></li>
+<li><p><strong>idx</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>]</em>) – list with two indices marking beginning and end of control block</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dictionary containing all information obtained from the control block</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="paw_structure.scntl.scntl_read_ion">
+<code class="sig-prename descclassname">paw_structure.scntl.</code><code class="sig-name descname">scntl_read_ion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span></em>, <em class="sig-param"><span class="n">idx</span></em><span class="sig-paren">)</span><a class="headerlink" href="#paw_structure.scntl.scntl_read_ion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpret the control block for <a class="reference internal" href="paw_structure.ion.html#module-paw_structure.ion" title="paw_structure.ion"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ion</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>]</em><em>]</em>) – text from the control file; each line is a list of words within the outer list</p></li>
+<li><p><strong>idx</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>]</em>) – list with two indices marking beginning and end of control block</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dictionary containing all information obtained from the control block</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="paw_structure.scntl.scntl_read_radial">
+<code class="sig-prename descclassname">paw_structure.scntl.</code><code class="sig-name descname">scntl_read_radial</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span></em>, <em class="sig-param"><span class="n">idx</span></em><span class="sig-paren">)</span><a class="headerlink" href="#paw_structure.scntl.scntl_read_radial" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpret the control block for <a class="reference internal" href="paw_structure.radial.html#module-paw_structure.radial" title="paw_structure.radial"><code class="xref py py-mod docutils literal notranslate"><span class="pre">radial</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>]</em><em>]</em>) – text from the control file; each line is a list of words within the outer list</p></li>
+<li><p><strong>idx</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>]</em>) – list with two indices marking beginning and end of control block</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dictionary containing all information obtained from the control block</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a></p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Implement name identification for central atoms.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="paw_structure.scntl.scntl_read_scntl">
+<code class="sig-prename descclassname">paw_structure.scntl.</code><code class="sig-name descname">scntl_read_scntl</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span></em>, <em class="sig-param"><span class="n">idx</span></em>, <em class="sig-param"><span class="n">delete</span></em><span class="sig-paren">)</span><a class="headerlink" href="#paw_structure.scntl.scntl_read_scntl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpret the control block for general information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>]</em><em>]</em>) – text from the control file; each line is a list of words within the outer list</p></li>
+<li><p><strong>idx</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>]</em>) – list with two indices marking beginning and end of control block</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dictionary containing all information obtained from the control block</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="paw_structure.scntl.scntl_read_tra">
+<code class="sig-prename descclassname">paw_structure.scntl.</code><code class="sig-name descname">scntl_read_tra</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span></em>, <em class="sig-param"><span class="n">idx</span></em><span class="sig-paren">)</span><a class="headerlink" href="#paw_structure.scntl.scntl_read_tra" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpret the control block for <a class="reference internal" href="paw_structure.tra.html#module-paw_structure.tra" title="paw_structure.tra"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tra</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>]</em><em>]</em>) – text from the control file; each line is a list of words within the outer list</p></li>
+<li><p><strong>idx</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>]</em>) – list with two indices marking beginning and end of control block</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dictionary containing all information obtained from the control block</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="paw_structure.scntl.scntl_read_water">
+<code class="sig-prename descclassname">paw_structure.scntl.</code><code class="sig-name descname">scntl_read_water</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span></em>, <em class="sig-param"><span class="n">idx</span></em><span class="sig-paren">)</span><a class="headerlink" href="#paw_structure.scntl.scntl_read_water" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpret the control block for <a class="reference internal" href="paw_structure.water.html#module-paw_structure.water" title="paw_structure.water"><code class="xref py py-mod docutils literal notranslate"><span class="pre">water</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>]</em><em>]</em>) – text from the control file; each line is a list of words within the outer list</p></li>
+<li><p><strong>idx</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>]</em>) – list with two indices marking beginning and end of control block</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dictionary containing all information obtained from the control block</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="paw_structure.scntl.scntl_text">
+<code class="sig-prename descclassname">paw_structure.scntl.</code><code class="sig-name descname">scntl_text</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">root</span></em>, <em class="sig-param"><span class="n">ext</span><span class="o">=</span><span class="default_value">'.scntl'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#paw_structure.scntl.scntl_text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read text from <code class="xref py py-data docutils literal notranslate"><span class="pre">root</span></code>.scntl file and identify different control blocks.</p>
+<p>XXX REFERENCE TO CONTROL FILE STRUCTURE XXX</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>root</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – root name for the control file</p></li>
+<li><p><strong>ext</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>, </em><em>optional</em>) – Default “.scntl”. DO NOT USE!</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>text from the control file; each line is a list of words within the outer list
+dict: dictionary with control blocks and their position within the text</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a>]]</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Remove forced line structure (flatten text and search for key words).</p>
+<p>Implement variable extension.</p>
+</div>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="paw_structure.ion.html" class="btn btn-neutral float-right" title="paw_structure.ion" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="paw_structure.neighbor.html" class="btn btn-neutral float-left" title="paw_structure.neighbor" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Lukas Rump
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,522 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>paw_structure.tra &mdash; paw_structure Documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="paw_structure.water" href="paw_structure.water.html" />
+    <link rel="prev" title="paw_structure.ion" href="paw_structure.ion.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> paw_structure
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../Documentation.html">Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.structure_fast.html">paw_structure.structure_fast</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.structure_ion.html">paw_structure.structure_ion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.structure_radial.html">paw_structure.structure_radial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.utility.html">paw_structure.utility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.pbc.html">paw_structure.pbc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.neighbor.html">paw_structure.neighbor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.scntl.html">paw_structure.scntl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.ion.html">paw_structure.ion</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">paw_structure.tra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.water.html">paw_structure.water</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.radial.html">paw_structure.radial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.hbonds_c.html">paw_structure.hbonds_c</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paw_structure.radial_c.html">paw_structure.radial_c</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">paw_structure</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../Documentation.html">Documentation</a> &raquo;</li>
+        
+      <li>paw_structure.tra</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/Modules/paw_structure.tra.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <span class="target" id="module-paw_structure.tra"></span><div class="section" id="paw-structure-tra">
+<h1>paw_structure.tra<a class="headerlink" href="#paw-structure-tra" title="Permalink to this headline">¶</a></h1>
+<p>Trajectory file handling and data storage.</p>
+<dl class="simple">
+<dt>Dependencies:</dt><dd><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy</span></code>
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">pandas</span></code>
+<a class="reference internal" href="paw_structure.utility.html#module-paw_structure.utility" title="paw_structure.utility"><code class="xref py py-mod docutils literal notranslate"><span class="pre">utility</span></code></a></p>
+</dd>
+</dl>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#paw_structure.tra.Snap" title="paw_structure.tra.Snap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Snap</span></code></a>(iter, time, cell, pos, atoms[, …])</p></td>
+<td><p>Information storage.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#paw_structure.tra.tra_detect_change" title="paw_structure.tra.tra_detect_change"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tra_detect_change</span></code></a>(snapshots)</p></td>
+<td><p>Detect changes in atoms contained in a snapshot and save index of snapshots between which the change occurs.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#paw_structure.tra.tra_extract" title="paw_structure.tra.tra_extract"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tra_extract</span></code></a>(root, n_atoms)</p></td>
+<td><p>Extract raw data from trajectory file “_r.tra”.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#paw_structure.tra.tra_index" title="paw_structure.tra.tra_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tra_index</span></code></a>(times, t1, t2, n)</p></td>
+<td><p>Indices of snapshots closest to equally spaced times in a given interval.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#paw_structure.tra.tra_load" title="paw_structure.tra.tra_load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tra_load</span></code></a>(root)</p></td>
+<td><p>Load information previously saved by <a class="reference internal" href="#paw_structure.tra.tra_save" title="paw_structure.tra.tra_save"><code class="xref py py-func docutils literal notranslate"><span class="pre">tra_save()</span></code></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#paw_structure.tra.tra_number_atoms" title="paw_structure.tra.tra_number_atoms"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tra_number_atoms</span></code></a>(snapshots)</p></td>
+<td><p>Get atom number, time and iteration from multiple snapshots.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#paw_structure.tra.tra_read" title="paw_structure.tra.tra_read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tra_read</span></code></a>(root, t1, t2, n)</p></td>
+<td><p>Read the trajectory file and extract relevant information for selected snapshots.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#paw_structure.tra.tra_save" title="paw_structure.tra.tra_save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tra_save</span></code></a>(root, snapshots)</p></td>
+<td><p>Save information of selected snapshots to file “.snap”.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#paw_structure.tra.tra_strc_read" title="paw_structure.tra.tra_strc_read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tra_strc_read</span></code></a>(root)</p></td>
+<td><p>Read “.strc_out” file to obtain atom identifiers.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt id="paw_structure.tra.Snap">
+<em class="property">class </em><code class="sig-prename descclassname">paw_structure.tra.</code><code class="sig-name descname">Snap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iter</span></em>, <em class="sig-param"><span class="n">time</span></em>, <em class="sig-param"><span class="n">cell</span></em>, <em class="sig-param"><span class="n">pos</span></em>, <em class="sig-param"><span class="n">atoms</span></em>, <em class="sig-param"><span class="n">dataframe</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">hbonds</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#paw_structure.tra.Snap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Information storage.</p>
+<p>Contains the relevant information for one snapshot taken from the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>iter</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – iteration in simulation</p></li>
+<li><p><strong>time</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – time [ps] in simulation</p></li>
+<li><p><strong>cell</strong> (<em>ndarray</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a><em>]</em>) – 3x3 array containing the unit cell of simulation</p></li>
+<li><p><strong>pos</strong> (<em>ndarray</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a><em>]</em>) – 3xN array containing atomic positions (select <strong>None</strong> if <code class="xref py py-data docutils literal notranslate"><span class="pre">dataframe</span></code> is given)</p></li>
+<li><p><strong>atoms</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – atomic information (name, id, index) (select <strong>None</strong> if <code class="xref py py-data docutils literal notranslate"><span class="pre">dataframe</span></code> is given)</p></li>
+<li><p><strong>dataframe</strong> (<em>pandas DataFrame</em><em>, </em><em>optional</em>) – contains <a class="reference internal" href="#paw_structure.tra.Snap.atoms" title="paw_structure.tra.Snap.atoms"><code class="xref py py-data docutils literal notranslate"><span class="pre">atoms</span></code></a> and <code class="xref py py-data docutils literal notranslate"><span class="pre">pos</span></code> input (selection with ‘name’, ‘id’, ‘index’, ‘pos’)</p></li>
+<li><p><strong>hbonds</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a><em>, </em><em>optional</em>) – NOT IN USE; hydrogen bond information</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="paw_structure.tra.Snap.iter">
+<code class="sig-name descname">iter</code><a class="headerlink" href="#paw_structure.tra.Snap.iter" title="Permalink to this definition">¶</a></dt>
+<dd><p>see above</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="paw_structure.tra.Snap.time">
+<code class="sig-name descname">time</code><a class="headerlink" href="#paw_structure.tra.Snap.time" title="Permalink to this definition">¶</a></dt>
+<dd><p>see above</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="paw_structure.tra.Snap.cell">
+<code class="sig-name descname">cell</code><a class="headerlink" href="#paw_structure.tra.Snap.cell" title="Permalink to this definition">¶</a></dt>
+<dd><p>see above</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>ndarray[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="paw_structure.tra.Snap.atoms">
+<code class="sig-name descname">atoms</code><a class="headerlink" href="#paw_structure.tra.Snap.atoms" title="Permalink to this definition">¶</a></dt>
+<dd><p>combination of <a class="reference internal" href="#paw_structure.tra.Snap.atoms" title="paw_structure.tra.Snap.atoms"><code class="xref py py-data docutils literal notranslate"><span class="pre">atoms</span></code></a> and <code class="xref py py-data docutils literal notranslate"><span class="pre">pos</span></code> input or equal to <code class="xref py py-data docutils literal notranslate"><span class="pre">dataframe</span></code> input if given</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>pandas DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="paw_structure.tra.Snap.hbonds">
+<code class="sig-name descname">hbonds</code><a class="headerlink" href="#paw_structure.tra.Snap.hbonds" title="Permalink to this definition">¶</a></dt>
+<dd><p>default is <strong>None</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a>, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="paw_structure.tra.tra_detect_change">
+<code class="sig-prename descclassname">paw_structure.tra.</code><code class="sig-name descname">tra_detect_change</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">snapshots</span></em><span class="sig-paren">)</span><a class="headerlink" href="#paw_structure.tra.tra_detect_change" title="Permalink to this definition">¶</a></dt>
+<dd><p>Detect changes in atoms contained in a snapshot and save index of snapshots between which the change occurs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>snapshots</strong> (list[<a class="reference internal" href="#paw_structure.tra.Snap" title="paw_structure.tra.Snap"><code class="xref py py-class docutils literal notranslate"><span class="pre">Snap</span></code></a>]) – snapshots containing the atoms</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>indices of snapshots where atoms change</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="paw_structure.tra.tra_extract">
+<code class="sig-prename descclassname">paw_structure.tra.</code><code class="sig-name descname">tra_extract</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">root</span></em>, <em class="sig-param"><span class="n">n_atoms</span></em><span class="sig-paren">)</span><a class="headerlink" href="#paw_structure.tra.tra_extract" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract raw data from trajectory file “_r.tra”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>root</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – root name of the trajectory file</p></li>
+<li><p><strong>n_atoms</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – number of atoms per snapshot</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>data structure containing information</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+<p>For formatting of the trajectory file please see the manual for the CP-PAW code by Peter Blöchl.</p>
+<p>The units are transformed into ps (time) and Angstrom (distance) at this step.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Unit cell reading not clear if correct or transpose (not relevant for simple cubic).</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="paw_structure.tra.tra_index">
+<code class="sig-prename descclassname">paw_structure.tra.</code><code class="sig-name descname">tra_index</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">times</span></em>, <em class="sig-param"><span class="n">t1</span></em>, <em class="sig-param"><span class="n">t2</span></em>, <em class="sig-param"><span class="n">n</span></em><span class="sig-paren">)</span><a class="headerlink" href="#paw_structure.tra.tra_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Indices of snapshots closest to equally spaced times in a given interval.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>times</strong> (<em>ndarray</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a><em>]</em>) – simulation times</p></li>
+<li><p><strong>t1</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – beginning of interval</p></li>
+<li><p><strong>t2</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – end of interval</p></li>
+<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – number of wanted snapshots</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>index of the selected snapshots</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="paw_structure.tra.tra_load">
+<code class="sig-prename descclassname">paw_structure.tra.</code><code class="sig-name descname">tra_load</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">root</span></em><span class="sig-paren">)</span><a class="headerlink" href="#paw_structure.tra.tra_load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load information previously saved by <a class="reference internal" href="#paw_structure.tra.tra_save" title="paw_structure.tra.tra_save"><code class="xref py py-func docutils literal notranslate"><span class="pre">tra_save()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>root</strong> (<em>root</em>) – root name of file</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>snapshots loaded from file</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list[<a class="reference internal" href="#paw_structure.tra.Snap" title="paw_structure.tra.Snap"><code class="xref py py-class docutils literal notranslate"><span class="pre">Snap</span></code></a>]</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Reading is line sensitive. Do not alter the output file before loading.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="paw_structure.tra.tra_number_atoms">
+<code class="sig-prename descclassname">paw_structure.tra.</code><code class="sig-name descname">tra_number_atoms</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">snapshots</span></em><span class="sig-paren">)</span><a class="headerlink" href="#paw_structure.tra.tra_number_atoms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get atom number, time and iteration from multiple snapshots.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>snapshots</strong> (list[<a class="reference internal" href="#paw_structure.tra.Snap" title="paw_structure.tra.Snap"><code class="xref py py-class docutils literal notranslate"><span class="pre">Snap</span></code></a>]) – snapshots the atomic information</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p>tuple containing:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>list[int]: number of atoms in each snapshot</p></li>
+<li><p>list[float]: time in simulation of the snapshots</p></li>
+<li><p>list[int]: iteration in simulation of the snapshots</p></li>
+</ul>
+</div></blockquote>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)">tuple</a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="paw_structure.tra.tra_read">
+<code class="sig-prename descclassname">paw_structure.tra.</code><code class="sig-name descname">tra_read</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">root</span></em>, <em class="sig-param"><span class="n">t1</span></em>, <em class="sig-param"><span class="n">t2</span></em>, <em class="sig-param"><span class="n">n</span></em><span class="sig-paren">)</span><a class="headerlink" href="#paw_structure.tra.tra_read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the trajectory file and extract relevant information for selected snapshots.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>root</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – root name of the trajectory file</p></li>
+<li><p><strong>t1</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – beginning of interval</p></li>
+<li><p><strong>t2</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – end of interval</p></li>
+<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – number of wanted snapshots</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>snapshots extracted from the trajectory file</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list[<a class="reference internal" href="#paw_structure.tra.Snap" title="paw_structure.tra.Snap"><code class="xref py py-class docutils literal notranslate"><span class="pre">Snap</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="paw_structure.tra.tra_save">
+<code class="sig-prename descclassname">paw_structure.tra.</code><code class="sig-name descname">tra_save</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">root</span></em>, <em class="sig-param"><span class="n">snapshots</span></em><span class="sig-paren">)</span><a class="headerlink" href="#paw_structure.tra.tra_save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save information of selected snapshots to file “.snap”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>root</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – root name for file</p></li>
+<li><p><strong>snapshots</strong> (list[<a class="reference internal" href="#paw_structure.tra.Snap" title="paw_structure.tra.Snap"><code class="xref py py-class docutils literal notranslate"><span class="pre">Snap</span></code></a>]) – snapshots to be saved</p></li>
+</ul>
+</dd>
+</dl>
+<p>XXX REFERENCE TO FILE DESCRIPTION .snap XXX</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Not suitable for dynamic / changing unit cells.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="paw_structure.tra.tra_strc_read">
+<code class="sig-prename descclassname">paw_structure.tra.</code><code class="sig-name descname">tra_strc_read</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">root</span></em><span class="sig-paren">)</span><a class="headerlink" href="#paw_structure.tra.tra_strc_read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read “.strc_out” file to obtain atom identifiers.</p>
+<p>Necessary to correctly identify atomic positions extracted from the trajectory file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>root</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – root name of the file</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>contains information ‘name’, ‘id’, ‘index’ of all the atoms</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="paw_structure.water.html" class="btn btn-neutral float-right" title="paw_structure.water" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="paw_structure.ion.html" class="btn btn-neutral float-left" title="paw_structure.ion" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Lukas Rump
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
