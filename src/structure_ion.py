@@ -22,6 +22,14 @@ Dependencies:
 .. autosummary::
 
     main
+
+.. figure:: ../Images/ion_scheme.png
+    :width: 400
+    :align: center
+    :alt: Ion complex detection scheme.
+    :figclass: align-center
+
+    Ion complex detection scheme.
 """
 import sys
 import numpy as np

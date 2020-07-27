@@ -20,14 +20,17 @@ Dependencies:
       scntl_read_tra
       scntl_read_water
       scntl_text
+
+Todo:
+    Remove forces line structure.
+    If parameter is initialized with **None**, check that first and then compare keywords.
 """
 
 import os
 # MODULES WITHIN PROJECT
 from . import utility
 
-# TODO: remove forced line structure (flatten text and search for keywords)
-# TODO: if initialized with None, check for that first, then casefold()
+
 ########################################################################################################################
 # OBTAIN TEXT AND BRACKET INDICES (GIVEN BY !KEY ... !END)
 # WARNING: METHOD IS LINE SENSITIVE, EACH ARGUMENT MUST HAVE ITS OWN LINE
@@ -54,12 +57,10 @@ def scntl_text(root, ext='.scntl'):
         list[list[str]]: text from the control file; each line is a list of words within the outer list
         dict: dictionary with control blocks and their position within the text
 
-    Note:
+    Todo:
         Remove forced line structure (flatten text and search for key words).
-
         Implement variable extension.
     """
-    # TODO: working directory was wrong on the laptop
     path = root + ext
     # open file
     try:
@@ -292,10 +293,9 @@ def scntl_read_radial(text, idx):
         dict: dictionary containing all information obtained from the control block
 
 
-    Note:
+    Todo:
         Implement name identification for central atoms.
     """
-    # TODO: read names for center atoms
     text = text[idx[0] + 1:idx[1]]
     radial_dict = {
         'ID1': None,
@@ -373,7 +373,7 @@ def scntl_read(root):
     Returns:
         dict[dict]: dictionary of all dictionaries obtained from all the control blocks
 
-    Note:
+    Todo:
         Error checking with !TRA and !RADIAL does not work properly.
     """
     scntl_dict = {}
@@ -412,7 +412,7 @@ def scntl_read(root):
     # ensure existence of !TRA except only !RADIAL is given with LOAD or its own data extraction active
     #TODO: error checking does not work properly
     if '!TRA' not in scntl_dict.keys():
-        if not (set(['GENERAL', '!RADIAL']) == set(scntl_dict.keys()) and scntl_dict['!RADIAL']['LOAD']):
+        if not (set(['GENERAL', '!RADIAL']) == set(scntl_dict.keys())):
             if not scntl_dict['!RADIAL']['TRA_EXTRACT']:
                 utility.err('scntl_read', 1, [root], info="IF ONLY !RADIAL IS USED, PROVIDE T1 T2 N")
     return scntl_dict

@@ -30,6 +30,14 @@ Dependencies:
 .. autosummary::
 
     main
+
+.. figure:: ../Images/water_scheme.png
+    :width: 300
+    :align: center
+    :alt: Ein kleiner Test
+    :figclass: align-center
+
+    The caption of water complex scheme.
 """
 import matplotlib
 import matplotlib.pyplot as plt
@@ -60,6 +68,9 @@ from . import water
 # <root>.water_ion  ADDS ATOMS FROM ION COMPLEX AND WATER COMPLEX TOGETHER
 ########################################################################################################################
 def main():
+    """
+    Entry point for :mod:`.structure_water`.
+    """
     print("ANALYSIS OF WATER COMPLEX IN PROGRESS")
     args = utility.structure_water_input()
     root = utility.argcheck([sys.argv[0], args.water], '.water')

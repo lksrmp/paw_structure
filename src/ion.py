@@ -41,7 +41,6 @@ from .tra import Snap
 # INPUT
 # class Snap snap   snapshot containing all information
 # str id1           identifier for atom used as center (e.g. 'MN'); only one allowed to be in snap
-# TODO: change id1 to name to avoid error when two atoms with id1 are present
 # str id2           identifier for atoms as possible first neighbors (e.g. 'O_')
 # str id3           identifier for atoms as possible neighbors of first neighbors (e.g. 'H_')
 # float cut1        cutoff distance for first neighbor search
@@ -57,16 +56,16 @@ def ion_single(snap, id1, id2, id3, cut1, cut2):
     Args:
         snap (:class:`.Snap`): single snapshot containing the atomic information
         id1 (str): identifier for atom used as center (e.g. 'MN')
-        id2 (str): identifier for atoms as possible first neighbors (e.g. 'O_')
-        id3 (str): identifier for atoms as possible neighbors of first neighbors (e.g. 'H_')
+        id2 (str): identifier for atoms as possible first neighbors (e.g. 'O\_')
+        id3 (str): identifier for atoms as possible neighbors of first neighbors (e.g. 'H\_')
         cut1 (float): cutoff distance for first neighbor search
         cut2 (float): cutoff distance for second neighbor search
 
     Returns:
         :class:`.Snap`: snapshot containing an ion complex
 
-    Note:
-        Implement possibility for more atoms or allow selection by name.
+    Todo:
+        Implement possibility for more atoms of type id1 or allow selection by name.
     """
     # check if only one atom is selected as ion
     if len(snap.atoms[snap.atoms['id'] == id1]) != 1:
@@ -107,7 +106,7 @@ def ion_single(snap, id1, id2, id3, cut1, cut2):
 ########################################################################################################################
 def ion_save(root, snapshots, id1, id2, id3, cut1, cut2, ext='.ion'):
     """
-    Save results to file.
+    Save results to file :ref:`Output_ion`.
 
     XXX REFERENCE TO EXPLANATION OF .ion FILE FORMAT XXX
 
@@ -115,11 +114,14 @@ def ion_save(root, snapshots, id1, id2, id3, cut1, cut2, ext='.ion'):
         root (str): root name for saving file
         snapshots (list[:class:`.Snap`]): list of snapshots containing an ion complex
         id1 (str): identifier for atom used as center (e.g. 'MN')
-        id2 (str): identifier for atoms as possible first neighbors (e.g. 'O_')
-        id3 (str): identifier for atoms as possible neighbors of first neighbors (e.g. 'H_')
+        id2 (str): identifier for atoms as possible first neighbors (e.g. 'O\_')
+        id3 (str): identifier for atoms as possible neighbors of first neighbors (e.g. 'H\_')
         cut1 (float): cutoff distance for first neighbor search
         cut2 (float): cutoff distance for second neighbor search
         ext (str, optional): default ".ion" - extension for the saved file: name = root + ext
+
+    Todo:
+        Check if snapshots is empty.
     """
     # open file
     path = root + ext
@@ -153,7 +155,6 @@ def ion_save(root, snapshots, id1, id2, id3, cut1, cut2, ext='.ion'):
 ########################################################################################################################
 # LOAD INFORMATION PREVIOUSLY SAVED BY ion_save()
 # WARNING: READING IS LINE SENSITIVE! ONLY USE ON UNCHANGED FILES WRITTEN BY ion_save()
-# TODO: remove line sensitivity
 ########################################################################################################################
 # INPUT
 # str root                      root name for the file to be loaded
@@ -175,6 +176,9 @@ def ion_load(root, ext='.ion'):
 
     Note:
         Reading is line sensitive. Do not alter the output file before loading.
+
+    Todo:
+        Remove line sensitivity.
     """
     path = root + ext
     try:
@@ -255,8 +259,8 @@ def ion_find_parallel(root, snapshots, id1, id2, id3, cut1, cut2):
         root (str): root name of the files
         snapshots (list[:class:`.Snap`]): list of snapshots containing the atomic information
         id1 (str): identifier for atom used as center (e.g. 'MN')
-        id2 (str): identifier for atoms as possible first neighbors (e.g. 'O_')
-        id3 (str): identifier for atoms as possible neighbors of first neighbors (e.g. 'H_')
+        id2 (str): identifier for atoms as possible first neighbors (e.g. 'O\_')
+        id3 (str): identifier for atoms as possible neighbors of first neighbors (e.g. 'H\_')
         cut1 (float): cutoff distance for first neighbor search
         cut2 (float): cutoff distance for second neighbor search
 

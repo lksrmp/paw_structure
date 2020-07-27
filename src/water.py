@@ -38,7 +38,6 @@ from . import utility
 
 ########################################################################################################################
 # FIND UNUSUAL WATER COMPLEXES FOR ONE SNAPSHOT
-# TODO: find single hydrogen atoms which are not near an oxygen atom?
 ########################################################################################################################
 # INPUT
 # class Snap snap   snapshot containing all information
@@ -55,15 +54,15 @@ def water_single(snap, id1, id2, cut):
 
     Args:
         snap (:class:`.Snap`): single snapshot containing the atomic information
-        id1 (str): identifier for atom used as center (e.g. 'O_')
-        id2 (str): identifier for atoms as possible neighbors (e.g. 'H_')
+        id1 (str): identifier for atom used as center (e.g. 'O\_')
+        id2 (str): identifier for atoms as possible neighbors (e.g. 'H\_')
         cut (float): cutoff distance for neighbor search
 
     Returns:
         :class:`.Snap`: snapshot containing water complexes
 
-    Note:
-        Refine detection criteria.
+    Todo:
+        Refine detection criteria. Find single hydrogen atoms which are not near oxygen?
     """
     if id1 == id2:
         utility.err('water_single', 0, [id1, id2])
@@ -110,15 +109,15 @@ def water_single(snap, id1, id2, cut):
 ########################################################################################################################
 def water_save(root, snapshots, id1, id2, cut, ext='.water'):
     """
-    Save results to file.
+    Save results to file :ref:`Output_water`.
 
     XXX REFERENCE TO EXPLANATION OF .water FILE FORMAT XXX
 
     Args:
         root (str): root name for saving file
         snapshots (list[:class:`.Snap`]): list of snapshots containing the water complexes
-        id1 (str): identifier for atom used as center (e.g. 'O_')
-        id2 (str): identifier for atoms as possible neighbors (e.g. 'H_')
+        id1 (str): identifier for atom used as center (e.g. 'O\_')
+        id2 (str): identifier for atoms as possible neighbors (e.g. 'H\_')
         cut (float): cutoff distance for neighbor search
         ext (str, optional): default ".water" - extension for the saved file: name = root + ext
     """
@@ -174,6 +173,9 @@ def water_load(root, ext='.water'):
 
     Note:
         Reading is line sensitive. Do not alter the output file before loading.
+
+    Todo:
+        Remove line sensitivity.
     """
     # open file
     path = root + ext
@@ -255,8 +257,8 @@ def water_find_parallel(root, snapshots, id1, id2, cut=1.4):
     Args:
         root (str): root name of the files
         snapshots (list[:class:`.Snap`]): list of snapshots containing the atomic information
-        id1 (str): identifier for atom used as center (e.g. 'O_')
-        id2 (str): identifier for atoms as possible neighbors (e.g. 'H_')
+        id1 (str): identifier for atom used as center (e.g. 'O\_')
+        id2 (str): identifier for atoms as possible neighbors (e.g. 'H\_')
         cut (float): cutoff distance for neighbor search
 
     Returns:
