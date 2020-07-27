@@ -1,3 +1,5 @@
+.. _Documentation:
+
 Documentation
 =============
 
@@ -8,6 +10,7 @@ Here is the documentation of the program.
 
    ./Modules/paw_structure.structure_fast
    ./Modules/paw_structure.structure_ion
+   ./Modules/paw_structure.structure_water
    ./Modules/paw_structure.structure_radial
    ./Modules/paw_structure.utility
    ./Modules/paw_structure.pbc

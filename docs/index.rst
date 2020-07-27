@@ -6,7 +6,10 @@ paw_structure Documentation
    
    Introduction
    Installation
+   Usage
+   Control
    Documentation
+   Output
 
    
 
