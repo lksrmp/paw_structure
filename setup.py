@@ -11,7 +11,7 @@ import os
 #TODO: write MANIFEST.in for including documentation
 
 
-__version__ = '1.0.0'
+__version__ = '1.0.1'
 
 here = pathlib.Path(__file__).parent.resolve()
 
@@ -135,13 +135,15 @@ setup(
     ext_modules=ext_modules,
     setup_requires=['pybind11>=2.5.0'],
     install_requires=['pybind11>=2.5.0',
-                      'numpy',
+                      'numpy>=1.17.0',
                       'miniutils',
                       'pandas',
                       'matplotlib',
                       'argparse',
                       'scipy',
-                      'Sphinx',],
+                      'Sphinx',
+                      'sphinx_rtd_theme',
+                      'autodocsumm',],
     cmdclass={'build_ext': BuildExt},
     zip_safe=False,
     entry_points={
