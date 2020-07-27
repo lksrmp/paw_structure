@@ -11,6 +11,7 @@ Dependencies:
 .. autosummary::
 
       Snap
+      tra_clean
       tra_detect_change
       tra_extract
       tra_index
@@ -143,6 +144,9 @@ def tra_index(times, t1, t2, n):
 
     Returns:
         list[int]: index of the selected snapshots
+
+    Todo:
+        Check behaviour for when selected snapshots are really close to each other.
     """
     times = np.asarray(times)  # times is array of actual simulation times
     # catch wrong input
@@ -156,10 +160,28 @@ def tra_index(times, t1, t2, n):
         utility.err('tra_index', 2, [t1, t2, times[0], times[-1]])
     snapshot = np.linspace(t1, t2, n)  # equi-distant array of snapshot times
     # index of simulation step closest to snapshot times
-    idx = [(np.abs(times - snap)).argmin() for snap in snapshot]
-    # catching double selection
+    counter = 0
+    idx = []
+    for i in range(1, len(times)):
+        if (times[i] - snapshot[counter]) > 0:
+            if np.abs(times[i-1] - snapshot[counter]) < (times[i] - snapshot[counter]):
+                idx.append(i - 1)
+                counter += 1
+                if counter == len(snapshot):
+                    break
+            else:
+                idx.append(i)
+                counter += 1
+                if counter == len(snapshot):
+                    break
     if len(idx) > len(set(idx)):
         utility.err('tra_index', 3, [n, idx[-1] - idx[0]])
+
+    # inefficient version
+    # idx = [(np.abs(times - snap)).argmin() for snap in snapshot]
+    # catching double selection
+    # if len(idx) > len(set(idx)):
+    #     utility.err('tra_index', 3, [n, idx[-1] - idx[0]])
     return idx
 
 
@@ -188,7 +210,7 @@ def tra_extract(root, n_atoms):
 
     The units are transformed into ps (time) and Angstrom (distance) at this step.
 
-    Note:
+    Todo:
         Unit cell reading not clear if correct or transpose (not relevant for simple cubic).
     """
     path = root + '_r.tra'
@@ -212,6 +234,51 @@ def tra_extract(root, n_atoms):
     data['cell'] = data['cell'] * angstrom  # convert unit cell into Angstrom
     data['pos'] = data['pos'] * angstrom # convert atomic positions into Angstrom
     return data
+
+
+def tra_clean(data):
+    """
+    Remove doubled simulation time intervals coming from the trajectory file.
+
+    Args:
+        data (ndarray): data structure output from :func:`.tra_extract`
+
+    Returns:
+        ndarray: data structure without doubled simulation times
+
+    Occasions where the iteration changes by a value smaller 1 (also negative) are detected. The interval previous to
+    that point which appears a second time later on is deleted. This procedure is recursive such that the latest
+    simulations interval is kept.
+
+    .. figure:: ../Images/tra_clean.png
+        :width: 400
+        :align: center
+        :alt: tra_clean illustration
+        :figclass: align-center
+
+        Removing doubled simulation times.
+
+    Note:
+        Positive jumps as in skipping iterations steps are not accounted for.
+
+    Todo:
+        Test for more than one jump and convoluted jumps.
+    """
+    # detect negative iteration jumps
+    shift = np.diff(data['iter'])
+    # find position in array
+    jumps = np.where(shift < 1)
+    # if no jumps are found, return
+    if len(jumps[0]) == 0:
+        return data
+    # if some are found
+    else:
+        # find position of double before the jump to determine the interval to be deleted
+        overlap = np.where(data['iter'][:jumps[0][0]] == data['iter'][jumps[0][0] + 1])
+        print("NEGATIVE ITERATION JUMP IN DATA DETECTED\nFROM %d TO %d\nREMOVING OVERLAP"
+              % (data['iter'][jumps[0][0]], data['iter'][jumps[0][0] + 1]))
+        # recursively go through all jumps present
+        return tra_clean(np.delete(data, np.s_[overlap[0][0]:jumps[0][0] + 1], 0))
 
 
 ########################################################################################################################
@@ -239,15 +306,18 @@ def tra_read(root, t1, t2, n):
     Returns:
         list[:class:`.Snap`]: snapshots extracted from the trajectory file
     """
+    print("READING TRAJECTORY FILE")
     atoms = tra_strc_read(root)  # get atom identifiers
     n_atoms = len(atoms['index'].values)  # get number of atoms
     data = tra_extract(root, n_atoms)  # read trajectory file
+    data = tra_clean(data)  # removed doubled time intervals
     select = tra_index(data['time'], t1, t2, n)  # select snapshots for analysis
     data = data[select]
     snapshots = []
     # initialize Snap data structure for each snapshot
     for i in range(len(data['time'])):
         snapshots.append(Snap(data['iter'][i], data['time'][i], data['cell'][i], data['pos'][i], atoms))
+    print("FINISHED READING TRAJECTORY FILE")
     return snapshots
 
 
@@ -261,7 +331,7 @@ def tra_read(root, t1, t2, n):
 # TODO: losing information about unit cell size for each time step (only constant unit cell works)
 def tra_save(root, snapshots):
     """
-    Save information of selected snapshots to file ".snap".
+    Save information of selected snapshots to file :ref:`Output_snap`.
 
     Args:
         root (str): root name for file
@@ -271,6 +341,9 @@ def tra_save(root, snapshots):
 
     Note:
         Not suitable for dynamic / changing unit cells.
+
+    Todo:
+        Implement variable unit cell.
     """
     # open file
     path = root + '.snap'
@@ -288,7 +361,7 @@ def tra_save(root, snapshots):
     np.savetxt(f, snapshots[0].cell, fmt="%14.8f")
     # write information for different time steps
     for snap in snapshots:
-        f.write("-" * 72 + "\n")
+        f.write("-" * 84 + "\n")
         # time and iteration of snapshot
         f.write("%-14s%-14.8f%-14s%-14d\n" % ("TIME", snap.time, "ITERATION", snap.iter))
         # atomic information
@@ -320,6 +393,9 @@ def tra_load(root):
 
     Note:
         Reading is line sensitive. Do not alter the output file before loading.
+
+    Todo:
+        Remove line sensitivity.
     """
     path = root + '.snap'
     try:
