@@ -93,10 +93,10 @@ def radial_single(snap, id1, id2, cut, names=None):
 
     Args:
         snap (:class:`.Snap`): single snapshot containing the atomic information
-        id1 (str): identifier for atoms used as center (e.g. 'MN', 'O_')
-        id2 (str): identifier for atoms as possible neighbors (e.g. 'O_', 'H_')
+        id1 (str): identifier for atoms used as center (e.g. 'MN', 'O\_')
+        id2 (str): identifier for atoms as possible neighbors (e.g. 'O\_', 'H\_')
         cut (float): cutoff distance for radial calculation
-        names (list[str], optional): names of atoms to use as centers (e.g. 'O_43', 'H_23')
+        names (list[str], optional): names of atoms to use as centers (e.g. 'O\_43', 'H\_23')
 
     Returns:
         list[float]: list of distances found which are smaller than :data:`cut`
@@ -129,10 +129,10 @@ def radial_single_c(snap, id1, id2, cut, names=None):
 
     Args:
         snap (:class:`.Snap`): single snapshot containing the atomic information
-        id1 (str): identifier for atoms used as center (e.g. 'MN', 'O_')
-        id2 (str): identifier for atoms as possible neighbors (e.g. 'O_', 'H_')
+        id1 (str): identifier for atoms used as center (e.g. 'MN', 'O\_')
+        id2 (str): identifier for atoms as possible neighbors (e.g. 'O\_', 'H\_')
         cut (float): cutoff distance for radial calculation
-        names (list[str], optional): names of atoms to use as centers (e.g. 'O_43', 'H_23')
+        names (list[str], optional): names of atoms to use as centers (e.g. 'O\_43', 'H\_23')
 
     Returns:
         list[float]: list of distances found which are smaller than :data:`cut`
@@ -158,7 +158,6 @@ def radial_single_c(snap, id1, id2, cut, names=None):
 ########################################################################################################################
 # ROUTINE TO CALCULATE RADIAL DISTRIBUTION FUNCTION
 # WARNING: USAGE OF names IS NOT IMPLEMENTED YET
-# TODO: implement usage of names
 ########################################################################################################################
 # INPUT
 # list class Snap snapshots     list with all information about atoms
@@ -177,16 +176,13 @@ def radial_calculate(snapshots, id1, id2, cut, nbins, names=None):
     """
     Calculate the radial distribution function (rdf) including multiple snapshots.
 
-    Note:
-        Use of :data:`names` is not implemented yet in the control file.
-
     Args:
         snapshots (list[:class:`.Snap`]): list of snapshots containing the atomic information
-        id1 (str): identifier for atoms used as centers (e.g. 'MN', 'O_')
-        id2 (str): identifier for atoms as possible neighbors (e.g. 'O_', 'H_')
+        id1 (str): identifier for atoms used as centers (e.g. 'MN', 'O\_')
+        id2 (str): identifier for atoms as possible neighbors (e.g. 'O\_', 'H\_')
         cut (float): cutoff distance for radial calculation
         nbins (int): number of radius intervals; influences resolutions together with :data:`cut`
-        names (list[str], optional): names of atoms to use as centers (e.g. 'O_43', 'H_23')
+        names (list[str], optional): NOT IN USE; names of atoms to use as centers (e.g. 'O\_43', 'H\_23')
 
     Returns:
         (tuple): tuple containing:
@@ -195,6 +191,10 @@ def radial_calculate(snapshots, id1, id2, cut, nbins, names=None):
             - ndarray[float]: value of rdf corresponding to these radii
             - ndarray[float]: value of coordination number corresponding to these radii
             - float: average atom density of type :data:`id2`
+
+    Todo:
+        Implement usage of :data:`names`.
+        Make single snapshot possible.
     """
     print("RDF CALCULATION IN PROGRESS")
 
@@ -282,8 +282,8 @@ def radial_plot(radius, rdf, integration=None):
         rdf (ndarray[float]): value of rdf corresponding to these radii
         integration (ndarray[float], optional): coordination number for different radii
 
-    Note:
-        Implement better display of plot. Spawn subprocess to let the core program finish.
+    Todo:
+        Implement better display of plot. Spawn subprocess to let the core program finish?
     """
     matplotlib.rcParams.update({'font.size': 14})
     plt.figure()
@@ -314,7 +314,7 @@ def radial_plot(radius, rdf, integration=None):
 ########################################################################################################################
 def radial_save(root, radius, rdf, coord, snapshots, id1, id2, cut, nbins, rho, ext='.radial'):
     """
-    Save results to file.
+    Save results to file :ref:`Output_radial`.
 
     XXX REFERENCE TO EXPLANATION OF .radial FILE FORMAT
 
@@ -324,8 +324,8 @@ def radial_save(root, radius, rdf, coord, snapshots, id1, id2, cut, nbins, rho, 
         rdf (ndarray[float]): value of rdf corresponding to these radii
         coord (ndarray[float]): coordination number obtained from integration of rdf
         snapshots (list[:class:`.Snap`]): list of snapshots containing the water complexes
-        id1 (str): identifier for atoms used as centers (e.g. 'MN', 'O_')
-        id2 (str): identifier for atoms as possible neighbors (e.g. 'O_', 'H_')
+        id1 (str): identifier for atoms used as centers (e.g. 'MN', 'O\_')
+        id2 (str): identifier for atoms as possible neighbors (e.g. 'O\_', 'H\_')
         cut (float): cutoff distance for radial calculation
         nbins (int): number of radius intervals; influences resolutions together with :data:`cut`
         rho (float): average atom density of type :data:`id2`

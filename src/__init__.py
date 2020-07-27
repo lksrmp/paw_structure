@@ -9,7 +9,9 @@ from . import utility
 from . import water
 
 from . import hbonds_c
+from . import radial_c
 
 from . import structure_fast
 from . import structure_ion
 from . import structure_water
+from . import structure_radial
