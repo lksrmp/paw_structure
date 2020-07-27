@@ -61,7 +61,6 @@ def main():
     """
     Entry point for :mod:`.structure_fast`.
     """
-    print(sys.argv)
     # check argument passed
     scntl_root = utility.argcheck(sys.argv, '.scntl')
 
@@ -83,7 +82,8 @@ def main():
 
         # check if atoms project into unit cell
         if scntl['GENERAL']['PBC_FOLDING']:
-            pbc.pbc_folding(snapshots)
+            # pbc.pbc_folding(snapshots)  non-parallel version
+            snapshots = pbc.pbc_folding_parallel(snapshots)
 
         # check for saving <root>.snap
         if scntl['!TRA']['SAVE']:
@@ -112,7 +112,8 @@ def main():
             snapshots_r = tra.tra_read(root, scntl['!RADIAL']['T1'], scntl['!RADIAL']['T2'], scntl['!RADIAL']['N'])
             # check if atoms project into unit cell
             if scntl['GENERAL']['PBC_FOLDING']:
-                pbc.pbc_folding(snapshots_r)
+                # pbc.pbc_folding(snapshots_r) non-parallel version
+                snapshots_r = pbc.pbc_folding_parallel(snapshots_r)
         else:
             snapshots_r = snapshots
         radius, rdf, coord, rho = radial.radial_calculate(snapshots_r, scntl['!RADIAL']['ID1'], scntl['!RADIAL']['ID2'],
