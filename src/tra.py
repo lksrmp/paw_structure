@@ -315,6 +315,7 @@ def tra_read(root, t1, t2, n):
     data = data[select]
     snapshots = []
     # initialize Snap data structure for each snapshot
+    print("INITIALIZING DATA STRUCTURES")
     for i in range(len(data['time'])):
         snapshots.append(Snap(data['iter'][i], data['time'][i], data['cell'][i], data['pos'][i], atoms))
     print("FINISHED READING TRAJECTORY FILE")
