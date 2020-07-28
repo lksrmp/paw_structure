@@ -15,3 +15,10 @@ from . import structure_fast
 from . import structure_ion
 from . import structure_water
 from . import structure_radial
+
+from ._info import __name__
+from ._info import __version__
+from ._info import __author__
+from ._info import __email__
+from ._info import __url__
+

@@ -7,11 +7,32 @@ import setuptools
 import pathlib
 import os
 
+import re
+
+
+
 #TODO: adapt file
 #TODO: write MANIFEST.in for including documentation
 
 
-__version__ = '1.0.1'
+# __version__ = '1.0.1'
+
+def info_search(flag, text, file):
+    flag_re = r"^__" + flag + "__ = ['\"]([^'\"]*)['\"]"
+    flag_mo = re.search(flag_re, text, re.M)
+    if flag_mo:
+        return flag_mo.group(1)
+    else:
+        raise RuntimeError("Unable to find $s string in %s." % (flag, file,))
+
+info_file = "src/_info.py"
+infostrline = open(info_file, "rt").read()
+__name__ = info_search("name", infostrline, info_file)
+__version__ = info_search("version", infostrline, info_file)
+__author__ = info_search("author", infostrline, info_file)
+__email__ = info_search("email", infostrline, info_file)
+__url__ = info_search("url", infostrline, info_file)
+
 
 here = pathlib.Path(__file__).parent.resolve()
 
@@ -123,11 +144,11 @@ class BuildExt(build_ext):
 
 
 setup(
-    name='paw_structure',
+    name=__name__, # 'paw_structure',
     version=__version__,
-    author='Lukas Rump',
-    author_email='lukas.rump@stud.uni-goettingen.de',
-    url='https://github.com/lksrmp/paw_structure',
+    author=__author__, #'Lukas Rump',
+    author_email=__email__, # 'lukas.rump@stud.uni-goettingen.de',
+    url=__url__, # 'https://github.com/lksrmp/paw_structure',
     description='CP-PAW structure analysis',
     long_description='Structural analysis of trajectory output by CP-PAW code with focus on water and ion in water analysis.',
     package_dir={'paw_structure': 'src'},
