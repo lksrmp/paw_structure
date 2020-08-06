@@ -9,7 +9,7 @@ Data extraction from trajectory file.
 
         paw_structure_fast filename
 
-    :data:`filename` is the name of the structure control file XXX REFERENCE XXX
+    :data:`filename` is the name of the :ref:`control file ".scntl" <Control>`.
 
 Dependencies:
     :py:mod:`sys`

@@ -9,7 +9,7 @@ Plotting of radial distribution function.
 
         paw_structure_radial [-i; --integrate] filename
 
-    :data:`filename` is the name of the radial distribution function file XXX REFERENCE XXX
+    :data:`filename` is the name of the radial distribution function file :ref:`Output_radial`.
 
     :data:`-i` is a flag to include the coordination number obtained from integration
 

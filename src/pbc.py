@@ -48,7 +48,7 @@ def pbc_folding(snapshots):
     The origin is at (0,0,0).
 
     Note:
-        Currently not in use, replaced by :func:.`pbc_folding_parallel`.
+        Currently not in use, replaced by :func:`.pbc_folding_parallel`.
         Only works for cubic unit cells.
         Directly operates and alters the atomic positions.
 

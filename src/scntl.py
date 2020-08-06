@@ -22,7 +22,7 @@ Dependencies:
       scntl_text
 
 Todo:
-    Remove forces line structure.
+    Remove forced line structure.
     If parameter is initialized with **None**, check that first and then compare keywords.
 """
 
@@ -45,9 +45,7 @@ from . import utility
 ########################################################################################################################
 def scntl_text(root, ext='.scntl'):
     """
-    Read text from :data:`root`.scntl file and identify different control blocks.
-
-    XXX REFERENCE TO CONTROL FILE STRUCTURE XXX
+    Read text from :ref:`control file ".scntl" <Control>` file and identify different :ref:`control blocks <Control_General>`.
 
     Args:
         root (str): root name for the control file
@@ -120,7 +118,7 @@ def scntl_text(root, ext='.scntl'):
 
 def scntl_read_tra(text, idx):
     """
-    Interpret the control block for :mod:`.tra`.
+    Interpret the control block :ref:`Control_TRA` for :mod:`.tra`.
 
     Args:
         text (list[list[str]]): text from the control file; each line is a list of words within the outer list
@@ -142,13 +140,17 @@ def scntl_read_tra(text, idx):
             if line[0].casefold() in [x.casefold() for x in list(tra_dict.keys())]:
                 tra_dict[line[0].upper()] = line[1]
     # check for save of snapshots
-    if tra_dict['SAVE'].casefold() == 'true':
-        tra_dict['SAVE'] = True
-    else:
+    if tra_dict['SAVE'] is None:
         tra_dict['SAVE'] = False
+    else:
+        if tra_dict['SAVE'].casefold() == 'true':
+            tra_dict['SAVE'] = True
+        else:
+            tra_dict['SAVE'] = False
     # check for load of snapshots, overwrites arguments T1, T2, N
-    if tra_dict['LOAD'].casefold() == 'true':
-        tra_dict['LOAD'] = True
+    if tra_dict['LOAD'] is not None:
+        if tra_dict['LOAD'].casefold() == 'true':
+            tra_dict['LOAD'] = True
     else:
         tra_dict['LOAD'] = False
         # check for necessary arguments if snapshots are not loaded
@@ -162,7 +164,7 @@ def scntl_read_tra(text, idx):
 
 def scntl_read_ion(text, idx):
     """
-    Interpret the control block for :mod:`.ion`.
+    Interpret the control block :ref:`Control_ION` for :mod:`.ion`.
 
     Args:
         text (list[list[str]]): text from the control file; each line is a list of words within the outer list
@@ -198,7 +200,7 @@ def scntl_read_ion(text, idx):
 
 def scntl_read_water(text, idx):
     """
-    Interpret the control block for :mod:`.water`.
+    Interpret the control block :ref:`Control_WATER` for :mod:`.water`.
 
     Args:
         text (list[list[str]]): text from the control file; each line is a list of words within the outer list
@@ -228,7 +230,7 @@ def scntl_read_water(text, idx):
 
 def scntl_read_hbonds(text, idx):
     """
-    Interpret the control block for :mod:`.hbonds`.
+    Interpret the control block :ref:`Control_HBONDS` for :mod:`.hbonds`.
 
     Args:
         text (list[list[str]]): text from the control file; each line is a list of words within the outer list
@@ -283,7 +285,7 @@ def scntl_read_hbonds(text, idx):
 
 def scntl_read_radial(text, idx):
     """
-    Interpret the control block for :mod:`.radial`.
+    Interpret the control block :ref:`Control_RADIAL` for :mod:`.radial`.
 
     Args:
         text (list[list[str]]): text from the control file; each line is a list of words within the outer list
@@ -335,7 +337,7 @@ def scntl_read_radial(text, idx):
 
 def scntl_read_scntl(text, idx, delete):
     """
-    Interpret the control block for general information.
+    Interpret the control block :ref:`Control_SCNTL` >for general information.
 
     Args:
         text (list[list[str]]): text from the control file; each line is a list of words within the outer list
@@ -354,8 +356,11 @@ def scntl_read_scntl(text, idx, delete):
         if len(line) > 1:
             if line[0].casefold() in [x.casefold() for x in list(control_dict.keys())]:
                 control_dict[line[0].upper()] = line[1]
-    if control_dict['PBC_FOLDING'].casefold() == 'true':
-        control_dict['PBC_FOLDING'] = True
+    if control_dict['PBC_FOLDING'] is not None:
+        if control_dict['PBC_FOLDING'].casefold() == 'true':
+            control_dict['PBC_FOLDING'] = True
+        else:
+            control_dict['PBC_FOLDING'] = False
     else:
         control_dict['PBC_FOLDING'] = False
     if control_dict['ROOT'] is None:
@@ -365,7 +370,7 @@ def scntl_read_scntl(text, idx, delete):
 
 def scntl_read(root):
     """
-    Read and interpret the control file <root>.scntl.
+    Read and interpret the :ref:`control file ".scntl" <Control>`.
 
     Args:
         root (str): root name for the control file

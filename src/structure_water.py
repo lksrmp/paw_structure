@@ -9,9 +9,9 @@ Analysis of water complexes output created by :mod:`.structure_fast`.
 
         paw_structure_water [-i ion_file] water_file
 
-    :data:`water_file` is the name of the water complexes file XXX REFERENCE XXX
+    :data:`water_file` is the name of the water complexes file :ref:`Output_water`.
 
-    :data:`-i` is a flag to include a ion complex file XXX REFERENCE XXX :data:`ion_file` into the analysis
+    :data:`-i` is a flag to include a ion complex file :ref:`Output_ion` into the analysis
 
 The search for unusual water complexes executed by :mod:`.structure_fast` is not aware of a potential ion and can therefore
 detect parts of an ion complex. A corresponding ion complex file can be include such that these parts can be excluded or

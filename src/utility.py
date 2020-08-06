@@ -247,7 +247,7 @@ def structure_ion_input():
 
 def structure_water_input():
     """
-    Get console input for :mod:`.structure_ion`.
+    Get console input for :mod:`.structure_water`.
 
     Returns:
         :py:mod:`argparse` object

@@ -9,7 +9,7 @@ Analysis of ion complex output created by :mod:`.structure_fast`.
 
         paw_structure_ion filename
 
-    :data:`filename` is the name of the ion complex file XXX REFERENCE XXX
+    :data:`filename` is the name of the ion complex file :ref:`Output_ion`.
 
 Dependencies:
     :py:mod:`matplotlib`
