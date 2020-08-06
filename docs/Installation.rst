@@ -21,6 +21,8 @@ Dependencies and packages needed for the program are also installed or updated. 
 
     import paw_structure
     
+It can be used as a normal Python package and all the internal functions mentioned in the :ref:`Documentation` are accessible.
+    
 **Executables** are installed for easy access from the command line::
 
     paw_structure_fast

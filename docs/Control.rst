@@ -95,14 +95,14 @@ Trajectory extraction control block
         :Rules: mandatory
 
     SAVE
-        save snapshots to ".snap" file XXX REFERENCE XXX
+        save snapshots to :ref:`Output_snap` file
         
         :Type: logical 
         :Rules: optional, activate with TRUE
         :Default: FALSE
         
     LOAD
-        load snapshots from ".snap" file XXX REFERENCE XXX; disables selection of **T1**, **T2** and **N**
+        load snapshots from :ref:`Output_snap` file; disables selection of **T1**, **T2** and **N**
         
         :Type: logical 
         :Rules: optional, activate with TRUE
