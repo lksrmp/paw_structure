@@ -144,7 +144,13 @@ PYBIND11_MODULE(hbonds_c, m){
     m.def("pbc_apply3x3", &pbc_apply3x3);
      */
     m.def("hbonds", &hbonds);
-    m.def("pbc_applay3x3", &pbc_apply3x3);
+    m.def("pbc_apply3x3", &pbc_apply3x3, R"pbdoc(
+            C++ routine in file pbc_c.cpp
+
+            Todo:
+                Test for unit cells other than cubic.
+        )pbdoc"
+    );
 
 #ifdef VERSION_INFO
 m.attr("__version__") = VERSION_INFO;
