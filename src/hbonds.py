@@ -256,7 +256,7 @@ def hbonds_find_parallel(root, snapshots, id1, id2, cut1=3.5, cut2=3.1, args=[2.
     hbonds_c_save(root, time, save_two, snapshots, id1, id2)
     hbonds_c_plot(time, save_two)
     
-    
+    # hydrogen bond network structure (disabled; using counting instead)
     # run hbonds search
     # save = progress.parallel_progbar(multi_one, snapshots)
 
