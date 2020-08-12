@@ -199,7 +199,8 @@ def hbonds_number_wrapper(snap, id1, id2, cut1, cut2, angle):
     atoms1 = atoms1.reshape(len(atoms1) * 3)
     atoms2 = snap.atoms[snap.atoms['id'] == id2]['pos'].values
     atoms2 = atoms2.reshape(len(atoms2) * 3)
-    number = hbonds_c.hbonds(atoms1, atoms2, cut1, cut2, angle, snap.cell[0][0])
+    cell = snap.cell.reshape(9)
+    number = hbonds_c.hbonds(atoms1, atoms2, cut1, cut2, angle, cell)
     return number
 
 

@@ -144,14 +144,16 @@ def radial_single_c(snap, id1, id2, cut, names=None):
         atoms1 = atoms1.reshape(len(atoms1) * 3)
         atoms2 = snap.atoms[snap.atoms['id'] == id2]['pos'].values
         atoms2 = atoms2.reshape(len(atoms2) * 3)
-        dist = radial_c.radial(atoms1, atoms2, cut, snap.cell[0][0])
+        cell = snap.cell.reshape(9)
+        dist = radial_c.radial(atoms1, atoms2, cut, cell)
     else:
         # transform atomic coordinates into necessary shape
         atoms1 = snap.atoms[snap.atoms['name'].isin(names)]['pos'].values
         atoms1 = atoms1.reshape(len(atoms1) * 3)
         atoms2 = snap.atoms[snap.atoms['id'] == id2]['pos'].values
         atoms2 = atoms2.reshape(len(atoms2) * 3)
-        dist = radial_c.radial(atoms1, atoms2, cut, snap.cell[0][0])
+        cell = snap.cell.reshape(9)
+        dist = radial_c.radial(atoms1, atoms2, cut, cell)
     return dist
 
 

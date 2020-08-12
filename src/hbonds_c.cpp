@@ -19,13 +19,13 @@ int hbonds(py::array_t<const double>& array1, py::array_t<const double>& array2,
 
 
 int hbonds_number(const double* array1, int len1, const double* array2, int len2,
-        double cut1, double cut2, double angle, double a){
+        double cut1, double cut2, double angle, const double * cell){
 
     int counter = 0;
     double center[3], neighbor1[3], neighbor2[3];
 
-    double * pbc1 = pbc_apply3x3(array1, len1, a);
-    double * pbc2 = pbc_apply3x3(array2, len2, a);
+    double * pbc1 = pbc_apply3x3(array1, len1, cell);
+    double * pbc2 = pbc_apply3x3(array2, len2, cell);
     double dist11, dist12, dist21, angle121;
     int center_count = 0;
 
@@ -76,20 +76,22 @@ int hbonds_number(const double* array1, int len1, const double* array2, int len2
 }
 
 int hbonds(py::array_t<const double>& array1, py::array_t<const double>& array2,
-        double cut1, double cut2, double angle, double a){
+        double cut1, double cut2, double angle, const double * cell){
     py::buffer_info buf1 = array1.request();
     py::buffer_info buf2 = array2.request();
-    if (buf1.ndim != 1 || buf2.ndim != 1)
+    py::buffer_info buf3 = cell.request();
+    if (buf1.ndim != 1 || buf2.ndim != 1 || buf3.ndim != 1)
     {
         throw std::runtime_error("numpy.ndarray dims must be 1!");
     }
     int number = 0;
     const double* ptr1 = (const double*)buf1.ptr;
     const double* ptr2 = (const double*)buf2.ptr;
+    const double * ptr3 = (const double *)buf3.ptr;
     //for(int i = 0; i < buf1.size / 3; i++){
     //    cout << ptr1[3 * i] << " " << ptr1[3 * i + 1] << " " << ptr1[3 * i + 2] << "\n";
     //}
-    number = hbonds_number(ptr1, buf1.size / 3, ptr2, buf2.size / 3, cut1, cut2, angle, a);
+    number = hbonds_number(ptr1, buf1.size / 3, ptr2, buf2.size / 3, cut1, cut2, angle, ptr3);
     return number;
 }
 
