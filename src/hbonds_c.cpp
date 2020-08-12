@@ -12,9 +12,9 @@ namespace py = pybind11;
 
 // void pbc_apply3x3(const double * pos, int len, double * pbc, double a);
 int hbonds_number(const double* array1, int len1, const double* array2, int len2,
-        double cut1, double cut2, double angle, double a);
+        double cut1, double cut2, double angle, const double * cell);
 int hbonds(py::array_t<const double>& array1, py::array_t<const double>& array2,
-        double cut1, double cut2, double angle, double a);
+        double cut1, double cut2, double angle, py::array_t<const double>& a);
 
 
 
@@ -76,7 +76,7 @@ int hbonds_number(const double* array1, int len1, const double* array2, int len2
 }
 
 int hbonds(py::array_t<const double>& array1, py::array_t<const double>& array2,
-        double cut1, double cut2, double angle, const double * cell){
+        double cut1, double cut2, double angle, py::array_t<const double>& cell){
     py::buffer_info buf1 = array1.request();
     py::buffer_info buf2 = array2.request();
     py::buffer_info buf3 = cell.request();
@@ -119,9 +119,9 @@ PYBIND11_MODULE(hbonds_c, m){
                 cut1 (float): maximum oxygen - oxygen distance
                 cut2 (float): maximum oxygen - hydrogen distance
                 angle (float): minimum angle criterion
-                a (float): unit cell length
+                a (array): unit cell
         )pbdoc", py::arg("array1"), py::arg("len1"), py::arg("array2"), py::arg("len2"),
-        py::arg("cut1"), py::arg("cut2"), py::arg("angle"), py::arg("a")
+        py::arg("cut1"), py::arg("cut2"), py::arg("angle"), py::arg("cell")
     );
 
       //, "A function which adds two numbers", py::arg("array1"), py::arg("len1"), py::arg("array2"),
@@ -144,6 +144,7 @@ PYBIND11_MODULE(hbonds_c, m){
     m.def("pbc_apply3x3", &pbc_apply3x3);
      */
     m.def("hbonds", &hbonds);
+    m.def("pbc_applay3x3", &pbc_apply3x3);
 
 #ifdef VERSION_INFO
 m.attr("__version__") = VERSION_INFO;

@@ -10,8 +10,8 @@
 using namespace std;
 namespace py = pybind11;
 
-py::array_t<double> radial(py::array_t<double> array1, py::array_t<double> array2, double cut, double a);
-vector<double> * radial_calculate(const double * array1, int len1, const double * array2, int len2, double cut, double a);
+py::array_t<double> radial(py::array_t<double> array1, py::array_t<double> array2, double cut, py::array_t<double> cell);
+vector<double> * radial_calculate(const double * array1, int len1, const double * array2, int len2, double cut, const double * cell);
 
 
 
@@ -21,8 +21,8 @@ py::array_t<double> radial(py::array_t<double> array1, py::array_t<double> array
         throw runtime_error("Number of dimensions must be 1.");
     const double * ptr1 = (const double *)buf1.ptr;
     const double * ptr2 = (const double *)buf2.ptr;
-    const double * ptr3 = (const double *)buf3.ptr
-    vector<double> * distances = radial_calculate(ptr1, buf1.size / 3, ptr2, buf2.size/3, cut, cell);
+    const double * ptr3 = (const double *)buf3.ptr;
+    vector<double> * distances = radial_calculate(ptr1, buf1.size / 3, ptr2, buf2.size/3, cut, ptr3);
     py::array_t<double> dist = py::cast(distances);
     distances->clear();
     return dist;
