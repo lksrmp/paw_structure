@@ -275,7 +275,7 @@ def radial_integrate(radius, rdf, rho):
 # ndarray float rdf             radial distribution function corresponding to radii
 # ndarray float integration     coordination number for different radii
 ########################################################################################################################
-def radial_plot(radius, rdf, integration=None):
+def radial_plot(root, radius, rdf, integration=None, show=False):
     """
     Plot the radial distribution function (rdf) and the coordination number integration if selected.
 
@@ -283,6 +283,7 @@ def radial_plot(radius, rdf, integration=None):
         radius (ndarray[float]): radii used for rdf calculation
         rdf (ndarray[float]): value of rdf corresponding to these radii
         integration (ndarray[float], optional): coordination number for different radii
+        show (bool, optional): default False; show interactive plot
 
     Todo:
         Implement better display of plot. Spawn subprocess to let the core program finish?
@@ -295,7 +296,10 @@ def radial_plot(radius, rdf, integration=None):
     plt.grid()
     plt.xlabel("r [A]")
     plt.ylabel("g(r)")
-    plt.show()
+    plt.ylim([0.0, np.max(rdf)])
+    plt.savefig(root + "_radial.png")
+    if show:
+        plt.show()
     return
 
 
@@ -378,7 +382,7 @@ def radial_load(root, ext='.radial'):
         ext (str, optional): default ".radial" - extension for the file to be loaded: name = root + ext
 
     Returns:
-        (tuple): touple containing:
+        (tuple): tuple containing:
 
             - ndarray(float): 2D array containing radii, values of rdf and coordination number
             - float: average atom density of type :data:`id2`

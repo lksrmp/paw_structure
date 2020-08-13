@@ -194,24 +194,27 @@ def hbonds_find_wrapper(snap, id1, id2, cut1, cut2, args):
 
 
 # C++
-def hbonds_number_wrapper(snap, id1, id2, cut1, cut2, angle):
+def hbonds_c_wrapper(snap, id1, id2, cut1, cut2, angle):
     atoms1 = snap.atoms[snap.atoms['id'] == id1]['pos'].values
     atoms1 = atoms1.reshape(len(atoms1) * 3)
     atoms2 = snap.atoms[snap.atoms['id'] == id2]['pos'].values
     atoms2 = atoms2.reshape(len(atoms2) * 3)
     cell = snap.cell.reshape(9)
-    number = hbonds_c.hbonds(atoms1, atoms2, cut1, cut2, angle, cel)
+    number = hbonds_c.hbonds(atoms1, atoms2, cut1, cut2, angle, cell)
     return number
 
 
-def hbonds_c_plot(time, n_hbonds):
+def hbonds_c_plot(root, time, n_hbonds, show=False):
     matplotlib.rcParams.update({'font.size': 14})
     plt.figure()
     plt.scatter(time, n_hbonds, s=1)
     plt.grid()
     plt.xlabel("time [ps]")
     plt.ylabel("HB / molecule")
-    plt.show()
+    plt.ylim([0.0, 4.0])
+    plt.savefig(root + "_hbonds.png")
+    if show:
+        plt.show()
     return
 
 
@@ -238,7 +241,31 @@ def hbonds_c_save(root, time, n_hbonds, snapshots, id1, id2, ext='.hbonds_c'):
     return
 
 
+def hbonds_c_load(root, ext='.hbonds_c'):
+    """
+    Load information previously saved by :func:`.hbonds_c_save`.
 
+    Args:
+        root (str): root name for the file to be loaded
+        ext (str, optional): default ".hbonds_c" - extension for the file to be loaded: name = root + ext
+
+    Returns:
+        ndarray: 2D array containing time and number of hydrogen bonds per molecule
+    """
+    path = root + ext
+    try:
+        f = open(path, 'r')
+    except IOError:
+        utility.err_file('hbonds_c_load', path)
+    text = f.readlines()
+    for i in range(len(text)):
+        text[i] = text[i].split()
+    for i in range(len(text)):
+        if len(text[i]) > 1:
+            if text[i] == ['TIME', 'HB', '/', 'MOLECULE']:
+                data = np.array(text[i+1:], dtype=float)
+                break
+    return data
 
 
 # MAIN ROUTINE
@@ -250,12 +277,12 @@ def hbonds_find_parallel(root, snapshots, id1, id2, cut1=3.5, cut2=3.1, args=[2.
     # multi_one = partial(hbonds_find_wrapper, id1=id1, id2=id2, cut1=cut1, cut2=cut2, args=args)
 
     # hydrogen bonds number search C++
-    multi_two = partial(hbonds_number_wrapper, id1=id1, id2=id2, cut1=cut1, cut2=cut2, angle=140.0)
+    multi_two = partial(hbonds_c_wrapper, id1=id1, id2=id2, cut1=cut1, cut2=cut2, angle=140.0)
     save_two = progress.parallel_progbar(multi_two, snapshots)
     save_two = np.array(save_two) / len(snapshots[0].atoms[snapshots[0].atoms['id'] == id1])
     time = np.array([snap.time for snap in snapshots])
     hbonds_c_save(root, time, save_two, snapshots, id1, id2)
-    hbonds_c_plot(time, save_two)
+    # hbonds_c_plot(time, save_two)
     
     # hydrogen bond network structure (disabled; using counting instead)
     # run hbonds search

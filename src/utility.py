@@ -13,6 +13,8 @@ Dependencies:
     argcheck
     err
     err_file
+    structure_fast_input
+    structure_hbonds_input
     structure_ion_input
     structure_radial_input
     structure_water_input
@@ -231,6 +233,33 @@ def argcheck(argv, extension):
     return argv[1][:-len(extension)]
 
 
+def structure_fast_input():
+    """
+    Get console input for :mod:`.structure_fast`.
+
+    Returns:
+        :py:mod:`argparse` object
+    """
+    parser = argparse.ArgumentParser()
+    parser.add_argument("scntl", type=str, help="give path of control file '.scntl'")
+    args = parser.parse_args()
+    return args
+
+
+def structure_hbonds_input():
+    """
+    Get console input for :mod:`.structure_hbonds`.
+
+    Returns:
+        :py:mod:`argparse` object
+    """
+    parser = argparse.ArgumentParser()
+    parser.add_argument("hbonds", type=str, help="give path of hydrogen bond network file\nproduced by structure_fast.py")
+    parser.add_argument("-p", "--plot", action="store_true", help="show graph of hydrogen bond number")
+    args = parser.parse_args()
+    return args
+
+
 def structure_ion_input():
     """
     Get console input for :mod:`.structure_ion`.
@@ -271,5 +300,6 @@ def structure_radial_input():
     parser = argparse.ArgumentParser()
     parser.add_argument("radial", type=str, help="give path of radial data file\nproduced by structure_fast.py")
     parser.add_argument("-i", "--integrate", action="store_true", help="obtain coordination number from integration")
+    parser.add_argument("-p", "--plot", action="store_true", help="show graph of radial distribution function")
     args = parser.parse_args()
     return args

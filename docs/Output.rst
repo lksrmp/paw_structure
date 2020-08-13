@@ -103,3 +103,12 @@ Lines were replaced by "..." for better visibility of the structure.
 
 "_water.png"
 ------------
+
+.. _Output_radial_png:
+
+"_radial.png"
+
+.. _Output_hbonds_png:
+
+"_hbonds.png"
+-------------
