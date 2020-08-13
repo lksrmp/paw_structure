@@ -1,6 +1,6 @@
 # SOURCE: https://github.com/pybind/python_example (6.07.2020)
 
-from setuptools import setup, Extension, find_packages
+from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext
 import sys
 import setuptools
@@ -157,14 +157,14 @@ setup(
     setup_requires=['pybind11>=2.5.0'],
     install_requires=['pybind11>=2.5.0',
                       'numpy>=1.17.0',
-                      'miniutils',
-                      'pandas',
-                      'matplotlib',
+                      'miniutils>=1.0.1',
+                      'pandas>=1.0.3',
+                      'matplotlib>=3.1.1',
                       'argparse',
-                      'scipy',
-                      'Sphinx',
-                      'sphinx_rtd_theme',
-                      'autodocsumm',],
+                      'scipy>=0.19.1',
+                      'Sphinx>=3.1.2',
+                      'sphinx_rtd_theme>=0.5.0',
+                      'autodocsumm>=0.1.13',],
     cmdclass={'build_ext': BuildExt},
     zip_safe=False,
     entry_points={
