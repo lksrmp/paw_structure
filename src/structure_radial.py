@@ -54,6 +54,6 @@ def main():
     # load data
     data, rho = radial.radial_load(root)
     if args.integrate:
-        radial.radial_plot(data[:, 0], data[:, 1], integration=data[:, 2])
+        radial.radial_plot(root, data[:, 0], data[:, 1], integration=data[:, 2], show=args.plot)
     else:
-        radial.radial_plot(data[:, 0], data[:, 1])
+        radial.radial_plot(root, data[:, 0], data[:, 1], show=args.plot)

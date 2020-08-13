@@ -40,7 +40,8 @@ from . import utility
 from . import water
 
 
-
+import io
+from contextlib import redirect_stdout
 
 
 ########################################################################################################################
@@ -61,8 +62,9 @@ def main():
     """
     Entry point for :mod:`.structure_fast`.
     """
+    args = utility.structure_fast_input()
     # check argument passed
-    scntl_root = utility.argcheck(sys.argv, '.scntl')
+    scntl_root = utility.argcheck([sys.argv[0], args.scntl], '.scntl')
 
     # read control file
     scntl = scntl_read(scntl_root)
@@ -91,19 +93,19 @@ def main():
 
     # check for ION COMPLEX ANALYSIS
     if '!ION' in scntl.keys():
-        ion_complex = ion.ion_find_parallel(root, snapshots, scntl['!ION']['ID1'], scntl['!ION']['ID2'],
+        ion.ion_find_parallel(root, snapshots, scntl['!ION']['ID1'], scntl['!ION']['ID2'],
                                             scntl['!ION']['ID3'], scntl['!ION']['CUT1'], scntl['!ION']['CUT2'])
 
     # check for WATER COMPLEX ANALYSIS
     if '!WATER' in scntl.keys():
-        water_complex = water.water_find_parallel(root, snapshots, scntl['!WATER']['ID1'], scntl['!WATER']['ID2'],
+        water.water_find_parallel(root, snapshots, scntl['!WATER']['ID1'], scntl['!WATER']['ID2'],
                                                   cut=scntl['!WATER']['CUT'])
 
     # check for HYDROGEN BONDS ANALYSIS
     if '!HBONDS' in scntl.keys():
         args = [scntl['!HBONDS']['OO_MIN'], scntl['!HBONDS']['OO_MAX'], scntl['!HBONDS']['G_FACTOR'],
                 scntl['!HBONDS']['THRESHOLD']]
-        h_bonds = hbonds.hbonds_find_parallel(root, snapshots, scntl['!HBONDS']['ID1'], scntl['!HBONDS']['ID2'],
+        hbonds.hbonds_find_parallel(root, snapshots, scntl['!HBONDS']['ID1'], scntl['!HBONDS']['ID2'],
                                               cut1=scntl['!HBONDS']['CUT1'], cut2=scntl['!HBONDS']['CUT2'], args=args)
 
     # check for RADIAL DISTRIBUTION FUNCTION ANALYSIS
