@@ -147,9 +147,17 @@ def scntl_read_tra(text, idx):
             tra_dict['SAVE'] = True
         else:
             tra_dict['SAVE'] = False
+
+
+
     # check for load of snapshots, overwrites arguments T1, T2, N
     if tra_dict['LOAD'] is None:
         tra_dict['LOAD'] = False
+        if tra_dict['T1'] is None or tra_dict['T2'] is None or tra_dict['N'] is None:
+            utility.err('scntl_read', 0, ['!TRA'], info="T1 T2 N")
+        tra_dict['T1'] = float(tra_dict['T1'])
+        tra_dict['T2'] = float(tra_dict['T2'])
+        tra_dict['N'] = int(tra_dict['N'])
     else:
         if tra_dict['LOAD'].casefold() == 'true':
             tra_dict['LOAD'] = True
