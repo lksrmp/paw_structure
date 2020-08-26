@@ -13,7 +13,6 @@ from . import hbonds_c
 
 # EVALUATE FIRST FUNCTION FOR HB CRITERION
 def f_eval(dist_oo, oo_min, oo_max):
-    # Halllo
     if dist_oo < oo_min:
         return 1
     elif dist_oo > oo_max:
