@@ -195,20 +195,6 @@ def hbonds_find_wrapper(snap, id1, id2, cut1, cut2, args):
 
 # C++
 def hbonds_c_wrapper(snap, id1, id2, cut1, cut2, angle):
-    """
-    Ein kleiner Test.
-
-    Args:
-        snap:
-        id1:
-        id2:
-        cut1:
-        cut2:
-        angle:
-
-    Returns:
-
-    """
     atoms1 = snap.atoms[snap.atoms['id'] == id1]['pos'].values
     atoms1 = atoms1.reshape(len(atoms1) * 3)
     atoms2 = snap.atoms[snap.atoms['id'] == id2]['pos'].values
