@@ -301,5 +301,6 @@ def structure_radial_input():
     parser.add_argument("radial", type=str, help="give path of radial data file\nproduced by structure_fast.py")
     parser.add_argument("-i", "--integrate", action="store_true", help="obtain coordination number from integration")
     parser.add_argument("-p", "--plot", action="store_true", help="show graph of radial distribution function")
+    parser.add_argument("-fwhm", "--fwhm", action="store_true", help="peak analysis")
     args = parser.parse_args()
     return args
