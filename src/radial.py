@@ -298,7 +298,7 @@ def radial_plot(root, radius, rdf, integration=None, show=False, peak=False):
         plt.plot(radius, integration)
     if peak:
         step = radius[1] - radius[0]
-        peaks, fwhm = radial_peak(rdf)
+        peaks, fwhm = radial_peak(radius, rdf)
         plt.plot(radius[peaks], rdf[peaks], 'x')
         plt.hlines(fwhm[1], fwhm[2] * step, fwhm[3] * step)
     plt.grid()
@@ -311,12 +311,13 @@ def radial_plot(root, radius, rdf, integration=None, show=False, peak=False):
     return
 
 
-def radial_peak(rdf):
+def radial_peak(radius, rdf):
     """
     Find peaks in radial distribution function.
 
     Args:
-        rdf (ndarray[float]): value of rdf
+        radius (ndarray[float]): radii used for rdf calculation
+        rdf (ndarray[float]): value of rdf corresponding to these radii
 
     Returns:
         (tuple): tuple containing:
@@ -327,8 +328,14 @@ def radial_peak(rdf):
             - ndarray[float]: interpolated positions of left and right intersection points of a horizontal line at the respective evaluation height
 
     """
+    print("PEAK DETECTION RADIAL DISTRIBUTION FUNCTION")
+    print("%12s%12s%12s%12s" % ("POSITION", "HEIGHT", "FWHM", "CENTER"))
     peaks, _ = signal.find_peaks(rdf, distance=20, prominence=1.0)
     results = signal.peak_widths(rdf, peaks, rel_height=0.5)
+    step = radius[1] - radius[0]
+    for i in range(len(peaks)):
+        print("%12f%12f%12f%12f" % (radius[peaks[i]], rdf[peaks[i]], results[0][i] * step,
+                                    results[2][i] * step + results[0][i] / 2.0 * step))
     return peaks, results
 
 
