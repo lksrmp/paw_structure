@@ -3,13 +3,7 @@ paw_structure.structure_hbonds
 ------------------------------
 Plotting of hydrogen bond number per molecule as function of time.
 
-**Usage in command line:**
-
-    ::
-
-        paw_structure_hbonds filename
-
-    :data:`filename` is the name of the hydrogen bond file :ref:`Output_hbonds_c`.
+For usage in command line see :ref:`Usage_paw_structure_hbonds`.
 
 Dependencies:
 
