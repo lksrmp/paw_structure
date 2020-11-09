@@ -110,7 +110,7 @@ def main():
     atoms, times, iterations = tra.tra_number_atoms(snapshots)
     # plotting
     matplotlib.rcParams.update({'font.size': 12})
-    plt.figure(dpi=300.0)
+    plt.figure()
     plt.plot(times, atoms, label='complex')
     plt.plot(times, atoms, 'ro', markersize=1)
     ticks = [np.min(atoms), np.max(atoms)]
@@ -125,11 +125,15 @@ def main():
     plt.xlabel('time [ps]')
     plt.ylabel('number of atoms')
     plt.title('WATER COMPLEX')
+    if args.xlim:
+        plt.xlim(args.xlim)
+    if args.ylim:
+        plt.ylim(args.ylim)
     plt.grid()
     plt.legend()
     fig_name = root + '_water.png'
     # save plot
-    plt.savefig(fig_name)
+    plt.savefig(fig_name, dpi=300.0)
     print('SAVING OF %s SUCCESSFUL' % fig_name)
     if args.plot:
         plt.show()

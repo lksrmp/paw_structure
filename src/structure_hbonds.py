@@ -28,4 +28,4 @@ def main():
     args = utility.structure_hbonds_input()
     root = utility.argcheck([sys.argv[0], args.hbonds], '.hbonds_c')
     data = hbonds.hbonds_c_load(root)
-    hbonds.hbonds_c_plot(root, data[:, 0], data[:, 1], show=args.plot)
+    hbonds.hbonds_c_plot(root, data[:, 0], data[:, 1], args)

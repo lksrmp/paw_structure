@@ -67,7 +67,7 @@ def main():
         print("WRITING OF %s SUCCESSFUL" % (root + '.ion_out'))
     # plot atom number as function of time
     matplotlib.rcParams.update({'font.size': 14})
-    plt.figure(dpi=300.0)
+    plt.figure()
     plt.plot(times, atoms)
     plt.plot(times, atoms, 'ro', markersize=1)
     ticks = range(np.min(atoms) - 1, np.max(atoms) + 2)
@@ -76,8 +76,12 @@ def main():
     plt.ylabel('number of atoms')
     plt.title('ION COMPLEX')
     plt.grid()
+    if args.xlim:
+        plt.xlim(args.xlim)
+    if args.ylim:
+        plt.ylim(args.ylim)
     fig_name = root + '_ion.png'
-    plt.savefig(fig_name)
+    plt.savefig(fig_name, dpi=300.0)
     print('SAVING OF %s SUCCESSFUL' % fig_name)
     if args.plot:
         plt.show()

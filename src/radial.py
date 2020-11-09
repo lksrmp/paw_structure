@@ -277,26 +277,25 @@ def radial_integrate(radius, rdf, rho):
 # ndarray float rdf             radial distribution function corresponding to radii
 # ndarray float integration     coordination number for different radii
 ########################################################################################################################
-def radial_plot(root, radius, rdf, integration=None, show=False, peak=False):
+def radial_plot(root, radius, rdf, args, integration=None):  # , show=False, peak=False):
     """
     Plot the radial distribution function (rdf) and the coordination number integration if selected.
 
     Args:
         radius (ndarray[float]): radii used for rdf calculation
         rdf (ndarray[float]): value of rdf corresponding to these radii
+        args (:py:mod:`argparse` object): command line arguments
         integration (ndarray[float], optional): coordination number for different radii
-        show (bool, optional): default False; show interactive plot
-        peak (bool, optional): default False; perform peak analysis
 
     Todo:
         Implement better display of plot. Spawn subprocess to let the core program finish?
     """
     matplotlib.rcParams.update({'font.size': 14})
-    plt.figure(dpi=300.0)
+    plt.figure()
     plt.plot(radius, rdf)
     if integration is not None:
         plt.plot(radius, integration)
-    if peak:
+    if args.fwhm:
         step = radius[1] - radius[0]
         peaks, fwhm = radial_peak(radius, rdf)
         plt.plot(radius[peaks], rdf[peaks], 'x')
@@ -304,9 +303,14 @@ def radial_plot(root, radius, rdf, integration=None, show=False, peak=False):
     plt.grid()
     plt.xlabel("r [A]")
     plt.ylabel("g(r)")
-    plt.ylim([0.0, np.max(rdf)])
-    plt.savefig(root + "_radial.png")
-    if show:
+    if args.xlim:
+        plt.xlim(args.xlim)
+    if args.ylim:
+        plt.ylim(args.ylim)
+    else:
+        plt.ylim([0.0, np.max(rdf)])
+    plt.savefig(root + "_radial.png", dpi=300.0)
+    if args.plot:
         plt.show()
     return
 
