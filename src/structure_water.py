@@ -110,7 +110,7 @@ def main():
     atoms, times, iterations = tra.tra_number_atoms(snapshots)
     # plotting
     matplotlib.rcParams.update({'font.size': 12})
-    plt.figure()
+    plt.figure(dpi=300.0)
     plt.plot(times, atoms, label='complex')
     plt.plot(times, atoms, 'ro', markersize=1)
     ticks = [np.min(atoms), np.max(atoms)]

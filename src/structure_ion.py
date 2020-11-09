@@ -67,7 +67,7 @@ def main():
         print("WRITING OF %s SUCCESSFUL" % (root + '.ion_out'))
     # plot atom number as function of time
     matplotlib.rcParams.update({'font.size': 14})
-    plt.figure()
+    plt.figure(dpi=300.0)
     plt.plot(times, atoms)
     plt.plot(times, atoms, 'ro', markersize=1)
     ticks = range(np.min(atoms) - 1, np.max(atoms) + 2)

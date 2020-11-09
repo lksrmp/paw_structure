@@ -206,7 +206,7 @@ def hbonds_c_wrapper(snap, id1, id2, cut1, cut2, angle):
 
 def hbonds_c_plot(root, time, n_hbonds, show=False):
     matplotlib.rcParams.update({'font.size': 14})
-    plt.figure()
+    plt.figure(dpi=300.0)
     plt.scatter(time, n_hbonds, s=1)
     plt.grid()
     plt.xlabel("time [ps]")

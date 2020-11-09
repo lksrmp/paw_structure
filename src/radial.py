@@ -292,7 +292,7 @@ def radial_plot(root, radius, rdf, integration=None, show=False, peak=False):
         Implement better display of plot. Spawn subprocess to let the core program finish?
     """
     matplotlib.rcParams.update({'font.size': 14})
-    plt.figure()
+    plt.figure(dpi=300.0)
     plt.plot(radius, rdf)
     if integration is not None:
         plt.plot(radius, integration)
