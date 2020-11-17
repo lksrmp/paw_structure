@@ -312,3 +312,22 @@ def structure_radial_input():
     parser.add_argument("-y", "--ylim", nargs=2, type=float, help="select range for y axis (ymin, ymax)")
     args = parser.parse_args()
     return args
+
+
+def structure_gap_input():
+    """
+    Get console input for :mod:`.structure_gap`.
+
+    Returns:
+        :py:mod:`argparse` object
+    """
+    parser = argparse.ArgumentParser()
+    parser.add_argument("prot", type=str, help="give path of CP-PAW protocol file")
+    parser.add_argument("-p", "--plot", action="store_true", help="show graph of energies")
+    parser.add_argument("-x", "--xlim", nargs=2, type=float, help="select range for x axis (xmin, xmax)")
+    parser.add_argument("-y1", "--ylim1", nargs=2, type=float,
+                        help="select range for y axis of energy gap (ymin1, ymax1)")
+    parser.add_argument("-y2", "--ylim2", nargs=2, type=float,
+                        help="select range for y axis of HOMO/LUMO energy (ymin2, ymax2)")
+    args = parser.parse_args()
+    return args
