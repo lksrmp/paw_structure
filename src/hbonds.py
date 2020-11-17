@@ -204,16 +204,21 @@ def hbonds_c_wrapper(snap, id1, id2, cut1, cut2, angle):
     return number
 
 
-def hbonds_c_plot(root, time, n_hbonds, show=False):
+def hbonds_c_plot(root, time, n_hbonds, args):
     matplotlib.rcParams.update({'font.size': 14})
     plt.figure()
     plt.scatter(time, n_hbonds, s=1)
     plt.grid()
     plt.xlabel("time [ps]")
     plt.ylabel("HB / molecule")
-    plt.ylim([0.0, 4.0])
-    plt.savefig(root + "_hbonds.png")
-    if show:
+    if args.xlim:
+        plt.xlim(args.xlim)
+    if args.ylim:
+        plt.ylim(args.ylim)
+    else:
+        plt.ylim([0.0, 4.0])
+    plt.savefig(root + "_hbonds.png", dpi=300.0)
+    if args.plot:
         plt.show()
     return
 

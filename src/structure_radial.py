@@ -3,15 +3,7 @@ paw_structure.structure_radial
 ------------------------------
 Plotting of radial distribution function.
 
-**Usage in command line:**
-
-    ::
-
-        paw_structure_radial [-i; --integrate] filename
-
-    :data:`filename` is the name of the radial distribution function file :ref:`Output_radial`.
-
-    :data:`-i` is a flag to include the coordination number obtained from integration
+For usage in command line see :ref:`Usage_paw_structure_radial`.
 
 Dependencies:
     :py:mod:`sys`
@@ -44,7 +36,7 @@ from . import utility
 ########################################################################################################################
 def main():
     """
-    Entry point for :mod:`structure_radial`
+    Entry point for :mod:`.structure_radial`
     """
     print("PLOTTING OF RADIAL DISTRIBUTION FUNCTION")
     # get command line arguments
@@ -54,6 +46,6 @@ def main():
     # load data
     data, rho = radial.radial_load(root)
     if args.integrate:
-        radial.radial_plot(root, data[:, 0], data[:, 1], integration=data[:, 2], show=args.plot)
+        radial.radial_plot(root, data[:, 0], data[:, 1], args, integration=data[:, 2])
     else:
-        radial.radial_plot(root, data[:, 0], data[:, 1], show=args.plot)
+        radial.radial_plot(root, data[:, 0], data[:, 1], args)

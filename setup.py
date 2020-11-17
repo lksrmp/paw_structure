@@ -161,7 +161,7 @@ setup(
                       'pandas>=1.0.3',
                       'matplotlib>=3.1.1',
                       'argparse',
-                      'scipy>=0.19.1',
+                      'scipy>=1.1.0',
                       'Sphinx>=3.1.2',
                       'sphinx_rtd_theme>=0.5.0',
                       'autodocsumm>=0.1.13',],

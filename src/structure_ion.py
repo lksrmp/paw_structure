@@ -3,13 +3,7 @@ paw_structure.structure_ion
 ---------------------------
 Analysis of ion complex output created by :mod:`.structure_fast`.
 
-**Usage in command line:**
-
-    ::
-
-        paw_structure_ion filename
-
-    :data:`filename` is the name of the ion complex file :ref:`Output_ion`.
+For usage in command line see :ref:`Usage_paw_structure_ion`.
 
 Dependencies:
     :py:mod:`matplotlib`
@@ -76,8 +70,12 @@ def main():
     plt.ylabel('number of atoms')
     plt.title('ION COMPLEX')
     plt.grid()
+    if args.xlim:
+        plt.xlim(args.xlim)
+    if args.ylim:
+        plt.ylim(args.ylim)
     fig_name = root + '_ion.png'
-    plt.savefig(fig_name)
+    plt.savefig(fig_name, dpi=300.0)
     print('SAVING OF %s SUCCESSFUL' % fig_name)
     if args.plot:
         plt.show()

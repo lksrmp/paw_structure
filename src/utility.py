@@ -256,6 +256,8 @@ def structure_hbonds_input():
     parser = argparse.ArgumentParser()
     parser.add_argument("hbonds", type=str, help="give path of hydrogen bond network file\nproduced by structure_fast.py")
     parser.add_argument("-p", "--plot", action="store_true", help="show graph of hydrogen bond number")
+    parser.add_argument("-x", "--xlim", nargs=2, type=float, help="select range for x axis (xmin, xmax)")
+    parser.add_argument("-y", "--ylim", nargs=2, type=float, help="select range for y axis (ymin, ymax)")
     args = parser.parse_args()
     return args
 
@@ -270,6 +272,8 @@ def structure_ion_input():
     parser = argparse.ArgumentParser()
     parser.add_argument("ion", type=str, help="give path of ion complex file\nproduced by structure_fast.py")
     parser.add_argument("-p", "--plot", action="store_true", help="show graph of atom number in ion complex")
+    parser.add_argument("-x", "--xlim", nargs=2, type=float, help="select range for x axis (xmin, xmax)")
+    parser.add_argument("-y", "--ylim", nargs=2, type=float, help="select range for y axis (ymin, ymax)")
     args = parser.parse_args()
     return args
 
@@ -286,6 +290,8 @@ def structure_water_input():
     parser.add_argument("-i", "--ion", nargs=1, help="give path of ion complex file\nproduced by structure_fast.py",
                         default=False)
     parser.add_argument("-p", "--plot", action="store_true", help="show graph of atom number in water complex")
+    parser.add_argument("-x", "--xlim", nargs=2, type=float, help="select range for x axis (xmin, xmax)")
+    parser.add_argument("-y", "--ylim", nargs=2, type=float, help="select range for y axis (ymin, ymax)")
     args = parser.parse_args()
     return args
 
@@ -300,6 +306,9 @@ def structure_radial_input():
     parser = argparse.ArgumentParser()
     parser.add_argument("radial", type=str, help="give path of radial data file\nproduced by structure_fast.py")
     parser.add_argument("-i", "--integrate", action="store_true", help="obtain coordination number from integration")
+    parser.add_argument("-fwhm", "--fwhm", action="store_true", help="peak analysis")
     parser.add_argument("-p", "--plot", action="store_true", help="show graph of radial distribution function")
+    parser.add_argument("-x", "--xlim", nargs=2, type=float, help="select range for x axis (xmin, xmax)")
+    parser.add_argument("-y", "--ylim", nargs=2, type=float, help="select range for y axis (ymin, ymax)")
     args = parser.parse_args()
     return args

@@ -20,6 +20,7 @@ Dependencies:
       radial_distance
       radial_integrate
       radial_load
+      radial_peak
       radial_plot
       radial_save
       radial_single
@@ -32,6 +33,7 @@ import miniutils.progress_bar as progress
 import matplotlib.pyplot as plt
 import matplotlib
 import scipy.integrate as si
+import scipy.signal as signal
 
 from . import utility
 from . import pbc
@@ -275,15 +277,15 @@ def radial_integrate(radius, rdf, rho):
 # ndarray float rdf             radial distribution function corresponding to radii
 # ndarray float integration     coordination number for different radii
 ########################################################################################################################
-def radial_plot(root, radius, rdf, integration=None, show=False):
+def radial_plot(root, radius, rdf, args, integration=None):  # , show=False, peak=False):
     """
     Plot the radial distribution function (rdf) and the coordination number integration if selected.
 
     Args:
         radius (ndarray[float]): radii used for rdf calculation
         rdf (ndarray[float]): value of rdf corresponding to these radii
+        args (:py:mod:`argparse` object): command line arguments
         integration (ndarray[float], optional): coordination number for different radii
-        show (bool, optional): default False; show interactive plot
 
     Todo:
         Implement better display of plot. Spawn subprocess to let the core program finish?
@@ -293,14 +295,52 @@ def radial_plot(root, radius, rdf, integration=None, show=False):
     plt.plot(radius, rdf)
     if integration is not None:
         plt.plot(radius, integration)
+    if args.fwhm:
+        step = radius[1] - radius[0]
+        peaks, fwhm = radial_peak(radius, rdf)
+        plt.plot(radius[peaks], rdf[peaks], 'x')
+        plt.hlines(fwhm[1], fwhm[2] * step, fwhm[3] * step)
     plt.grid()
     plt.xlabel("r [A]")
     plt.ylabel("g(r)")
-    plt.ylim([0.0, np.max(rdf)])
-    plt.savefig(root + "_radial.png")
-    if show:
+    if args.xlim:
+        plt.xlim(args.xlim)
+    if args.ylim:
+        plt.ylim(args.ylim)
+    else:
+        plt.ylim([0.0, np.max(rdf)])
+    plt.savefig(root + "_radial.png", dpi=300.0)
+    if args.plot:
         plt.show()
     return
+
+
+def radial_peak(radius, rdf):
+    """
+    Find peaks in radial distribution function.
+
+    Args:
+        radius (ndarray[float]): radii used for rdf calculation
+        rdf (ndarray[float]): value of rdf corresponding to these radii
+
+    Returns:
+        (tuple): tuple containing:
+
+            - ndarray[float]: indices of peaks in rdf that satisfy given conditions
+            - ndarray[float]: widths for each peak in samples
+            - ndarray[float]: height of the contour lines at which the widths where evaluated
+            - ndarray[float]: interpolated positions of left and right intersection points of a horizontal line at the respective evaluation height
+
+    """
+    print("PEAK DETECTION RADIAL DISTRIBUTION FUNCTION")
+    print("%12s%12s%12s%12s" % ("POSITION", "HEIGHT", "FWHM", "CENTER"))
+    peaks, _ = signal.find_peaks(rdf, distance=20, prominence=1.0)
+    results = signal.peak_widths(rdf, peaks, rel_height=0.5)
+    step = radius[1] - radius[0]
+    for i in range(len(peaks)):
+        print("%12f%12f%12f%12f" % (radius[peaks[i]], rdf[peaks[i]], results[0][i] * step,
+                                    results[2][i] * step + results[0][i] / 2.0 * step))
+    return peaks, results
 
 
 ########################################################################################################################
