@@ -1,9 +1,30 @@
-import numpy as np
-from functools import partial
-import miniutils.progress_bar as progress
+"""
+paw_structure.hbonds
+--------------------
+Hydrogen bond detection.
 
+Main routine is :func:`.hbonds_find_parallel`.
+
+Dependencies:
+    :py:mod:`functools`
+    :py:mod:`matplotlib`
+    :py:mod:`miniutils`
+    :py:mod:`numpy`
+    :mod:`.neighbor`
+    :mod:`.utility`
+    :mod:`.tra`
+    :mod:`.hbonds_c`
+
+.. autosummary::
+
+
+XXX REFERENCE TO ALGORITHM EXPLANATION XXX
+"""
+from functools import partial
 import matplotlib
 import matplotlib.pyplot as plt
+import miniutils.progress_bar as progress
+import numpy as np
 
 from . import neighbor
 from . import utility

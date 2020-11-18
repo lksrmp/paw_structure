@@ -344,7 +344,6 @@ def scntl_read_radial(text, idx):
     return radial_dict
 
 
-
 def scntl_read_scntl(text, idx, delete):
     """
     Interpret the control block :ref:`Control_SCNTL` >for general information.

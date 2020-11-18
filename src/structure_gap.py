@@ -6,6 +6,9 @@ Plotting of energy gap and HOMO/LUMO energy as function of time.
 For usage in command line see :ref:`Usage_paw_structure_gap`.
 
 Dependencies:
+    :py:mod:`matplotlib`
+    :py:mod:`sys`
+    :mod:`.utility`
 
 
 .. autosummary::
@@ -70,6 +73,12 @@ def main():
                 lumo.append(float(line.split()[1]))
     f.close()
 
+    # remove first entry as this is often very large and wrong
+    iteration = iteration[1:]
+    gap = gap[1:]
+    homo = homo[1:]
+    lumo = lumo[1:]
+
     matplotlib.rcParams.update({'font.size': 14})
     fig, ax1 = plt.subplots()
     color = 'tab:red'
@@ -90,6 +99,7 @@ def main():
     if args.ylim2:
         ax2.set_ylim(args.ylim2)
     plt.tight_layout()
-    plt.savefig("mn_gap.png", dpi=300.0)
+    name = root + "_gap.png"
+    plt.savefig(name, dpi=300.0)
     if args.plot:
         plt.show()
