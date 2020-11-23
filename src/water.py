@@ -12,7 +12,7 @@ Dependencies:
     :py:mod:`miniutils`
     :py:mod:`numpy`
     :py:mod:`pandas`
-    :mod:`.neighbors`
+    :mod:`.neighbor`
     :mod:`.utility`
     :class:`.Snap`
 
@@ -66,9 +66,9 @@ def water_single(snap, id1, id2, cut):
     """
     if id1 == id2:
         utility.err('water_single', 0, [id1, id2])
-    next = neighbor.neighbor_find_name(snap, id1, id2, cut)
+    next = neighbor.neighbor_name(snap, id1, id2, cut)
     atoms = []
-    # next1 = neighbor.neighbor_find_name(snap, id2, id1, cut)
+    # next1 = neighbor.neighbor_name(snap, id2, id1, cut)
     for i in range(len(next)):
         # TODO: determine criterion for water complex detection
         # if oxygen has more or less than 2 hydrogen neighbors
@@ -110,8 +110,6 @@ def water_single(snap, id1, id2, cut):
 def water_save(root, snapshots, id1, id2, cut, ext='.water'):
     """
     Save results to file :ref:`Output_water`.
-
-    XXX REFERENCE TO EXPLANATION OF .water FILE FORMAT XXX
 
     Args:
         root (str): root name for saving file
@@ -162,7 +160,7 @@ def water_save(root, snapshots, id1, id2, cut, ext='.water'):
 ########################################################################################################################
 def water_load(root, ext='.water'):
     """
-    Load information previously saved by :func:`.water_save`.
+    Load information from the :ref:`Output_water` file previously created by :func:`.water_save`.
 
     Args:
         root (str): root name for the file to be loaded

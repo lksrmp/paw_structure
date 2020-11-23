@@ -351,9 +351,14 @@ def scntl_read_scntl(text, idx, delete):
     Args:
         text (list[list[str]]): text from the control file; each line is a list of words within the outer list
         idx (list[int]): list with two indices marking beginning and end of control block
+        delete (list[list[int]]): contains begin and end of each previously read block to avoid double reading
 
     Returns:
         dict: dictionary containing all information obtained from the control block
+
+    .. Todo::
+
+        Implement better control over different branches and hierarchies.
     """
     idx_set = set(range(idx[0] + 1, idx[1])) - set(delete)
     control_dict = {

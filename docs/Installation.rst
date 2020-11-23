@@ -29,6 +29,8 @@ It can be used as a normal Python package and all the internal functions mention
     paw_structure_ion
     paw_structure_water
     paw_structure_radial
+    paw_structure_hbonds
+    paw_structure_gap
     
 **Documentation** can be build in different ways using::
 

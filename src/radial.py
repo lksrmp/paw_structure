@@ -3,10 +3,16 @@ paw_structure.radial
 --------------------
 Radial distribution function calculation.
 
+Main routine is :func:`.radial_calculate`.
+
+.. _pybind11: https://pybind11.readthedocs.io/en/stable/
+
+Utilizes C++ code connected by pybind11_ in :mod:`.radial_c`.
+
 Dependencies:
     :py:mod:`functools`
     :py:mod:`matplotlib`
-    :py:mod:`miniutils.progress_bar`
+    :py:mod:`miniutils`
     :py:mod:`numpy`
     :py:mod:`pandas`
     :py:mod:`scipy`
@@ -17,13 +23,11 @@ Dependencies:
 .. autosummary::
 
       radial_calculate
-      radial_distance
       radial_integrate
       radial_load
       radial_peak
       radial_plot
       radial_save
-      radial_single
       radial_single_c
 """
 
@@ -127,7 +131,7 @@ def radial_single(snap, id1, id2, cut, names=None):
 
 def radial_single_c(snap, id1, id2, cut, names=None):
     """
-    Binding of C++ routines for distance calculation of a single snapshot.
+    Binding of C++ routines in :mod:`.radial_c` for distance calculation of a single snapshot.
 
     Args:
         snap (:class:`.Snap`): single snapshot containing the atomic information
@@ -286,9 +290,6 @@ def radial_plot(root, radius, rdf, args, integration=None):  # , show=False, pea
         rdf (ndarray[float]): value of rdf corresponding to these radii
         args (:py:mod:`argparse` object): command line arguments
         integration (ndarray[float], optional): coordination number for different radii
-
-    Todo:
-        Implement better display of plot. Spawn subprocess to let the core program finish?
     """
     matplotlib.rcParams.update({'font.size': 14})
     plt.figure()
@@ -318,6 +319,10 @@ def radial_plot(root, radius, rdf, args, integration=None):  # , show=False, pea
 def radial_peak(radius, rdf):
     """
     Find peaks in radial distribution function.
+
+    Uses :py:func:`scipy.signal.find_peaks` with :data:`distance=20` and :data:`prominence=1.0` to find the peaks.
+
+    Uses :py:func:`scipy.signal.peak_width` to obtain :data:`FWHM`.
 
     Args:
         radius (ndarray[float]): radii used for rdf calculation
@@ -361,8 +366,6 @@ def radial_peak(radius, rdf):
 def radial_save(root, radius, rdf, coord, snapshots, id1, id2, cut, nbins, rho, ext='.radial'):
     """
     Save results to file :ref:`Output_radial`.
-
-    XXX REFERENCE TO EXPLANATION OF .radial FILE FORMAT
 
     Args:
         root (str): root name for saving file
@@ -415,7 +418,7 @@ def radial_save(root, radius, rdf, coord, snapshots, id1, id2, cut, nbins, rho, 
 ########################################################################################################################
 def radial_load(root, ext='.radial'):
     """
-    Load information previously saved by :func:`.radial_save`.
+    Load information from the :ref:`Output_radial` file previously created by :func:`.radial_save`.
 
     Args:
         root (str): root name for the file to be loaded

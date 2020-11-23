@@ -135,7 +135,7 @@ The routine is started inside the directory containing the input data with::
     
 **mandatory**  
 
-:radial: path of :ref:`Output_radial` complex file produced by :ref:`Usage_paw_structure_fast`
+:radial: path of :ref:`Output_radial` file produced by :ref:`Usage_paw_structure_fast`
 
 **optional**
 
@@ -170,7 +170,23 @@ Output files are
 
 paw\_structure\_hbonds
 ----------------------
-ADD HBONDS COMMANDS
+Plotting of the average hydrogen bond number per oxygen atom as a function of time. Data is extracted by :ref:`Usage_paw_structure_fast` and is saved in the :ref:`Output_hbonds_c` file.
+
+The routine is started inside the directory containing the input data with::
+
+    paw_structure_hbonds [-p] [-x XMIN XMAX] [-y YMIN YMAX] hbonds
+    
+**mandatory**  
+
+:hbonds: path of :ref:`Output_hbonds_c`  file produced by :ref:`Usage_paw_structure_fast`
+
+**optional**
+
+:-p: show interactive graph of hydrogen bond number
+:-x [XMIN XMAX]: select range for x axis of plot
+:-y [YMIN YMAX]: select range for y axis of plot
+    
+This exectures the module :mod:`.structure_hbonds` internally.
 
 .. _Usage_paw_structure_gap:
 
