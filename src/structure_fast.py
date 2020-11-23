@@ -103,10 +103,11 @@ def main():
 
     # check for HYDROGEN BONDS ANALYSIS
     if '!HBONDS' in scntl.keys():
-        args = [scntl['!HBONDS']['OO_MIN'], scntl['!HBONDS']['OO_MAX'], scntl['!HBONDS']['G_FACTOR'],
-                scntl['!HBONDS']['THRESHOLD']]
+        # USED FOR OLD CRITERION
+        # args = [scntl['!HBONDS']['OO_MIN'], scntl['!HBONDS']['OO_MAX'], scntl['!HBONDS']['G_FACTOR'],
+        #         scntl['!HBONDS']['THRESHOLD']]
         hbonds.hbonds_find_parallel(root, snapshots, scntl['!HBONDS']['ID1'], scntl['!HBONDS']['ID2'],
-                                              cut1=scntl['!HBONDS']['CUT1'], cut2=scntl['!HBONDS']['CUT2'], args=args)
+                                    scntl['!HBONDS']['CUT1'], scntl['!HBONDS']['CUT2'], scntl['!HBONDS']['ANGLE'])
 
     # check for RADIAL DISTRIBUTION FUNCTION ANALYSIS
     if '!RADIAL' in scntl.keys():

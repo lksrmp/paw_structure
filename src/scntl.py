@@ -255,10 +255,12 @@ def scntl_read_hbonds(text, idx):
         'ID2': None,
         'CUT1': None,
         'CUT2': None,
-        'OO_MIN': None,
-        'OO_MAX': None,
-        'G_FACTOR': None,
-        'THRESHOLD': None
+        'ANGLE': None
+        # USED FOR OLD CRITERION
+        # 'OO_MIN': None,
+        # 'OO_MAX': None,
+        # 'G_FACTOR': None,
+        # 'THRESHOLD': None
     }
     for line in text:
         if len(line) > 1:
@@ -271,25 +273,31 @@ def scntl_read_hbonds(text, idx):
     else:
         hbonds_dict['CUT1'] = float(hbonds_dict['CUT1'])
     if hbonds_dict['CUT2'] is None:
-        hbonds_dict['CUT2'] = 2.5
+        hbonds_dict['CUT2'] = 3.1
     else:
         hbonds_dict['CUT2'] = float(hbonds_dict['CUT2'])
-    if hbonds_dict['OO_MIN'] is None:
-        hbonds_dict['OO_MIN'] = 2.75
+    if hbonds_dict['ANGLE'] is None:
+        hbonds_dict['ANGLE'] = 140.0
     else:
-        hbonds_dict['OO_MIN'] = float(hbonds_dict['OO_MIN'])
-    if hbonds_dict['OO_MAX'] is None:
-        hbonds_dict['OO_MAX'] = 3.5
-    else:
-        hbonds_dict['OO_MAX'] = float(hbonds_dict['OO_MAX'])
-    if hbonds_dict['G_FACTOR'] is None:
-        hbonds_dict['G_FACTOR'] = 0.5
-    else:
-        hbonds_dict['G_FACTOR'] = float(hbonds_dict['G_FACTOR'])
-    if hbonds_dict['THRESHOLD'] is None:
-        hbonds_dict['THRESHOLD'] = 0.5
-    else:
-        hbonds_dict['THRESHOLD'] = float(hbonds_dict['THRESHOLD'])
+        hbonds_dict['ANGLE'] = float(hbonds_dict['ANGLE'])
+
+    # USED FOR OLD CRITERION
+    # if hbonds_dict['OO_MIN'] is None:
+    #     hbonds_dict['OO_MIN'] = 2.75
+    # else:
+    #     hbonds_dict['OO_MIN'] = float(hbonds_dict['OO_MIN'])
+    # if hbonds_dict['OO_MAX'] is None:
+    #     hbonds_dict['OO_MAX'] = 3.5
+    # else:
+    #     hbonds_dict['OO_MAX'] = float(hbonds_dict['OO_MAX'])
+    # if hbonds_dict['G_FACTOR'] is None:
+    #     hbonds_dict['G_FACTOR'] = 0.5
+    # else:
+    #     hbonds_dict['G_FACTOR'] = float(hbonds_dict['G_FACTOR'])
+    # if hbonds_dict['THRESHOLD'] is None:
+    #     hbonds_dict['THRESHOLD'] = 0.5
+    # else:
+    #     hbonds_dict['THRESHOLD'] = float(hbonds_dict['THRESHOLD'])
     return hbonds_dict
 
 

@@ -185,7 +185,45 @@ XXX REFERENCE TO ALGORITHM EXPLANATION XXX
 
 !HBONDS
 -------
-hydrogen bonds network block
+Hydrogen bond network control block
+
+XXX REFERENCE TO ALGORITHM EXPLAINATION XXX
+
+:Rules: optional, requires `!TRA`_
+
+.. glossary::
+    ID1
+        identifier for oxygen atoms
+        
+        :Type: str
+        :Rules: mandatory
+        
+    ID2
+        identifier for hydrogen atoms
+        
+        :Type: str
+        :Rules: mandatory
+        
+    CUT1
+        maximum distance between two oxygen atoms
+        
+        :Type: float
+        :Rules: optional
+        :Default: 3.5
+        
+    CUT2
+        maximum distance between an oxygen and a hydrogen atom
+        
+        :Type: float
+        :Rules: optional
+        :Default: 3.1
+        
+    ANGLE
+        minimum O-H-O angle for a hydrogen bond in degree
+        
+        :Type: float
+        :Rules: optional
+        :Default: 140.0
 
 
 .. _Control_RADIAL:

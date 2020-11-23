@@ -15,6 +15,7 @@ from . import structure_fast
 from . import structure_ion
 from . import structure_water
 from . import structure_radial
+from . import structure_hbonds
 from . import structure_gap
 
 from ._info import __name__
