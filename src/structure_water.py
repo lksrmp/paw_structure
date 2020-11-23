@@ -99,26 +99,26 @@ def main():
     # plotting
     matplotlib.rcParams.update({'font.size': 12})
     plt.figure()
-    plt.plot(times, atoms, label='complex')
-    plt.plot(times, atoms, 'ro', markersize=1)
+    plt.plot(times, atoms, color='black')
+    plt.plot(times, atoms, 'ro', markersize=1, label='all complexes')
     ticks = [np.min(atoms), np.max(atoms)]
     if ion_root is not None:
         atoms_ion, times_ion, iterations_ion = tra.tra_number_atoms(snapshots_ion)
         atoms_water = np.array(atoms, dtype=int) - np.array(atoms_ion, dtype=int)
-        plt.plot(times, atoms_water, label='complex without ion')
-        plt.plot(times, atoms_water, 'go', markersize=1)
+        plt.plot(times, atoms_water, color='black')
+        plt.plot(times, atoms_water, 'go', markersize=1, label='water complexes')
         ticks = [np.min([np.min(atoms_water), ticks[0]]), np.max([np.max(atoms_water), ticks[1]])]
+        plt.legend()
     ticks = range(ticks[0], ticks[1], 2)
     plt.yticks(ticks)
     plt.xlabel('time [ps]')
     plt.ylabel('number of atoms')
-    plt.title('WATER COMPLEX')
+    # plt.title('WATER COMPLEX')
     if args.xlim:
         plt.xlim(args.xlim)
     if args.ylim:
         plt.ylim(args.ylim)
     plt.grid()
-    plt.legend()
     fig_name = root + '_water.png'
     # save plot
     plt.savefig(fig_name, dpi=300.0)

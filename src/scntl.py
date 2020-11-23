@@ -126,6 +126,9 @@ def scntl_read_tra(text, idx):
 
     Returns:
         dict: dictionary containing all information obtained from the control block
+
+    Todo:
+        Implement selection of first and last iteration to avoid exact selection.
     """
     text = text[idx[0] + 1:idx[1]]
     tra_dict = {
