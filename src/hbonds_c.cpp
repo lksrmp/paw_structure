@@ -14,7 +14,7 @@ namespace py = pybind11;
 int hbonds_number(const double* array1, int len1, const double* array2, int len2,
         double cut1, double cut2, double angle, const double * cell);
 int hbonds(py::array_t<const double>& array1, py::array_t<const double>& array2,
-        double cut1, double cut2, double angle, py::array_t<const double>& a);
+        double cut1, double cut2, double angle, py::array_t<const double>& cell);
 
 
 
@@ -102,54 +102,142 @@ PYBIND11_MODULE(hbonds_c, m){
 
         .. currentmodule:: paw_structure.hbonds_c
 
+        .. _pybind11: https://pybind11.readthedocs.io/en/stable/
+
+        C++ code which is connected to the program using pybind11_.
+
+        Speed up calculation of the hydrogen bond number which requires fast loop execution.
+
+        .. _Sphinx: https://www.sphinx-doc.org/en/master/
+
+        XXX REFERENCE TO ALGORITHM EXPLAINATION XXX
+
+        Note:
+            Documentation especially for internal C++ routines might be incomplete or show wrong argument types.
+
+            This is because Sphinx_ constructs the documentation from the installed Python module.
+
+
+        Dependencies:
+            :py:mod:`numpy`
+            :py:mod:`pybind11`
+            :mod:`calc_c.cpp`
+            :mod:`pbc_c.cpp`
+
         .. autosummary::
 
-            hbonds_number
+            calc_angle_c
+            calc_dist_vec_c
+            calc_norm_c
             hbonds
+            hbonds_number
+            pbc_apply3x3_c
     )pbdoc"; // optional module docstring
 
     m.def("hbonds_number", &hbonds_number, R"pbdoc(
             Count hydrogen bonds.
 
             Args:
-                array1 (array): contains atomic positions of oxygen atoms
+                array1 (double *): contains atomic positions of oxygen atoms
                 len1 (int): length of first array
-                array2 (array): contains atomic positions of hydrogen atoms
+                array2 (double *): contains atomic positions of hydrogen atoms
                 len2 (int): length of second array
-                cut1 (float): maximum oxygen - oxygen distance
-                cut2 (float): maximum oxygen - hydrogen distance
+                cut1 (double): maximum oxygen - oxygen distance
+                cut2 (double): maximum oxygen - hydrogen distance
                 angle (float): minimum angle criterion
-                a (array): unit cell
+                cell (array): unit cell of the system for periodic boundary conditions
+
+            Returns:
+                int: number of hydrogen bonds found
         )pbdoc", py::arg("array1"), py::arg("len1"), py::arg("array2"), py::arg("len2"),
         py::arg("cut1"), py::arg("cut2"), py::arg("angle"), py::arg("cell")
     );
 
-      //, "A function which adds two numbers", py::arg("array1"), py::arg("len1"), py::arg("array2"),
-    //  py::arg("len2"), py::arg("cut"), py::arg("angle"));
+    m.def("hbonds", &hbonds, R"pbdoc(
+            Count hydrogen bonds.
 
-    /*
-    m.def("calc_dist_vec", &calc_dist_vec);
-    m.def("calc_skalar", &calc_skalar, R"pbdoc(
-        Calculate scalar.
+            Mostly handles connection to Python code. Actual calculation performed in :func:`.hbonds_x.hbonds_number`
 
-        Args:
-            v1 (double *): pointer on 3-dim. vector
-            v2 (double *): pointer on 3-dim. vector
+            Args:
+                array1 (ndarray[float]): contains atomic positions of oxygen atoms
+                array2 (ndarray[float]): contains atomic positions of hydrogen atoms
+                cut1 (float): maximum oxygen - oxygen distance
+                cut2 (float): maximum oxygen - hydrogen distance
+                angle (float): minimum angle criterion
+                cell (ndarray[float]): unit cell of the system for periodic boundary conditions
 
-        Returns:
-            double
-    )pbdoc", py::arg("v1"), py::arg("v2"));
-    m.def("calc_norm", &calc_norm);
-    m.def("calc_angle", &calc_angle);
-    m.def("pbc_apply3x3", &pbc_apply3x3);
-     */
-    m.def("hbonds", &hbonds);
-    m.def("pbc_apply3x3", &pbc_apply3x3, R"pbdoc(
-            C++ routine in file pbc_c.cpp
+            Returns:
+                int: number of hydrogen bonds found
+        )pbdoc", py::arg("array1"), py::arg("array2"), py::arg("cut1"), py::arg("cut2"), py::arg("angle"), py::arg("cell")
+    );
 
-            Todo:
-                Test for unit cells other than cubic.
-        )pbdoc"
+    m.def("pbc_apply3x3_c", &pbc_apply3x3, R"pbdoc(
+            Apply periodic boundary conditions to obtain 3x3 unit cell.
+
+            Args:
+                pos (double *): pointer on array with atomic positions
+                len (int): number of atoms in pos
+                cell (double *): pointer on array with unit cell of the system
+
+            Returns:
+                double *: pointer on array with atomic position of 3x3 unit cell
+
+            Note:
+                C++ only.
+
+                Source code in file :mod:`pbc_c.cpp`.
+        )pbdoc", py::arg("pos"), py::arg("len"), py::arg("cell")
+    );
+
+    m.def("calc_dist_vec_c", &calc_dist_vec, R"pbdoc(
+            Calculate difference between two vectors.
+
+            Args:
+                pos1 (double *): pointer on array with position of atom 1
+                pos2 (double *): pointer on array with position of atom 2
+
+            Returns:
+                double *: pointer on array with vector between both positions
+
+            Note:
+                C++ only.
+
+                Source code in file :mod:`calc_c.cpp`.
+        )pbdoc", py::arg("pos1"), py::arg("pos2")
+    );
+
+    m.def("calc_norm_c", &calc_norm, R"pbdoc(
+            Calculate norm of a vector.
+
+            Args:
+                vec (double *): pointer on array with 3 entries
+
+            Returns:
+                float: euclidean norm of the vector
+
+            Note:
+                C++ only.
+
+                Source code in file :mod:`calc_c.cpp`.
+        )pbdoc", py::arg("vec")
+    );
+
+    m.def("calc_angle_c", &calc_angle, R"pbdoc(
+            Calculate angle between three given points.
+
+            Args:
+                pos1 (double *): pointer on array with 3 entries
+                pos2 (double *): pointer on array with 3 entries
+                pos3 (double *): pointer on array with 3 entries
+
+            Returns:
+                float: angle between points pos1-pos2-pos3
+
+            Note:
+                C++ only.
+
+                Source code in file :mod:`calc_c.cpp`.
+        )pbdoc", py::arg("pos1"), py::arg("pos2"), py::arg("pos3")
     );
 
 #ifdef VERSION_INFO

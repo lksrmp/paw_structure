@@ -206,7 +206,9 @@ def tra_extract(root, n_atoms):
     Returns:
         ndarray: data structure containing information
 
-    For formatting of the trajectory file please see the manual for the CP-PAW code by Peter Blöchl.
+    For formatting of the trajectory file please see the manual for the CP-PAW_ code by Peter Blöchl.
+
+    .. _CP-PAW: https://www2.pt.tu-clausthal.de/paw/
 
     The units are transformed into ps (time) and Angstrom (distance) at this step.
 
@@ -262,7 +264,7 @@ def tra_clean(data):
         Positive jumps as in skipping iterations steps are not accounted for.
 
     Todo:
-        Test for more than one jump and convoluted jumps.
+        Test if more than one jump and convoluted jumps work.
     """
     # detect negative iteration jumps
     shift = np.diff(data['iter'])
@@ -338,8 +340,6 @@ def tra_save(root, snapshots):
         root (str): root name for file
         snapshots (list[:class:`.Snap`]): snapshots to be saved
 
-    XXX REFERENCE TO FILE DESCRIPTION .snap XXX
-
     Note:
         Not suitable for dynamic / changing unit cells.
 
@@ -384,7 +384,7 @@ def tra_save(root, snapshots):
 ########################################################################################################################
 def tra_load(root):
     """
-    Load information previously saved by :func:`tra_save`.
+    Load information from the :ref:`Output_snap` file previously created by :func:`.tra_save`.
 
     Args:
         root (root): root name of file

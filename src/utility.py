@@ -14,6 +14,7 @@ Dependencies:
     err
     err_file
     structure_fast_input
+    structure_gap_input
     structure_hbonds_input
     structure_ion_input
     structure_radial_input
@@ -44,7 +45,6 @@ def timing(f):
         print("%s function took %f s" % (f.__name__, (time2 - time1)))
         return ret
     return wrap
-
 
 
 ########################################################################################################################
@@ -236,6 +236,7 @@ def argcheck(argv, extension):
 def structure_fast_input():
     """
     Get console input for :mod:`.structure_fast`.
+    Possible flags can be seen in usage of :ref:`Usage_paw_structure_fast`.
 
     Returns:
         :py:mod:`argparse` object
@@ -249,6 +250,7 @@ def structure_fast_input():
 def structure_hbonds_input():
     """
     Get console input for :mod:`.structure_hbonds`.
+    Possible flags can be seen in usage of :ref:`Usage_paw_structure_hbonds`.
 
     Returns:
         :py:mod:`argparse` object
@@ -265,6 +267,7 @@ def structure_hbonds_input():
 def structure_ion_input():
     """
     Get console input for :mod:`.structure_ion`.
+    Possible flags can be seen in usage of :ref:`Usage_paw_structure_ion`.
 
     Returns:
         :py:mod:`argparse` object
@@ -281,6 +284,7 @@ def structure_ion_input():
 def structure_water_input():
     """
     Get console input for :mod:`.structure_water`.
+    Possible flags can be seen in usage of :ref:`Usage_paw_structure_water`.
 
     Returns:
         :py:mod:`argparse` object
@@ -299,6 +303,7 @@ def structure_water_input():
 def structure_radial_input():
     """
     Get console input for :mod:`.structure_radial`.
+    Possible flags can be seen in usage of :ref:`Usage_paw_structure_radial`.
 
     Returns:
         :py:mod:`argparse` object
@@ -310,5 +315,25 @@ def structure_radial_input():
     parser.add_argument("-p", "--plot", action="store_true", help="show graph of radial distribution function")
     parser.add_argument("-x", "--xlim", nargs=2, type=float, help="select range for x axis (xmin, xmax)")
     parser.add_argument("-y", "--ylim", nargs=2, type=float, help="select range for y axis (ymin, ymax)")
+    args = parser.parse_args()
+    return args
+
+
+def structure_gap_input():
+    """
+    Get console input for :mod:`.structure_gap`.
+    Possible flags can be seen in usage of :ref:`Usage_paw_structure_gap`.
+
+    Returns:
+        :py:mod:`argparse` object
+    """
+    parser = argparse.ArgumentParser()
+    parser.add_argument("prot", type=str, help="give path of CP-PAW protocol file")
+    parser.add_argument("-p", "--plot", action="store_true", help="show graph of energies")
+    parser.add_argument("-x", "--xlim", nargs=2, type=float, help="select range for x axis (xmin, xmax)")
+    parser.add_argument("-y1", "--ylim1", nargs=2, type=float,
+                        help="select range for y axis of energy gap (ymin1, ymax1)")
+    parser.add_argument("-y2", "--ylim2", nargs=2, type=float,
+                        help="select range for y axis of HOMO/LUMO energy (ymin2, ymax2)")
     args = parser.parse_args()
     return args

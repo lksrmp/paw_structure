@@ -10,9 +10,9 @@ Dependencies:
 .. autosummary::
 
       neighbor_find
-      neighbor_find_name
-      neighbor_single
-      neighbor_single_name
+      neighbor_find_single
+      neighbor_name
+      neighbor_name_single
 """
 
 import numpy as np
@@ -31,11 +31,9 @@ from . import pbc
 # OUTPUT
 # list str                      list of names of neighbors
 ########################################################################################################################
-def neighbor_single_name(center, pbc_atoms, cut):
+def neighbor_name_single(center, pbc_atoms, cut):
     """
-    Find names of neighbor atoms
-
-
+    Find names of neighbor atoms given one central atom.
 
     Args:
         center (pandas DataFrame): central atom of reference
@@ -43,14 +41,15 @@ def neighbor_single_name(center, pbc_atoms, cut):
         cut (float): cutoff distance for search
 
     Returns:
-        list of names as strings
+        list[str]: names of neighboring atoms
     """
     dist = np.linalg.norm(center['pos'] - pbc_atoms['pos'], axis=1)  # calculate distance to center
     neighbors = pbc_atoms[[a and not b for a, b in zip(dist < cut, np.isclose(dist, 0.0))]]  # select fitting atoms
     return neighbors['name'].values  # return their names as a list
 
+
 ########################################################################################################################
-# TODO: get rid of neighbor_find_name in whole code, might be very inefficient
+# TODO: get rid of neighbor_name in whole code, might be very inefficient
 #  (output names and then search snapshots from names)
 # FIND NAMES OF NEIGHBOR ATOMS
 ########################################################################################################################
@@ -64,30 +63,35 @@ def neighbor_single_name(center, pbc_atoms, cut):
 # OUTPUT
 # list list str             list of list of atom names; first element is center, the following are neighbors of center
 ########################################################################################################################
-def neighbor_find_name(snap, id1, id2, cut, names=None):
+def neighbor_name(snap, id1, id2, cut, names=None):
     """
+    Find neighbors for a given selection of atoms.
 
     Args:
-        snap:
-        id1:
-        id2:
-        cut:
-        names:
+        snap (:class:`.Snap`): snapshot containing the atomic information
+        id1 (str): identifier for atom used as center (e.g. 'O\_')
+        id2 (str): identifier for atoms as possible neighbors (e.g. 'H\_')
+        cut (float): cutoff distance for search
+        names (list[str], optional): list of names of atoms used as center; replaces :data:`id1`
 
     Returns:
+        list[list[str]]: list of lists with names according to [center neighbor1 neighbor2]
 
+    .. Todo::
+        Very inefficient approach! Still in use in :func:`.ion_single` and :func:`.water_single`.
+        Should be replaced by more efficient search approach.
     """
     pbc_atoms = pbc.pbc_apply3x3(snap, id=[id2])  # create 3x3 unit cell of atom species id2
     neighbors = []  # initialize dictionary for storage of neighbor names
     if names is None:
         for index, row in snap.atoms.iterrows():  # iterate through all atoms of species id1
             if row['id'] == id1:
-                next = neighbor_single_name(row, pbc_atoms, cut)
+                next = neighbor_name_single(row, pbc_atoms, cut)
                 neighbors.append(np.insert(next, 0, row['name']))
     else:
-        for index, row in snap.atoms.iterrows():  # iterate through all atoms of species id1
+        for index, row in snap.atoms.iterrows():  # iterate through all atoms with name contained in names
             if row['name'] in names:
-                next = neighbor_single_name(row, pbc_atoms, cut)
+                next = neighbor_name_single(row, pbc_atoms, cut)
                 neighbors.append(np.insert(next, 0, row['name']))
     return [x.tolist() for x in neighbors]  # return list of lists with each first element being the center
 
@@ -102,15 +106,17 @@ def neighbor_find_name(snap, id1, id2, cut, names=None):
 # OUTPUT
 # pandas DataFrame neighbors    contains all information about the neighbors found
 ########################################################################################################################
-def neighbor_single(center, pbc_atoms, cut):
+def neighbor_find_single(center, pbc_atoms, cut):
     """
+    Find names of neighbor atoms given one central atom.
 
     Args:
-        center:
-        pbc_atoms:
-        cut:
+        center (pandas DataFrame): central atom of reference
+        pbc_atoms (pandas DataFrame): atoms as possible neighbors
+        cut (float): cutoff distance for search
 
     Returns:
+        pandas DataFrame: contains all information about the neighbors found
 
     """
     dist = np.linalg.norm(center['pos'] - pbc_atoms['pos'], axis=1)  # calculate distance to center
@@ -133,27 +139,28 @@ def neighbor_single(center, pbc_atoms, cut):
 ########################################################################################################################
 def neighbor_find(snap, id1, id2, cut, names=None):
     """
+    Find neighbor atoms for a given selection of central atom.
 
     Args:
-        snap:
-        id1:
-        id2:
-        cut:
-        names:
+        snap (:class:`.Snap`): snapshot containing the atomic information
+        id1 (str): identifier for atom used as center (e.g. 'O\_')
+        id2 (str): identifier for atoms as possible neighbors (e.g. 'H\_')
+        cut (float): cutoff distance for search
+        names (list[str], optional): list of names of atoms used as center; replaces :data:`id1`
 
     Returns:
-
+        dict: name as center atoms are used as keys; pandas DataFrame containing its neighbors is the entry
     """
     pbc_atoms = pbc.pbc_apply3x3(snap, id=[id2])  # create 3x3 unit cell of atom species id2
     neighbors = {}  # initialize dictionary for storage of neighbor names
     if names is None:
         for index, row in snap.atoms.iterrows():  # iterate through all atoms of species id1
             if row['id'] == id1:
-                next = neighbor_single(row, pbc_atoms, cut)
+                next = neighbor_find_single(row, pbc_atoms, cut)
                 neighbors[row['name']] = next
     else:
         for index, row in snap.atoms.iterrows():  # iterate through all atoms of species id1
             if row['name'] in names:
-                next = neighbor_single(row, pbc_atoms, cut)
+                next = neighbor_find_single(row, pbc_atoms, cut)
                 neighbors[row['name']] = next
     return neighbors  # return dictionary

@@ -173,7 +173,8 @@ setup(
             "paw_structure_ion = paw_structure.structure_ion:main",
             "paw_structure_water = paw_structure.structure_water:main",
             "paw_structure_radial = paw_structure.structure_radial:main",
-            "paw_structure_hbonds = paw_structure.structure_hbonds:main"
+            "paw_structure_hbonds = paw_structure.structure_hbonds:main",
+            "paw_structure_gap = paw_structure.structure_gap:main"
             ]
     }
 )

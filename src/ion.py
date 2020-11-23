@@ -74,12 +74,12 @@ def ion_single(snap, id1, id2, id3, cut1, cut2):
     if id1 == id2 or id2 == id3 or id1 == id3:
         utility.err('ion_single', 1, [id1, id2, id3])
     # search first neighbors
-    next1 = neighbor.neighbor_find_name(snap, id1, id2, cut1)
+    next1 = neighbor.neighbor_name(snap, id1, id2, cut1)
     # extract name lists
     id1_list = [atom[0] for atom in next1]
     id2_list = [y for x in [atom[1:] for atom in next1] for y in x]
     # search second neighbors
-    next2 = neighbor.neighbor_find_name(snap, id2, id3, cut2, names=id2_list)
+    next2 = neighbor.neighbor_name(snap, id2, id3, cut2, names=id2_list)
     # extract name list
     id3_list = [y for x in [atom[1:] for atom in next2] for y in x]
     # extract correct atom information
@@ -107,8 +107,6 @@ def ion_single(snap, id1, id2, id3, cut1, cut2):
 def ion_save(root, snapshots, id1, id2, id3, cut1, cut2, ext='.ion'):
     """
     Save results to file :ref:`Output_ion`.
-
-    XXX REFERENCE TO EXPLANATION OF .ion FILE FORMAT XXX
 
     Args:
         root (str): root name for saving file
@@ -165,7 +163,7 @@ def ion_save(root, snapshots, id1, id2, id3, cut1, cut2, ext='.ion'):
 ########################################################################################################################
 def ion_load(root, ext='.ion'):
     """
-    Load information previously saved by :func:`.ion_save`.
+    Load information from the :ref:`Output_ion` file previously created by :func:`.ion_save`.
 
     Args:
         root (str): root name for the file to be loaded
