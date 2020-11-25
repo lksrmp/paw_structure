@@ -20,7 +20,9 @@ int hbonds(py::array_t<const double>& array1, py::array_t<const double>& array2,
 
 int hbonds_number(const double* array1, int len1, const double* array2, int len2,
         double cut1, double cut2, double angle, const double * cell){
-
+    // follows Luzar, Chandler: J. Chem. Phys. 98, 8160 (1993), A. Luzar and D. Chandler, Nature London 379, 55 (1996)
+    //         Dawson, Gygi: J. Chem. Phys. 148, 124501 (2018)
+    // Review: Kumar et al.: J. Chem. Phys. 126, 204107 (2007)
     int counter = 0;
     double center[3], neighbor1[3], neighbor2[3];
 
@@ -57,10 +59,15 @@ int hbonds_number(const double* array1, int len1, const double* array2, int len2
                         dist21 = calc_norm(v21);
                         delete [] v21;
                         if(dist21 < cut2){
-                            angle121 = calc_angle(center, neighbor2, neighbor1);
+                            if(dist12 < dist21){
+                                angle121 = calc_angle(neighbor2, center, neighbor1);
+                            } else {
+                                angle121 = calc_angle(neighbor2, neighbor1, center);
+                            }
+                            //angle121 = calc_angle(center, neighbor2, neighbor1);
                             //cout << angle121 << "\n";
                             //cout << center[0] << " " << center[1] << " " << center[2] << " "  << neighbor2[0] << " " << neighbor2[1] << " " << neighbor2[2] << " "  << neighbor1[0] << " " << neighbor1[1] << " " << neighbor1[2] << "\n";
-                            if(angle121 > angle){
+                            if(angle121 < angle){
                                 counter++;
                             }
                         }

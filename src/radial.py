@@ -300,7 +300,7 @@ def radial_plot(root, radius, rdf, args, integration=None):  # , show=False, pea
     if args.fwhm:
         step = radius[1] - radius[0]
         peaks, fwhm = radial_peak(radius, rdf)
-        plt.plot(radius[peaks], rdf[peaks], 'x')
+        plt.plot(radius[peaks], rdf[peaks], 'x', color='green')
         plt.hlines(fwhm[1], fwhm[2] * step, fwhm[3] * step)
     plt.grid()
     plt.xlabel("r [A]")

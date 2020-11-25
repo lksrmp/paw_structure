@@ -280,7 +280,7 @@ def scntl_read_hbonds(text, idx):
     else:
         hbonds_dict['CUT2'] = float(hbonds_dict['CUT2'])
     if hbonds_dict['ANGLE'] is None:
-        hbonds_dict['ANGLE'] = 140.0
+        hbonds_dict['ANGLE'] = 30.0
     else:
         hbonds_dict['ANGLE'] = float(hbonds_dict['ANGLE'])
 

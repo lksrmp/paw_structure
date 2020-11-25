@@ -219,11 +219,11 @@ XXX REFERENCE TO ALGORITHM EXPLAINATION XXX
         :Default: 3.1
         
     ANGLE
-        minimum O-H-O angle for a hydrogen bond in degree
+        maximum angle between O-O and shortest O-H in degree
         
         :Type: float
         :Rules: optional
-        :Default: 140.0
+        :Default: 30.0
 
 
 .. _Control_RADIAL:
