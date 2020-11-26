@@ -210,7 +210,7 @@ In blue is the RDF and orange is the coordination number which results from the 
 -------------
 Plot of the average hydrogen bond number per molecule as a function of time produced by :ref:`Usage_paw_structure_radial`. The data comes from the :ref:`Output_hbonds_c` file which is created while running :ref:`Usage_paw_structure_fast`.
 
-.. figure:: Images/mn_hbonds.png
+.. figure:: Images/h2o_hbonds.png
     :width: 400
     :align: center
     :alt: radial distribution function plot

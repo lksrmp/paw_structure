@@ -18,14 +18,6 @@ Dependencies:
 .. autosummary::
 
     main
-
-.. figure:: ../Images/water_scheme.png
-    :width: 300
-    :align: center
-    :alt: Ein kleiner Test
-    :figclass: align-center
-
-    The caption of water complex scheme.
 """
 import matplotlib
 import matplotlib.pyplot as plt
