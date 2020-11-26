@@ -21,5 +21,5 @@ def main():
     print("PLOTTING OF HYDROGEN BOND NUMBER")
     args = utility.structure_hbonds_input()
     root = utility.argcheck([sys.argv[0], args.hbonds], '.hbonds_c')
-    data = hbonds.hbonds_c_load(root)
-    hbonds.hbonds_c_plot(root, data[:, 0], data[:, 1], args)
+    data = hbonds.hbonds_load_c(root)
+    hbonds.hbonds_plot_c(root, data[:, 0], data[:, 1], args)

@@ -22,13 +22,13 @@ Dependencies:
 
 .. autosummary::
 
-      radial_calculate
-      radial_integrate
-      radial_load
-      radial_peak
-      radial_plot
-      radial_save
-      radial_single_c
+    radial_calculate
+    radial_integrate
+    radial_load
+    radial_peak
+    radial_plot
+    radial_save
+    radial_single_c
 """
 
 import numpy as np
@@ -286,6 +286,7 @@ def radial_plot(root, radius, rdf, args, integration=None):  # , show=False, pea
     Plot the radial distribution function (rdf) and the coordination number integration if selected.
 
     Args:
+        root (str): root name of the files
         radius (ndarray[float]): radii used for rdf calculation
         rdf (ndarray[float]): value of rdf corresponding to these radii
         args (:py:mod:`argparse` object): command line arguments
@@ -299,7 +300,7 @@ def radial_plot(root, radius, rdf, args, integration=None):  # , show=False, pea
     if args.fwhm:
         step = radius[1] - radius[0]
         peaks, fwhm = radial_peak(radius, rdf)
-        plt.plot(radius[peaks], rdf[peaks], 'x')
+        plt.plot(radius[peaks], rdf[peaks], 'x', color='green')
         plt.hlines(fwhm[1], fwhm[2] * step, fwhm[3] * step)
     plt.grid()
     plt.xlabel("r [A]")

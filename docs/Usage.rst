@@ -2,8 +2,9 @@
 
 Usage
 =====
+The :ref:`workflow<Usage_workflow>` in combination with the CP-PAW simulations code can be separated into two stages which are data extraction and presentation. The program paw\_structure\_fast takes CP-PAW output as a source of data and depending on the user created control file (".scntl") it extracts certain information. These are then saves into several output files and are accessible to the user. However, they are not designed to give a good overview. Using the other programs in the package the user can generate additional output files and graphs to make the aspects of the analysis more visible and accessible. 
 
-The usage of the *paw\_structure* analysis tool is based on the command line executables::
+The usage of the paw\_structure package is based on the command line executables::
     
     paw_structure_fast
     paw_structure_ion
@@ -12,7 +13,9 @@ The usage of the *paw\_structure* analysis tool is based on the command line exe
     paw_structure_hbonds
     paw_structure_gap
     
-.. figure:: Images/workflow.png
+.. _Usage_workflow:
+    
+.. figure:: Images/paw_structure.png
     :width: 800
     :align: center
     :alt: workflow illustration
@@ -32,7 +35,9 @@ The routine is started inside the directory containing the input data with::
     
 This executes the module :mod:`.structure_fast` internally.
 
-Several output files containing the raw data results from the analysis are created. For a detailed description of each see section :ref:`Output`. 
+Several output files containing the raw data results from the analysis are created. For a detailed description of each see section :ref:`Output`.
+
+A description of the algorithms used can be found underneath their corresponding control block in section :ref:`Control`.
 
 Possible output files are
 
@@ -147,9 +152,9 @@ The routine is started inside the directory containing the input data with::
     
 This exectures the module :mod:`.structure_radial` internally.
 
-The radial distribution function is integrated numerically according to XXXSCHEMEXXX in oder to obtain the coordination number.
+The mathematical description and definitions can be found in the :ref:`Control_RADIAL` control block.
 
-The peak detection is performed using XXXSCIPYXXX DESCRIBE HOW IT WORKS AND WHAT OUTPUT MEANS.
+The peak detection is performed using :func:`.radial_peak` utilizing :py:mod:`scipy` routines.
 
 Output files are
 

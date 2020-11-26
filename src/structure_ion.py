@@ -16,14 +16,6 @@ Dependencies:
 .. autosummary::
 
     main
-
-.. figure:: ../Images/ion_scheme.png
-    :width: 400
-    :align: center
-    :alt: Ion complex detection scheme.
-    :figclass: align-center
-
-    Ion complex detection scheme.
 """
 import sys
 import numpy as np
@@ -62,13 +54,13 @@ def main():
     # plot atom number as function of time
     matplotlib.rcParams.update({'font.size': 14})
     plt.figure()
-    plt.plot(times, atoms)
+    plt.plot(times, atoms, color='black')
     plt.plot(times, atoms, 'ro', markersize=1)
     ticks = range(np.min(atoms) - 1, np.max(atoms) + 2)
     plt.yticks(ticks)
     plt.xlabel('time [ps]')
     plt.ylabel('number of atoms')
-    plt.title('ION COMPLEX')
+    # plt.title('ION COMPLEX')
     plt.grid()
     if args.xlim:
         plt.xlim(args.xlim)
