@@ -1,5 +1,7 @@
 # paw_structure
-Structural analysis program containing Python and C++
+A Python package paw\_structure was developed to conduct a structural analysis of ab-*initio* molecular dynamics simulations performed by the CP-PAW code.
+
+Note, that the program package is still in development and especially the documentation might be subject to change and only represents the latest stable release. No guarantee can be provided for the correctness and completeness of the project.
 
 Installation
 ------------
@@ -8,59 +10,18 @@ Installation
 
  - clone this repository
  - `pip install ./paw_structure`
-
-**On Windows (Requires Visual Studio 2015)**
-
- - For Python 3.5:
-     - clone this repository
-     - `pip install ./paw_structure`
- - For earlier versions of Python, including Python 2.7:
-
-   Pybind11 requires a C++11 compliant compiler (i.e. Visual Studio 2015 on
-   Windows). Running a regular `pip install` command will detect the version
-   of the compiler used to build Python and attempt to build the extension
-   with it. We must force the use of Visual Studio 2015.
-
-     - clone this repository
-     - `"%VS140COMNTOOLS%\..\..\VC\vcvarsall.bat" x64`
-     - `set DISTUTILS_USE_SDK=1`
-     - `set MSSdk=1`
-     - `pip install ./paw_structure`
-
-   Note that this requires the user building `paw_structure` to have registry edition
-   rights on the machine, to be able to run the `vcvarsall.bat` script.
-
-
-Windows runtime requirements
-----------------------------
-
-On Windows, the Visual C++ 2015 redistributable packages are a runtime
-requirement for this project. It can be found [here](https://www.microsoft.com/en-us/download/details.aspx?id=48145).
-
-If you use the Anaconda python distribution, you may require the Visual Studio
-runtime as a platform-dependent runtime requirement for you package:
-
-```yaml
-requirements:
-  build:
-    - python
-    - setuptools
-    - pybind11
-
-  run:
-   - python
-   - vs2015_runtime  # [win]
-```
-
+ 
+Dependencies and packages needed for the program are also installed or updated. Administrator privilege might be necessary depending on the system in order to obtain and install the dependencies.
 
 Building the documentation
 --------------------------
 
-Documentation for the example project is generated using Sphinx. Sphinx has the
+Documentation for the package is generated using Sphinx. Sphinx has the
 ability to automatically inspect the signatures and documentation strings in
-the extension module to generate beautiful documentation in a variety formats.
-The following command generates HTML-based reference documentation; for other
+the extension module to generate a documentation in a variety of formats.
+The following commands generate HTML-based reference documentation or a PDF document using LaTex; for other
 formats please refer to the Sphinx manual:
 
  - `cd paw_structure/docs`
  - `make html`
+ - `make latexpdf`
