@@ -151,15 +151,19 @@ def scntl_read_tra(text, idx):
         else:
             tra_dict['SAVE'] = False
 
-
-
     # check for load of snapshots, overwrites arguments T1, T2, N
     if tra_dict['LOAD'] is None:
         tra_dict['LOAD'] = False
         if tra_dict['T1'] is None or tra_dict['T2'] is None or tra_dict['N'] is None:
             utility.err('scntl_read', 0, ['!TRA'], info="T1 T2 N")
-        tra_dict['T1'] = float(tra_dict['T1'])
-        tra_dict['T2'] = float(tra_dict['T2'])
+        if tra_dict['T1'].casefold() == 'start':
+            tra_dict['T1'] = "START"
+        else:
+            tra_dict['T1'] = float(tra_dict['T1'])
+        if tra_dict['T2'].casefold() == 'end':
+            tra_dict['T2'] = "END"
+        else:
+            tra_dict['T2'] = float(tra_dict['T2'])
         tra_dict['N'] = int(tra_dict['N'])
     else:
         if tra_dict['LOAD'].casefold() == 'true':
@@ -169,8 +173,14 @@ def scntl_read_tra(text, idx):
             # check for necessary arguments if snapshots are not loaded
             if tra_dict['T1'] is None or tra_dict['T2'] is None or tra_dict['N'] is None:
                 utility.err('scntl_read', 0, ['!TRA'], info="T1 T2 N")
-            tra_dict['T1'] = float(tra_dict['T1'])
-            tra_dict['T2'] = float(tra_dict['T2'])
+            if tra_dict['T1'].casefold() == 'start':
+                tra_dict['T1'] = 'START'
+            else:
+                tra_dict['T1'] = float(tra_dict['T1'])
+            if tra_dict['T2'].casefold() == 'end':
+                tra_dict['T2'] = "END"
+            else:
+                tra_dict['T2'] = float(tra_dict['T2'])
             tra_dict['N'] = int(tra_dict['N'])
     return tra_dict
 
@@ -349,8 +359,14 @@ def scntl_read_radial(text, idx):
         radial_dict['TRA_EXTRACT'] = False
     else:
         radial_dict['TRA_EXTRACT'] = True
-        radial_dict['T1'] = float(radial_dict['T1'])
-        radial_dict['T2'] = float(radial_dict['T2'])
+        if radial_dict['T1'].casefold() == 'start':
+            radial_dict['T1'] = "START"
+        else:
+            radial_dict['T1'] = float(radial_dict['T1'])
+        if radial_dict['T2'].casefold() == 'end':
+            radial_dict['T2'] = "END"
+        else:
+            radial_dict['T2'] = float(radial_dict['T2'])
         radial_dict['N'] = int(radial_dict['N'])
     return radial_dict
 

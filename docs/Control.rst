@@ -78,14 +78,16 @@ Trajectory extraction control block.
 .. glossary::
     T1
         starting time for snapshot extraction
+        using START flag selects first time available from simulation
         
-        :Type: float 
+        :Type: float, str: START
         :Rules: mandatory
         
     T2
         end time of snapshot extraction
+        using END flag selects last time available from simulation
         
-        :Type: float 
+        :Type: float, str: END
         :Rules: mandatory
         
     N
