@@ -126,27 +126,33 @@ def angle_plot(root, degree, adf, args, integration=None):
         adf (ndarray[float]): value of adf corresponding to these degrees
         args (:py:mod:`argparse` object): command line arguments
     """
-    matplotlib.rcParams.update({'font.size': 14})
-    plt.figure()
+    if args.latex:
+        plt.rcParams.update(utility.tex_fonts)
+        plt.figure(figsize=utility.set_size(args.latex[0], fraction=args.latex[1]))
+    else:
+        matplotlib.rcParams.update({'font.size': 14})
+        plt.figure()
     plt.plot(degree, adf)
-    if integration is not None:
-        plt.plot(degree, integration)
     if args.fwhm:
         step = degree[1] - degree[0]
         peaks, fwhm = angle_peak(degree, adf)
         plt.plot(degree[peaks], adf[peaks], 'x', color='green')
         plt.hlines(fwhm[1], fwhm[2] * step, fwhm[3] * step)
     plt.grid()
-    plt.xlabel("angle [°]")
-    plt.ylabel("ADF [a.u.]")
-    plt.yticks([])
     if args.xlim:
         plt.xlim(args.xlim)
     if args.ylim:
         plt.ylim(args.ylim)
     else:
         plt.ylim([0.0, np.max(adf)])
-    plt.savefig(root + "_angle.png", dpi=300.0)
+    if args.latex:
+        plt.xlabel(r'$\theta$')
+        plt.ylabel(r'$P(\theta)$')
+        plt.savefig(root + "_angle.pdf", format='pdf', bbox_inches='tight')
+    else:
+        plt.xlabel("angle [°]")
+        plt.ylabel("ADF [a.u.]")
+        plt.savefig(root + "_angle.png", dpi=300.0)
     if args.plot:
         plt.show()
     return

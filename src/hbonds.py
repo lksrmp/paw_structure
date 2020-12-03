@@ -71,19 +71,29 @@ def hbonds_plot_c(root, time, n_hbonds, args):
         n_hbonds (ndarray[float]): number of average hydrogen bonds per oxygen atom of snapshots
         args (:py:mod:`argparse` object): command line arguments
     """
-    matplotlib.rcParams.update({'font.size': 14})
-    plt.figure()
+    if args.latex:
+        plt.rcParams.update(utility.tex_fonts)
+        plt.figure(figsize=utility.set_size(args.latex[0], fraction=args.latex[1]))
+    else:
+        matplotlib.rcParams.update({'font.size': 14})
+        plt.figure()
     plt.scatter(time, n_hbonds, s=1)
     plt.grid()
-    plt.xlabel("time [ps]")
-    plt.ylabel("HB / molecule")
     if args.xlim:
         plt.xlim(args.xlim)
     if args.ylim:
         plt.ylim(args.ylim)
     else:
         plt.ylim([0.0, 4.0])
-    plt.savefig(root + "_hbonds.png", dpi=300.0)
+
+    if args.latex:
+        plt.xlabel(r'time [ps]')
+        plt.ylabel(r'HB / molecule')
+        plt.savefig(root + "_hbonds.pdf", format='pdf', bbox_inches='tight')
+    else:
+        plt.xlabel("time [ps]")
+        plt.ylabel("HB / molecule")
+        plt.savefig(root + "_hbonds.png", dpi=300.0)
     if args.plot:
         plt.show()
     return

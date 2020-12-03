@@ -28,6 +28,20 @@ import argparse
 import time
 
 
+tex_fonts = {
+    # Use LaTeX to write all text
+    "text.usetex": True,
+    "font.family": "serif",
+    # Use 10pt font in plots, to match 10pt font in document
+    "axes.labelsize": 12,
+    "font.size": 12,
+    # Make the legend/label fonts a little smaller
+    "legend.fontsize": 10,
+    "xtick.labelsize": 10,
+    "ytick.labelsize": 10
+}
+
+
 def timing(f):
     """
     Time of execution for a function.
@@ -260,6 +274,7 @@ def structure_hbonds_input():
     parser.add_argument("-p", "--plot", action="store_true", help="show graph of hydrogen bond number")
     parser.add_argument("-x", "--xlim", nargs=2, metavar=('xmin', 'xmax'), type=float, help="select range for x axis")
     parser.add_argument("-y", "--ylim", nargs=2, metavar=('ymin', 'ymax'), type=float, help="select range for y axis")
+    parser.add_argument("-l", "--latex", nargs=2, metavar=('width', 'fraction'), type=str, help="document width in pts and fraction of this width\ndefaults for thesis and beamer")
     args = parser.parse_args()
     return args
 
@@ -315,6 +330,7 @@ def structure_radial_input():
     parser.add_argument("-p", "--plot", action="store_true", help="show graph of radial distribution function")
     parser.add_argument("-x", "--xlim", nargs=2, metavar=('xmin', 'xmax'), type=float, help="select range for x axis")
     parser.add_argument("-y", "--ylim", nargs=2, metavar=('ymin', 'ymax'), type=float, help="select range for y axis")
+    parser.add_argument("-l", "--latex", nargs=2, metavar=('width', 'fraction'), type=str, help="document width in pts and fraction of this width\ndefaults for thesis and beamer")
     args = parser.parse_args()
     return args
 
@@ -333,7 +349,8 @@ def structure_angle_input():
     parser.add_argument("-p", "--plot", action="store_true", help="show graph of angle distribution function")
     parser.add_argument("-x", "--xlim", nargs=2, metavar=('xmin', 'xmax'), type=float, help="select range for x axis")
     parser.add_argument("-y", "--ylim", nargs=2, metavar=('ymin', 'ymax'), type=float, help="select range for y axis")
-    args = parser.parse_args("-l", "--latex", nargs=2, metavar=('width', 'fraction'), typre=str, help="document width in pts and fraction of this width\ndefaults for thesis and beamer")
+    parser.add_argument("-l", "--latex", nargs=2, metavar=('width', 'fraction'), type=str, help="document width in pts and fraction of this width\ndefaults for thesis and beamer")
+    args = parser.parse_args()
     return args
 
 
@@ -374,9 +391,9 @@ def set_size(width, fraction="1", subplots=(1, 1)):
     elif width == 'beamer':
         width_pt = 307.28987
     else:
-        width_pt = width
+        width_pt = float(width)
     # Width of figure (in pts)
-    fig_width_pt = width_pt * fraction
+    fig_width_pt = width_pt * float(fraction)
     # Convert from pt to inches
     inches_per_pt = 1 / 72.27
     # Golden ratio to set aesthetic figure height

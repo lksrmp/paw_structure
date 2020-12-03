@@ -292,8 +292,12 @@ def radial_plot(root, radius, rdf, args, integration=None):  # , show=False, pea
         args (:py:mod:`argparse` object): command line arguments
         integration (ndarray[float], optional): coordination number for different radii
     """
-    matplotlib.rcParams.update({'font.size': 14})
-    plt.figure()
+    if args.latex:
+        plt.rcParams.update(utility.tex_fonts)
+        plt.figure(figsize=utility.set_size(args.latex[0], fraction=args.latex[1]))
+    else:
+        matplotlib.rcParams.update({'font.size': 14})
+        plt.figure()
     plt.plot(radius, rdf)
     if integration is not None:
         plt.plot(radius, integration)
@@ -303,15 +307,20 @@ def radial_plot(root, radius, rdf, args, integration=None):  # , show=False, pea
         plt.plot(radius[peaks], rdf[peaks], 'x', color='green')
         plt.hlines(fwhm[1], fwhm[2] * step, fwhm[3] * step)
     plt.grid()
-    plt.xlabel("r [A]")
-    plt.ylabel("g(r)")
     if args.xlim:
         plt.xlim(args.xlim)
     if args.ylim:
         plt.ylim(args.ylim)
     else:
         plt.ylim([0.0, np.max(rdf)])
-    plt.savefig(root + "_radial.png", dpi=300.0)
+    if args.latex:
+        plt.xlabel(r'$r\;$[\AA]')
+        plt.ylabel(r'$g(r)$')
+        plt.savefig(root + "_radial.pdf", format='pdf', bbox_inches='tight')
+    else:
+        plt.xlabel("r [A]")
+        plt.ylabel("g(r)")
+        plt.savefig(root + "_radial.png", dpi=300.0)
     if args.plot:
         plt.show()
     return
