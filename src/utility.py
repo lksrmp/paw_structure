@@ -258,8 +258,8 @@ def structure_hbonds_input():
     parser = argparse.ArgumentParser()
     parser.add_argument("hbonds", type=str, help="give path of hydrogen bond network file\nproduced by structure_fast.py")
     parser.add_argument("-p", "--plot", action="store_true", help="show graph of hydrogen bond number")
-    parser.add_argument("-x", "--xlim", nargs=2, type=float, help="select range for x axis (xmin, xmax)")
-    parser.add_argument("-y", "--ylim", nargs=2, type=float, help="select range for y axis (ymin, ymax)")
+    parser.add_argument("-x", "--xlim", nargs=2, metavar=('xmin', 'xmax'), type=float, help="select range for x axis")
+    parser.add_argument("-y", "--ylim", nargs=2, metavar=('ymin', 'ymax'), type=float, help="select range for y axis")
     args = parser.parse_args()
     return args
 
@@ -275,8 +275,8 @@ def structure_ion_input():
     parser = argparse.ArgumentParser()
     parser.add_argument("ion", type=str, help="give path of ion complex file\nproduced by structure_fast.py")
     parser.add_argument("-p", "--plot", action="store_true", help="show graph of atom number in ion complex")
-    parser.add_argument("-x", "--xlim", nargs=2, type=float, help="select range for x axis (xmin, xmax)")
-    parser.add_argument("-y", "--ylim", nargs=2, type=float, help="select range for y axis (ymin, ymax)")
+    parser.add_argument("-x", "--xlim", nargs=2, metavar=('xmin', 'xmax'), type=float, help="select range for x axis")
+    parser.add_argument("-y", "--ylim", nargs=2, metavar=('ymin', 'ymax'), type=float, help="select range for y axis")
     args = parser.parse_args()
     return args
 
@@ -294,8 +294,8 @@ def structure_water_input():
     parser.add_argument("-i", "--ion", nargs=1, help="give path of ion complex file\nproduced by structure_fast.py",
                         default=False)
     parser.add_argument("-p", "--plot", action="store_true", help="show graph of atom number in water complex")
-    parser.add_argument("-x", "--xlim", nargs=2, type=float, help="select range for x axis (xmin, xmax)")
-    parser.add_argument("-y", "--ylim", nargs=2, type=float, help="select range for y axis (ymin, ymax)")
+    parser.add_argument("-x", "--xlim", nargs=2, metavar=('xmin', 'xmax'), type=float, help="select range for x axis")
+    parser.add_argument("-y", "--ylim", nargs=2, metavar=('ymin', 'ymax'), type=float, help="select range for y axis")
     args = parser.parse_args()
     return args
 
@@ -313,8 +313,8 @@ def structure_radial_input():
     parser.add_argument("-i", "--integrate", action="store_true", help="obtain coordination number from integration")
     parser.add_argument("-fwhm", "--fwhm", action="store_true", help="peak analysis")
     parser.add_argument("-p", "--plot", action="store_true", help="show graph of radial distribution function")
-    parser.add_argument("-x", "--xlim", nargs=2, type=float, help="select range for x axis (xmin, xmax)")
-    parser.add_argument("-y", "--ylim", nargs=2, type=float, help="select range for y axis (ymin, ymax)")
+    parser.add_argument("-x", "--xlim", nargs=2, metavar=('xmin', 'xmax'), type=float, help="select range for x axis")
+    parser.add_argument("-y", "--ylim", nargs=2, metavar=('ymin', 'ymax'), type=float, help="select range for y axis")
     args = parser.parse_args()
     return args
 
@@ -331,8 +331,8 @@ def structure_angle_input():
     parser.add_argument("angle", type=str, help="give path of angle data file\nproduced by structure_fast.py")
     parser.add_argument("-fwhm", "--fwhm", action="store_true", help="peak analysis")
     parser.add_argument("-p", "--plot", action="store_true", help="show graph of angle distribution function")
-    parser.add_argument("-x", "--xlim", nargs=2, type=float, help="select range for x axis (xmin, xmax)")
-    parser.add_argument("-y", "--ylim", nargs=2, type=float, help="select range for y axis (ymin, ymax)")
+    parser.add_argument("-x", "--xlim", nargs=2, metavar=('xmin', 'xmax'), type=float, help="select range for x axis")
+    parser.add_argument("-y", "--ylim", nargs=2, metavar=('ymin', 'ymax'), type=float, help="select range for y axis")
     args = parser.parse_args()
     return args
 
@@ -349,9 +349,9 @@ def structure_gap_input():
     parser.add_argument("prot", type=str, help="give path of CP-PAW protocol file")
     parser.add_argument("-p", "--plot", action="store_true", help="show graph of energies")
     parser.add_argument("-x", "--xlim", nargs=2, type=float, help="select range for x axis (xmin, xmax)")
-    parser.add_argument("-y1", "--ylim1", nargs=2, type=float,
-                        help="select range for y axis of energy gap (ymin1, ymax1)")
-    parser.add_argument("-y2", "--ylim2", nargs=2, type=float,
-                        help="select range for y axis of HOMO/LUMO energy (ymin2, ymax2)")
+    parser.add_argument("-y1", "--ylim1", nargs=2, metavar=('ymin1', 'ymax1'), type=float,
+                        help="select range for y axis of energy gap")
+    parser.add_argument("-y2", "--ylim2", nargs=2, metavar=('ymin2', 'ymax2'), type=float,
+                        help="select range for y axis of HOMO/LUMO energy")
     args = parser.parse_args()
     return args
