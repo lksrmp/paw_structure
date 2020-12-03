@@ -315,10 +315,8 @@ def tra_read(root, t1, t2, n):
     data = tra_clean(data)  # removed doubled time intervals
     if t1 == 'START':
         t1 = data['time'][0]
-        print(t1)
     if t2 == 'END':
         t2 = data['time'][-1]
-        print(t2)
     select = tra_index(data['time'], t1, t2, n)  # select snapshots for analysis
     data = data[select]
     snapshots = []

@@ -319,6 +319,24 @@ def structure_radial_input():
     return args
 
 
+def structure_angle_input():
+    """
+    Get console input for :mod:`.structure_angle`.
+    Possible flags can be seen in usage of :ref:`Usage_paw_structure_angle`.
+
+    Returns:
+        :py:mod:`argparse` object
+    """
+    parser = argparse.ArgumentParser()
+    parser.add_argument("angle", type=str, help="give path of angle data file\nproduced by structure_fast.py")
+    parser.add_argument("-fwhm", "--fwhm", action="store_true", help="peak analysis")
+    parser.add_argument("-p", "--plot", action="store_true", help="show graph of angle distribution function")
+    parser.add_argument("-x", "--xlim", nargs=2, type=float, help="select range for x axis (xmin, xmax)")
+    parser.add_argument("-y", "--ylim", nargs=2, type=float, help="select range for y axis (ymin, ymax)")
+    args = parser.parse_args()
+    return args
+
+
 def structure_gap_input():
     """
     Get console input for :mod:`.structure_gap`.

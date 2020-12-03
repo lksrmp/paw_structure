@@ -75,6 +75,22 @@ The column **RDF** contains the values for the radial distribution function and 
 Lines were replaced by "..." for better visibility of the structure.
 
 .. literalinclude:: Images/mn.radial
+
+.. _Output_angle:
+
+".angle"
+---------
+Contains values for angular distribution function.
+
+File produced by function :func:`.angle_save` while running :ref:`Usage_paw_structure_fast` if :ref:`Control_ANGLE` block is active.
+
+The header contains general information like the time interval and number of snapshots that have been extracted, the unit cell matrix and the parameter selected in the control file.
+
+The column **ADF** contains the values for the angular distribution function corresponding to the degree values in column **RADIUS**.
+
+Lines were replaced by "..." for better visibility of the structure.
+
+.. literalinclude:: Images/mn.angle
     
 .. _Output_hbonds_c:
 
@@ -176,7 +192,7 @@ Careful interpretation by the user is necessary to understand the results. A sud
     :alt: water complex plot
     :figclass: align-center
 
-    Plot produced while running :ref:`Usage_paw_structure_ion` without ion complex.
+    Plot produced while running :ref:`Usage_paw_structure_water` without ion complex.
     
 .. figure:: Images/mn2_water.png
     :width: 400
@@ -184,7 +200,7 @@ Careful interpretation by the user is necessary to understand the results. A sud
     :alt: water ion complex plot
     :figclass: align-center
 
-    Plot produced while running :ref:`Usage_paw_structure_ion` with ion complex.
+    Plot produced while running :ref:`Usage_paw_structure_water` with ion complex.
 
 .. _Output_radial_png:
 
@@ -202,7 +218,27 @@ In blue is the RDF and orange is the coordination number which results from the 
     :alt: radial distribution function plot
     :figclass: align-center
     
+    Plot produced while running :ref:`Usage_paw_structure_radial`.
     **blue**: RDF, **orange**: coordination number, **green**: detected peaks, **black**: FWHM
+    
+.. _Output_angle_png:
+
+"_angle.png"
+-------------
+Plot of the angular distribution function (ADF) saved in the :ref:`Output_angle` while running :ref:`Usage_paw_structure_fast`. It is produced by :ref:`Usage_paw_structure_angle`.
+
+.. Todo::
+
+    Include peak detection.
+
+.. figure:: Images/mn_angle.png
+    :width: 400
+    :align: center
+    :alt: angular distribution function plot
+    :figclass: align-center
+    
+    Plot produced while running :ref:`Usage_paw_structure_angle`.
+    Angular distribution function of Mn-O.
 
 .. _Output_hbonds_png:
 
@@ -216,6 +252,7 @@ Plot of the average hydrogen bond number per molecule as a function of time prod
     :alt: radial distribution function plot
     :figclass: align-center
     
+    Plot produced by running :ref:`Usage_paw_structure_hbonds`. 
     Hydrogen bond per molecule as a function of time.
 
 .. _Output_gap_png:

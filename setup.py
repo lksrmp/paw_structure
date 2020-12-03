@@ -71,6 +71,17 @@ ext_modules = [
             get_pybind_include(),
         ],
     ),
+    Extension(
+        'paw_structure.angle_c',
+        # Sort input source files to ensure bit-for-bit reproducible builds
+        # (https://github.com/pybind/python_example/pull/53)
+        sorted(['src/calc_c.cpp', 'src/pbc_c.cpp', 'src/angle_c.cpp']),
+        language='c++',
+        include_dirs=[
+            # Path to pybind11 headers
+            get_pybind_include(),
+        ],
+    ),
 ]
 
 
@@ -173,6 +184,7 @@ setup(
             "paw_structure_ion = paw_structure.structure_ion:main",
             "paw_structure_water = paw_structure.structure_water:main",
             "paw_structure_radial = paw_structure.structure_radial:main",
+            "paw_structure_angle = paw_structure.structure_angle:main",
             "paw_structure_hbonds = paw_structure.structure_hbonds:main",
             "paw_structure_gap = paw_structure.structure_gap:main"
             ]
