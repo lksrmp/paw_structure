@@ -40,6 +40,8 @@ from . import utility
 
 from . import angle_c
 
+import sys
+
 def angle_single_c(snap, id1, id2, cut, names=None):
     """
     Binding of C++ routines in :mod:`.angle_c` for angle calculation of a single snapshot.
@@ -116,7 +118,7 @@ def angle_calculate(snapshots, id1, id2, cut, nbins, names=None):
     return degree, adf
 
 
-def angle_plot(root, degree, adf, args, integration=None):
+def angle_plot(args):
     """
     Plot the angle distribution function (adf).
 
@@ -129,24 +131,34 @@ def angle_plot(root, degree, adf, args, integration=None):
     if args.latex:
         plt.rcParams.update(utility.tex_fonts)
         plt.figure(figsize=utility.set_size(args.latex[0], fraction=args.latex[1]))
+        plt.style.use('seaborn')
     else:
         matplotlib.rcParams.update({'font.size': 14})
         plt.figure()
-    plt.plot(degree, adf)
-    if args.fwhm:
-        step = degree[1] - degree[0]
-        peaks, fwhm = angle_peak(degree, adf)
-        plt.plot(degree[peaks], adf[peaks], 'x', color='green')
-        plt.hlines(fwhm[1], fwhm[2] * step, fwhm[3] * step)
-    plt.grid()
+    for name in args.angle:
+        root = utility.argcheck([sys.argv[0], name], '.angle')
+        data = angle_load(root)
+        if args.latex:
+            label = root.replace("_", "\_")
+        else:
+            label = root
+        plt.plot(data[:, 0], data[:, 1], label=label)
+        if args.fwhm:
+            step = data[:, 0][1] - data[:, 0][0]
+            peaks, fwhm = angle_peak(data[:, 0], data[:, 1])
+            plt.plot(data[:, 0][peaks], data[:, 1][peaks], 'x', color='green')
+            plt.hlines(fwhm[1], fwhm[2] * step, fwhm[3] * step)
+    plt.grid(b=True)
+    if args.key:
+        plt.legend(frameon=True)
     if args.xlim:
         plt.xlim(args.xlim)
     if args.ylim:
         plt.ylim(args.ylim)
     else:
-        plt.ylim([0.0, np.max(adf)])
+        plt.ylim(bottom=0.0)
     if args.latex:
-        plt.xlabel(r'$\theta$')
+        plt.xlabel(r'$\theta\;$[$^\circ$]')
         plt.ylabel(r'$P(\theta)$')
         plt.savefig(root + "_angle.pdf", format='pdf', bbox_inches='tight')
     else:

@@ -324,10 +324,11 @@ def structure_radial_input():
         :py:mod:`argparse` object
     """
     parser = argparse.ArgumentParser()
-    parser.add_argument("radial", type=str, help="give path of radial data file\nproduced by structure_fast.py")
+    parser.add_argument("radial", nargs='*', type=str, help="give path of radial data file\nproduced by structure_fast.py")
     parser.add_argument("-i", "--integrate", action="store_true", help="obtain coordination number from integration")
     parser.add_argument("-fwhm", "--fwhm", action="store_true", help="peak analysis")
     parser.add_argument("-p", "--plot", action="store_true", help="show graph of radial distribution function")
+    parser.add_argument("-k", "--key", action="store_true", help="plot key/legend in the graph")
     parser.add_argument("-x", "--xlim", nargs=2, metavar=('xmin', 'xmax'), type=float, help="select range for x axis")
     parser.add_argument("-y", "--ylim", nargs=2, metavar=('ymin', 'ymax'), type=float, help="select range for y axis")
     parser.add_argument("-l", "--latex", nargs=2, metavar=('width', 'fraction'), type=str, help="document width in pts and fraction of this width\ndefaults for thesis and beamer")
@@ -344,9 +345,10 @@ def structure_angle_input():
         :py:mod:`argparse` object
     """
     parser = argparse.ArgumentParser()
-    parser.add_argument("angle", type=str, help="give path of angle data file\nproduced by structure_fast.py")
+    parser.add_argument("angle", nargs="*", type=str, help="give path of angle data file\nproduced by structure_fast.py")
     parser.add_argument("-fwhm", "--fwhm", action="store_true", help="peak analysis")
     parser.add_argument("-p", "--plot", action="store_true", help="show graph of angle distribution function")
+    parser.add_argument("-k", "--key", action="store_true", help="plot key/legend in the graph")
     parser.add_argument("-x", "--xlim", nargs=2, metavar=('xmin', 'xmax'), type=float, help="select range for x axis")
     parser.add_argument("-y", "--ylim", nargs=2, metavar=('ymin', 'ymax'), type=float, help="select range for y axis")
     parser.add_argument("-l", "--latex", nargs=2, metavar=('width', 'fraction'), type=str, help="document width in pts and fraction of this width\ndefaults for thesis and beamer")

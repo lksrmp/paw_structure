@@ -27,7 +27,4 @@ def main():
     # get command line arguments
     args = utility.structure_angle_input()
     # check for correct file ending
-    root = utility.argcheck([sys.argv[0], args.angle], '.angle')
-    # load data
-    data = angle.angle_load(root)
-    angle.angle_plot(root, data[:, 0], data[:, 1], args)
+    angle.angle_plot(args)
