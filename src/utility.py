@@ -333,7 +333,7 @@ def structure_angle_input():
     parser.add_argument("-p", "--plot", action="store_true", help="show graph of angle distribution function")
     parser.add_argument("-x", "--xlim", nargs=2, metavar=('xmin', 'xmax'), type=float, help="select range for x axis")
     parser.add_argument("-y", "--ylim", nargs=2, metavar=('ymin', 'ymax'), type=float, help="select range for y axis")
-    args = parser.parse_args()
+    args = parser.parse_args("-l", "--latex", nargs=2, metavar=('width', 'fraction'), typre=str, help="document width in pts and fraction of this width\ndefaults for thesis and beamer")
     return args
 
 
@@ -355,3 +355,35 @@ def structure_gap_input():
                         help="select range for y axis of HOMO/LUMO energy")
     args = parser.parse_args()
     return args
+
+
+def set_size(width, fraction="1", subplots=(1, 1)):
+    """
+    Set figure dimensions to avoid scaling in LaTeX.
+
+    Args:
+        width (str): document width in points or string of predefined document type
+        fraction (str): fraction of the width which you wish the figure to occupy
+        subplots (tuple(float), optional): number of rows and columns of subplots; CURRENTLY NOT IN USE
+
+    Returns:
+        tuple(float): dimensions of figure in inches
+    """
+    if width == 'thesis':
+        width_pt = 426.79135
+    elif width == 'beamer':
+        width_pt = 307.28987
+    else:
+        width_pt = width
+    # Width of figure (in pts)
+    fig_width_pt = width_pt * fraction
+    # Convert from pt to inches
+    inches_per_pt = 1 / 72.27
+    # Golden ratio to set aesthetic figure height
+    # https://disq.us/p/2940ij3
+    golden_ratio = (5**.5 - 1) / 2
+    # Figure width in inches
+    fig_width_in = fig_width_pt * inches_per_pt
+    # Figure height in inches
+    fig_height_in = fig_width_in * golden_ratio * (subplots[0] / subplots[1])
+    return (fig_width_in, fig_height_in)
