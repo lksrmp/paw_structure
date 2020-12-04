@@ -62,7 +62,7 @@ Performs further analysis of the data extracted by :ref:`Usage_paw_structure_fas
 
 The routine is started inside the directory containing the input data with::
 
-    paw_structure_ion [-p] [-x XMIN XMAX] [-y YMIN YMAX] ion
+    paw_structure_ion [-p] [-l width fraction] [-x xmin xmax] [-y ymin ymax] ion
     
 **mandatory**  
 
@@ -71,8 +71,9 @@ The routine is started inside the directory containing the input data with::
 **optional**
 
 :-p: show interactive graph of atom number in ion complex
-:-x [XMIN XMAX]: select range for x axis of plot
-:-y [YMIN YMAX]: select range for y axis of plot
+:-l [width fraction]: PDF output in LaTeX font, width of document in pts and fraction of this width; defaults given for beamer and thesis
+:-x [xmin xmax]: select range for x axis of plot
+:-y [ymin ymax]: select range for y axis of plot
     
 This executes the module :mod:`.structure_ion` internally.
     
@@ -94,7 +95,7 @@ Performs further analysis of the data extracted by :ref:`Usage_paw_structure_fas
 
 The routine is started inside the directory containing the input data with::
 
-    paw_structure_water [-i ION] [-p] [-x XMIN XMAX] [-y YMIN YMAX] water
+    paw_structure_water [-i ion] [-p] [-l width fraction] [-x xmin xmax] [-y ymin ymax] [-k] water
     
 **mandatory**  
 
@@ -104,8 +105,10 @@ The routine is started inside the directory containing the input data with::
 
 :-i [ION]: path of :ref:`Output_ion` complex file produced by :ref:`Usage_paw_structure_fast`
 :-p: show interactive graph of atom number in water complexes
-:-x [XMIN XMAX]: select range for x axis of plot
-:-y [YMIN YMAX]: select range for y axis of plot
+:-l [width fraction]: PDF output in LaTeX font, width of document in pts and fraction of this width; defaults given for beamer and thesis
+:-x [xmin xmax]: select range for x axis of plot
+:-y [ymin ymax]: select range for y axis of plot
+:-k: plot key/legend in the graph; only works if ion is selected
     
 This executes the module :mod:`.structure_water` internally.
 
@@ -140,19 +143,21 @@ Plotting of the radial distribution function (RDF) extracted by :ref:`Usage_paw_
 
 The routine is started inside the directory containing the input data with::
 
-    paw_structure_radial [-i] [-fwhm] [-p] [-x XMIN XMAX] [-y YMIN YMAX] radial
+    paw_structure_radial [-i] [-fwhm] [-p] [-l width fraction] [-x xmin xmax] [-y ymin ymax] [-k] radial
     
 **mandatory**  
 
-:radial: path of :ref:`Output_radial` file produced by :ref:`Usage_paw_structure_fast`
+:radial: paths of (multiple) :ref:`Output_radial` files produced by :ref:`Usage_paw_structure_fast`
 
 **optional**
 
 :-i: integrate RDF to obtain the coordination number
 :-fwhm: peak detection and analysis
 :-p: show interactive graph of radial distribution function
-:-x [XMIN XMAX]: select range for x axis of plot
-:-y [YMIN YMAX]: select range for y axis of plot
+:-l [width fraction]: PDF output in LaTeX font, width of document in pts and fraction of this width; defaults given for beamer and thesis
+:-x [xmin xmax]: select range for x axis of plot
+:-y [ymin ymax]: select range for y axis of plot
+:-k: plot key/legend in the graph
     
 This exectures the module :mod:`.structure_radial` internally.
 
@@ -179,18 +184,20 @@ Plotting of the angular distribution function (ADF) extracted by :ref:`Usage_paw
 
 The routine is started inside the directory containing the input data with::
 
-    paw_structure_angle [-fwhm] [-p] [-x XMIN XMAX] [-y YMIN YMAX] angle
+    paw_structure_angle [-fwhm] [-p] [-l width fraction] [-x xmin xmax] [-y ymin ymax] [-k] angle
     
 **mandatory**  
 
-:angle: path of :ref:`Output_angle` file produced by :ref:`Usage_paw_structure_fast`
+:angle: paths of (mulitple) :ref:`Output_angle` files produced by :ref:`Usage_paw_structure_fast`
 
 **optional**
 
 :-fwhm: peak detection and analysis
 :-p: show interactive graph of angular distribution function
-:-x [XMIN XMAX]: select range for x axis of plot
-:-y [YMIN YMAX]: select range for y axis of plot
+:-l [width fraction]: PDF output in LaTeX font, width of document in pts and fraction of this width; defaults given for beamer and thesis
+:-x [xmin xmax]: select range for x axis of plot
+:-y [ymin ymax]: select range for y axis of plot
+:-k: plot key/legend in the graph
     
 This exectures the module :mod:`.structure_angle` internally.
 
@@ -217,17 +224,19 @@ Plotting of the average hydrogen bond number per oxygen atom as a function of ti
 
 The routine is started inside the directory containing the input data with::
 
-    paw_structure_hbonds [-p] [-x XMIN XMAX] [-y YMIN YMAX] hbonds
+    paw_structure_hbonds [-p] [-l width fraction] [-x xmin xmax] [-y ymin ymax] [-k] hbonds
     
 **mandatory**  
 
-:hbonds: path of :ref:`Output_hbonds_c`  file produced by :ref:`Usage_paw_structure_fast`
+:hbonds: paths of (mulitple) :ref:`Output_hbonds_c` files produced by :ref:`Usage_paw_structure_fast`
 
 **optional**
 
 :-p: show interactive graph of hydrogen bond number
-:-x [XMIN XMAX]: select range for x axis of plot
-:-y [YMIN YMAX]: select range for y axis of plot
+:-l [width fraction]: PDF output in LaTeX font, width of document in pts and fraction of this width; defaults given for beamer and thesis
+:-x [xmin xmax]: select range for x axis of plot
+:-y [ymin ymax]: select range for y axis of plot
+:-k: plot key/legend in the graph
     
 This exectures the module :mod:`.structure_hbonds` internally.
 
@@ -239,7 +248,7 @@ Plotting of the energy gap and the HOMO/LUMO energy taken from the CP-PAW protoc
 
 The routine is started inside the directory containing the input data with::
 
-    paw_structure_gap [-p] [-x XMIN XMAX] [-y1 YMIN1 YMAX1] [-y2 YMIN2 YMAX2] prot
+    paw_structure_gap [-p] [-l width fraction] [-x xmin xmax] [-y1 ymin1 ymax1] [-y2 ymin2 ymax2] prot
     
 **mandatory**
 
@@ -248,9 +257,10 @@ The routine is started inside the directory containing the input data with::
 **optional**
 
 :-p: show interactive graph of the energies
-:-x XMIN XMAX: select range for x axis of plot
-:-y1 YMIN1 YMAX1: select range for y1 axis of plot (energy gap)
-:-y2 YMIN2 YMAX2: select range for y2 axis of plot (HOMO/LUMO energy)
+:-l [width fraction]: PDF output in LaTeX font, width of document in pts and fraction of this width; defaults given for beamer and thesis
+:-x xmin xmax: select range for x axis of plot
+:-y1 ymin1 ymax1: select range for y1 axis of plot (energy gap)
+:-y2 ymin2 ymax2: select range for y2 axis of plot (HOMO/LUMO energy)
 
 This executes the module :mod:`.structure_gap` internally.
 

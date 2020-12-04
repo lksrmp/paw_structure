@@ -52,22 +52,33 @@ def main():
         ion.ion_save(root, export, ref, ref, ref, 0, 0, ext='.ion_out')
         print("WRITING OF %s SUCCESSFUL" % (root + '.ion_out'))
     # plot atom number as function of time
-    matplotlib.rcParams.update({'font.size': 14})
-    plt.figure()
+
+    if args.latex:
+        plt.rcParams.update(utility.tex_fonts)
+        plt.figure(figsize=utility.set_size(args.latex[0], fraction=args.latex[1]))
+        plt.style.use('seaborn')
+    else:
+        matplotlib.rcParams.update({'font.size': 14})
+        plt.figure()
     plt.plot(times, atoms, color='black')
     plt.plot(times, atoms, 'ro', markersize=1)
     ticks = range(np.min(atoms) - 1, np.max(atoms) + 2)
     plt.yticks(ticks)
-    plt.xlabel('time [ps]')
-    plt.ylabel('number of atoms')
-    # plt.title('ION COMPLEX')
-    plt.grid()
+    plt.grid(b=True)
     if args.xlim:
         plt.xlim(args.xlim)
     if args.ylim:
         plt.ylim(args.ylim)
-    fig_name = root + '_ion.png'
-    plt.savefig(fig_name, dpi=300.0)
+    if args.latex:
+        plt.xlabel(r'time [ps]')
+        plt.ylabel(r'number of atoms')
+        fig_name = root + "_ion.pdf"
+        plt.savefig(fig_name, format='pdf', bbox_inches='tight')
+    else:
+        plt.xlabel('time [ps]')
+        plt.ylabel('number of atoms')
+        fig_name = root + '_ion.png'
+        plt.savefig(fig_name, dpi=300.0)
     print('SAVING OF %s SUCCESSFUL' % fig_name)
     if args.plot:
         plt.show()

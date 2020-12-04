@@ -16,6 +16,7 @@ Dependencies:
     :py:mod:`numpy`
     :py:mod:`pandas`
     :py:mod:`scipy`
+    :py:mod:`sys`
     :mod:`.utility`
     :mod:`.angle_c`
 
@@ -35,12 +36,11 @@ import miniutils.progress_bar as progress
 import matplotlib.pyplot as plt
 import matplotlib
 import scipy.signal as signal
+import sys
 
 from . import utility
-
 from . import angle_c
 
-import sys
 
 def angle_single_c(snap, id1, id2, cut, names=None):
     """
@@ -123,9 +123,6 @@ def angle_plot(args):
     Plot the angle distribution function (adf).
 
     Args:
-        root (str): root name of the files
-        degree (ndarray[float]): degree used for adf calculation
-        adf (ndarray[float]): value of adf corresponding to these degrees
         args (:py:mod:`argparse` object): command line arguments
     """
     if args.latex:
@@ -160,11 +157,14 @@ def angle_plot(args):
     if args.latex:
         plt.xlabel(r'$\theta\;$[$^\circ$]')
         plt.ylabel(r'$P(\theta)$')
-        plt.savefig(root + "_angle.pdf", format='pdf', bbox_inches='tight')
+        fig_name = root + "_angle.pdf"
+        plt.savefig(fig_name, format='pdf', bbox_inches='tight')
     else:
         plt.xlabel("angle [°]")
         plt.ylabel("ADF [a.u.]")
-        plt.savefig(root + "_angle.png", dpi=300.0)
+        fig_name = root + "_angle.png"
+        plt.savefig(fig_name, dpi=300.0)
+    print('SAVING OF %s SUCCESSFUL' % fig_name)
     if args.plot:
         plt.show()
     return

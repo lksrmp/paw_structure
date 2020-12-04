@@ -13,6 +13,7 @@ Dependencies:
     argcheck
     err
     err_file
+    set_size
     structure_fast_input
     structure_gap_input
     structure_hbonds_input
@@ -21,8 +22,6 @@ Dependencies:
     structure_water_input
     timing
 """
-
-
 import sys
 import argparse
 import time
@@ -270,11 +269,12 @@ def structure_hbonds_input():
         :py:mod:`argparse` object
     """
     parser = argparse.ArgumentParser()
-    parser.add_argument("hbonds", type=str, help="give path of hydrogen bond network file\nproduced by structure_fast.py")
+    parser.add_argument("hbonds", nargs='*', type=str, help="give path of hydrogen bond network file\nproduced by structure_fast.py")
     parser.add_argument("-p", "--plot", action="store_true", help="show graph of hydrogen bond number")
+    parser.add_argument("-l", "--latex", nargs=2, metavar=('width', 'fraction'), type=str, help="document width in pts and fraction of this width\ndefaults for thesis and beamer")
     parser.add_argument("-x", "--xlim", nargs=2, metavar=('xmin', 'xmax'), type=float, help="select range for x axis")
     parser.add_argument("-y", "--ylim", nargs=2, metavar=('ymin', 'ymax'), type=float, help="select range for y axis")
-    parser.add_argument("-l", "--latex", nargs=2, metavar=('width', 'fraction'), type=str, help="document width in pts and fraction of this width\ndefaults for thesis and beamer")
+    parser.add_argument("-k", "--key", action="store_true", help="plot key/legend in the graph")
     args = parser.parse_args()
     return args
 
@@ -290,6 +290,7 @@ def structure_ion_input():
     parser = argparse.ArgumentParser()
     parser.add_argument("ion", type=str, help="give path of ion complex file\nproduced by structure_fast.py")
     parser.add_argument("-p", "--plot", action="store_true", help="show graph of atom number in ion complex")
+    parser.add_argument("-l", "--latex", nargs=2, metavar=('width', 'fraction'), type=str, help="document width in pts and fraction of this width\ndefaults for thesis and beamer")
     parser.add_argument("-x", "--xlim", nargs=2, metavar=('xmin', 'xmax'), type=float, help="select range for x axis")
     parser.add_argument("-y", "--ylim", nargs=2, metavar=('ymin', 'ymax'), type=float, help="select range for y axis")
     args = parser.parse_args()
@@ -306,9 +307,11 @@ def structure_water_input():
     """
     parser = argparse.ArgumentParser()
     parser.add_argument("water", type=str, help="give path of water complex file\nproduced by structure_fast.py")
-    parser.add_argument("-i", "--ion", nargs=1, help="give path of ion complex file\nproduced by structure_fast.py",
+    parser.add_argument("-i", "--ion", nargs=1, metavar=('ion'), help="give path of ion complex file\nproduced by structure_fast.py",
                         default=False)
     parser.add_argument("-p", "--plot", action="store_true", help="show graph of atom number in water complex")
+    parser.add_argument("-l", "--latex", nargs=2, metavar=('width', 'fraction'), type=str, help="document width in pts and fraction of this width\ndefaults for thesis and beamer")
+    parser.add_argument("-k", "--key", action="store_true", help="plot key/legend in the graph\nonly works with ion selected")
     parser.add_argument("-x", "--xlim", nargs=2, metavar=('xmin', 'xmax'), type=float, help="select range for x axis")
     parser.add_argument("-y", "--ylim", nargs=2, metavar=('ymin', 'ymax'), type=float, help="select range for y axis")
     args = parser.parse_args()
@@ -367,6 +370,7 @@ def structure_gap_input():
     parser = argparse.ArgumentParser()
     parser.add_argument("prot", type=str, help="give path of CP-PAW protocol file")
     parser.add_argument("-p", "--plot", action="store_true", help="show graph of energies")
+    parser.add_argument("-l", "--latex", nargs=2, metavar=('width', 'fraction'), type=str, help="document width in pts and fraction of this width\ndefaults for thesis and beamer")
     parser.add_argument("-x", "--xlim", nargs=2, type=float, help="select range for x axis (xmin, xmax)")
     parser.add_argument("-y1", "--ylim1", nargs=2, metavar=('ymin1', 'ymax1'), type=float,
                         help="select range for y axis of energy gap")

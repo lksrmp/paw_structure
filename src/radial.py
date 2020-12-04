@@ -16,6 +16,7 @@ Dependencies:
     :py:mod:`numpy`
     :py:mod:`pandas`
     :py:mod:`scipy`
+    :py:mod:`sys`
     :mod:`.pbc`
     :mod:`.utility`
     :mod:`.radial_c`
@@ -38,13 +39,13 @@ import matplotlib.pyplot as plt
 import matplotlib
 import scipy.integrate as si
 import scipy.signal as signal
+import sys
 
 from . import utility
 from . import pbc
-
 from . import radial_c
 
-import sys
+
 
 ########################################################################################################################
 # FIND DISTANCES SMALLER THAN A CUTOFF DISTANCE
@@ -282,7 +283,7 @@ def radial_integrate(radius, rdf, rho):
 # ndarray float rdf             radial distribution function corresponding to radii
 # ndarray float integration     coordination number for different radii
 ########################################################################################################################
-def radial_plot(args):  # , show=False, peak=False):
+def radial_plot(args):
     """
     Plot the radial distribution function (rdf) and the coordination number integration if selected.
 
@@ -323,11 +324,14 @@ def radial_plot(args):  # , show=False, peak=False):
     if args.latex:
         plt.xlabel(r'$r\;$[\AA]')
         plt.ylabel(r'$g(r)$')
-        plt.savefig(root + "_radial.pdf", format='pdf', bbox_inches='tight')
+        fig_name = root + "_radial.pdf"
+        plt.savefig(fig_name, format='pdf', bbox_inches='tight')
     else:
         plt.xlabel("r [A]")
         plt.ylabel("g(r)")
-        plt.savefig(root + "_radial.png", dpi=300.0)
+        fig_name = root + "_radial.png"
+        plt.savefig(fig_name, dpi=300.0)
+    print('SAVING OF %s SUCCESSFUL' % fig_name)
     if args.plot:
         plt.show()
     return

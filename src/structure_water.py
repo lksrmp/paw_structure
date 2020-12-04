@@ -88,9 +88,15 @@ def main():
         print("WRITING OF %s SUCCESSFUL" % (root + '.water_ion'))
     # get data for plotting
     atoms, times, iterations = tra.tra_number_atoms(snapshots)
+
     # plotting
-    matplotlib.rcParams.update({'font.size': 12})
-    plt.figure()
+    if args.latex:
+        plt.rcParams.update(utility.tex_fonts)
+        plt.figure(figsize=utility.set_size(args.latex[0], fraction=args.latex[1]))
+        plt.style.use('seaborn')
+    else:
+        matplotlib.rcParams.update({'font.size': 14})
+        plt.figure()
     plt.plot(times, atoms, color='black')
     plt.plot(times, atoms, 'ro', markersize=1, label='all complexes')
     ticks = [np.min(atoms), np.max(atoms)]
@@ -100,20 +106,26 @@ def main():
         plt.plot(times, atoms_water, color='black')
         plt.plot(times, atoms_water, 'go', markersize=1, label='water complexes')
         ticks = [np.min([np.min(atoms_water), ticks[0]]), np.max([np.max(atoms_water), ticks[1]])]
-        plt.legend()
+        if args.key:
+            plt.legend(frameon=True)
     ticks = range(ticks[0], ticks[1], 2)
     plt.yticks(ticks)
-    plt.xlabel('time [ps]')
-    plt.ylabel('number of atoms')
     # plt.title('WATER COMPLEX')
     if args.xlim:
         plt.xlim(args.xlim)
     if args.ylim:
         plt.ylim(args.ylim)
-    plt.grid()
-    fig_name = root + '_water.png'
-    # save plot
-    plt.savefig(fig_name, dpi=300.0)
+    plt.grid(b=True)
+    if args.latex:
+        plt.xlabel(r'time [ps]')
+        plt.ylabel(r'number of atoms')
+        fig_name = root + "_water.pdf"
+        plt.savefig(fig_name, format='pdf', bbox_inches='tight')
+    else:
+        plt.xlabel('time [ps]')
+        plt.ylabel('number of atoms')
+        fig_name = root + '_water.png'
+        plt.savefig(fig_name, dpi=300.0)
     print('SAVING OF %s SUCCESSFUL' % fig_name)
     if args.plot:
         plt.show()
