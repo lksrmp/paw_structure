@@ -98,7 +98,9 @@ def scntl_text(root, ext='.scntl'):
                 elif text[i][0].casefold() == '!RADIAL'.casefold():
                     brackets['!RADIAL'] = [i]
                     current_bracket.append('!RADIAL')
-
+                elif text[i][0].casefold() == '!ANGLE'.casefold():
+                    brackets['!ANGLE'] = [i]
+                    current_bracket.append('!ANGLE')
                 # check if bracket is being closed
                 elif text[i][0].casefold() == '!END'.casefold():
                     try:
@@ -151,15 +153,19 @@ def scntl_read_tra(text, idx):
         else:
             tra_dict['SAVE'] = False
 
-
-
     # check for load of snapshots, overwrites arguments T1, T2, N
     if tra_dict['LOAD'] is None:
         tra_dict['LOAD'] = False
         if tra_dict['T1'] is None or tra_dict['T2'] is None or tra_dict['N'] is None:
             utility.err('scntl_read', 0, ['!TRA'], info="T1 T2 N")
-        tra_dict['T1'] = float(tra_dict['T1'])
-        tra_dict['T2'] = float(tra_dict['T2'])
+        if tra_dict['T1'].casefold() == 'start':
+            tra_dict['T1'] = "START"
+        else:
+            tra_dict['T1'] = float(tra_dict['T1'])
+        if tra_dict['T2'].casefold() == 'end':
+            tra_dict['T2'] = "END"
+        else:
+            tra_dict['T2'] = float(tra_dict['T2'])
         tra_dict['N'] = int(tra_dict['N'])
     else:
         if tra_dict['LOAD'].casefold() == 'true':
@@ -169,8 +175,14 @@ def scntl_read_tra(text, idx):
             # check for necessary arguments if snapshots are not loaded
             if tra_dict['T1'] is None or tra_dict['T2'] is None or tra_dict['N'] is None:
                 utility.err('scntl_read', 0, ['!TRA'], info="T1 T2 N")
-            tra_dict['T1'] = float(tra_dict['T1'])
-            tra_dict['T2'] = float(tra_dict['T2'])
+            if tra_dict['T1'].casefold() == 'start':
+                tra_dict['T1'] = 'START'
+            else:
+                tra_dict['T1'] = float(tra_dict['T1'])
+            if tra_dict['T2'].casefold() == 'end':
+                tra_dict['T2'] = "END"
+            else:
+                tra_dict['T2'] = float(tra_dict['T2'])
             tra_dict['N'] = int(tra_dict['N'])
     return tra_dict
 
@@ -349,10 +361,73 @@ def scntl_read_radial(text, idx):
         radial_dict['TRA_EXTRACT'] = False
     else:
         radial_dict['TRA_EXTRACT'] = True
-        radial_dict['T1'] = float(radial_dict['T1'])
-        radial_dict['T2'] = float(radial_dict['T2'])
+        if radial_dict['T1'].casefold() == 'start':
+            radial_dict['T1'] = "START"
+        else:
+            radial_dict['T1'] = float(radial_dict['T1'])
+        if radial_dict['T2'].casefold() == 'end':
+            radial_dict['T2'] = "END"
+        else:
+            radial_dict['T2'] = float(radial_dict['T2'])
         radial_dict['N'] = int(radial_dict['N'])
     return radial_dict
+
+
+def scntl_read_angle(text, idx):
+    """
+    Interpret the control block :ref:`Control_ANGLE` for :mod:`.angle`.
+
+    Args:
+        text (list[list[str]]): text from the control file; each line is a list of words within the outer list
+        idx (list[int]): list with two indices marking beginning and end of control block
+
+    Returns:
+        dict: dictionary containing all information obtained from the control block
+
+
+    Todo:
+        Implement name identification for central atoms.
+    """
+    text = text[idx[0] + 1:idx[1]]
+    angle_dict = {
+        'ID1': None,
+        'ID2': None,
+        'CUT': None,
+        'NBINS': None,
+        'T1': None,
+        'T2': None,
+        'N': None,
+        'TRA_EXTRACT': True
+    }
+    for line in text:
+        if len(line) > 1:
+            if line[0].casefold() in [x.casefold() for x in list(angle_dict.keys())]:
+                angle_dict[line[0].upper()] = line[1]
+    if angle_dict['CUT'] is None:
+        angle_dict['CUT'] = 5.0
+    else:
+        angle_dict['CUT'] = float(angle_dict['CUT'])
+    if angle_dict['NBINS'] is None:
+        angle_dict['NBINS'] = 1000
+    else:
+        angle_dict['NBINS'] = int(angle_dict['NBINS'])
+    if angle_dict['ID1'] is None or angle_dict['ID2'] is None:
+        utility.err('scntl_read', 0, ['!RADIAL'], info=" ID1 ID2")
+    # check for necessary arguments if snapshots are not loaded
+    if angle_dict['T1'] is None or angle_dict['T2'] is None or angle_dict['N'] is None:
+        angle_dict['TRA_EXTRACT'] = False
+    else:
+        angle_dict['TRA_EXTRACT'] = True
+        if angle_dict['T1'].casefold() == 'start':
+            angle_dict['T1'] = "START"
+        else:
+            angle_dict['T1'] = float(angle_dict['T1'])
+        if angle_dict['T2'].casefold() == 'end':
+            angle_dict['T2'] = "END"
+        else:
+            angle_dict['T2'] = float(angle_dict['T2'])
+        angle_dict['N'] = int(angle_dict['N'])
+    return angle_dict
 
 
 def scntl_read_scntl(text, idx, delete):
@@ -434,6 +509,11 @@ def scntl_read(root):
         radial_dict = scntl_read_radial(text, brackets['!RADIAL'])
         scntl_dict['!RADIAL'] = radial_dict
         delete = delete + [*range(brackets['!RADIAL'][0], brackets['!RADIAL'][1] + 1)]
+    # read !ANGLE control block if present
+    if '!ANGLE' in brackets.keys():
+        angle_dict = scntl_read_angle(text, brackets['!ANGLE'])
+        scntl_dict['!ANGLE'] = angle_dict
+        delete = delete + [*range(brackets['!ANGLE'][0], brackets['!ANGLE'][1] + 1)]
     # delete unused blocks
     for i in range(int(len(brackets['DELETE']) / 2)):
         delete = delete + [*range(brackets['DELETE'][i*2], brackets['DELETE'][i*2+1] + 1)]
@@ -442,7 +522,16 @@ def scntl_read(root):
     # ensure existence of !TRA except only !RADIAL is given with LOAD or its own data extraction active
     #TODO: error checking does not work properly
     if '!TRA' not in scntl_dict.keys():
-        if not (set(['GENERAL', '!RADIAL']) == set(scntl_dict.keys())):
-            if not scntl_dict['!RADIAL']['TRA_EXTRACT']:
-                utility.err('scntl_read', 1, [root], info="IF ONLY !RADIAL IS USED, PROVIDE T1 T2 N")
+        if '!RADIAL' in scntl_dict.keys() and '!ANGLE' in scntl_dict.keys():
+            if not (set(['GENERAL', '!RADIAL', '!ANGLE']) == set(scntl_dict.keys())):
+                if not (scntl_dict['!RADIAL']['TRA_EXTRACT'] and scntl_dict['!ANGLE']['TRA_EXTRACT']):
+                    utility.err('scntl_read', 1, [root], info="IF ONLY !RADIAL AND !ANGLE ARE USED, PROVIDE T1 T2 N")
+        elif '!RADIAL' in scntl_dict.keys() and not ('!ANGLE' in scntl_dict.keys()):
+            if not (set(['GENERAL', '!RADIAL']) == set(scntl_dict.keys())):
+                if not (scntl_dict['!RADIAL']['TRA_EXTRACT']):
+                    utility.err('scntl_read', 1, [root], info="IF ONLY !RADIAL IS USED, PROVIDE T1 T2 N")
+        elif not ('!RADIAL' in scntl_dict.keys()) and '!ANGLE' in scntl_dict.keys():
+            if not (set(['GENERAL', '!ANGLE']) == set(scntl_dict.keys())):
+                if not (scntl_dict['!ANGLE']['TRA_EXTRACT']):
+                    utility.err('scntl_read', 1, [root], info="IF ONLY !ANGLE IS USED, PROVIDE T1 T2 N")
     return scntl_dict

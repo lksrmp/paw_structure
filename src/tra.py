@@ -163,7 +163,7 @@ def tra_index(times, t1, t2, n):
     counter = 0
     idx = []
     for i in range(1, len(times)):
-        if (times[i] - snapshot[counter]) > 0:
+        if (times[i] - snapshot[counter]) >= 0:
             if np.abs(times[i-1] - snapshot[counter]) < (times[i] - snapshot[counter]):
                 idx.append(i - 1)
                 counter += 1
@@ -301,8 +301,8 @@ def tra_read(root, t1, t2, n):
 
     Args:
         root (str): root name of the trajectory file
-        t1 (float): beginning of interval
-        t2 (float): end of interval
+        t1 (float, "START"): beginning of interval, can be string "START" to select first time available
+        t2 (float, "END"): end of interval, can be string "END" to select last time available
         n (int): number of wanted snapshots
 
     Returns:
@@ -313,6 +313,10 @@ def tra_read(root, t1, t2, n):
     n_atoms = len(atoms['index'].values)  # get number of atoms
     data = tra_extract(root, n_atoms)  # read trajectory file
     data = tra_clean(data)  # removed doubled time intervals
+    if t1 == 'START':
+        t1 = data['time'][0]
+    if t2 == 'END':
+        t2 = data['time'][-1]
     select = tra_index(data['time'], t1, t2, n)  # select snapshots for analysis
     data = data[select]
     snapshots = []

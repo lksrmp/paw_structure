@@ -2,7 +2,10 @@
 
 Usage
 =====
-The :ref:`workflow<Usage_workflow>` in combination with the CP-PAW simulations code can be separated into two stages which are data extraction and presentation. The program paw\_structure\_fast takes CP-PAW output as a source of data and depending on the user created control file (".scntl") it extracts certain information. These are then saves into several output files and are accessible to the user. However, they are not designed to give a good overview. Using the other programs in the package the user can generate additional output files and graphs to make the aspects of the analysis more visible and accessible. 
+
+.. _CP-PAW: https://www2.pt.tu-clausthal.de/paw/
+
+The :ref:`workflow<Usage_workflow>` in combination with the CP-PAW_ simulations code can be separated into two stages which are data extraction and presentation. The program paw\_structure\_fast takes CP-PAW_ output as a source of data and depending on the user created :ref:`CONTROL` it extracts certain information. These are then saves into several output files and are accessible to the user. However, they are not designed to give a good overview. Using the other programs in the package the user can generate additional output files and graphs to make the aspects of the analysis more visible and accessible. 
 
 The usage of the paw\_structure package is based on the command line executables::
     
@@ -10,6 +13,7 @@ The usage of the paw\_structure package is based on the command line executables
     paw_structure_ion
     paw_structure_water
     paw_structure_radial
+    paw_structure_angle
     paw_structure_hbonds
     paw_structure_gap
     
@@ -21,13 +25,13 @@ The usage of the paw\_structure package is based on the command line executables
     :alt: workflow illustration
     :figclass: align-center
 
-    Workflow in combination with CP-PAW.
+    Workflow in combination with CP-PAW_.
 
 .. _Usage_paw_structure_fast:
 
 paw\_structure\_fast
 --------------------
-Reads, extracts and analyses atomic information from the "_r.tra" trajectory file produced during the CP-PAW simulation. This process is controlled by the :ref:`control file ".scntl" <Control>`.
+Reads, extracts and analyses atomic information from the "_r.tra" trajectory file produced during the CP-PAW_ simulation. This process is controlled by the :ref:`control file ".scntl" <Control>`.
 
 The routine is started inside the directory containing the input data with::
 
@@ -167,9 +171,43 @@ Output files are
 
     Additional output of peak detection into file. At the moment only printed into console.
     
-    Describe determination of RDF and coordination number mathematically.
+.. _Usage_paw_structure_angle:
     
-    Details on peak detection using :py:mod:`scipy`.
+paw\_structure\_angle
+----------------------
+Plotting of the angular distribution function (ADF) extracted by :ref:`Usage_paw_structure_fast` which is saved in the :ref:`Output_angle` file.
+
+The routine is started inside the directory containing the input data with::
+
+    paw_structure_angle [-fwhm] [-p] [-x XMIN XMAX] [-y YMIN YMAX] angle
+    
+**mandatory**  
+
+:angle: path of :ref:`Output_angle` file produced by :ref:`Usage_paw_structure_fast`
+
+**optional**
+
+:-fwhm: peak detection and analysis
+:-p: show interactive graph of angular distribution function
+:-x [XMIN XMAX]: select range for x axis of plot
+:-y [YMIN YMAX]: select range for y axis of plot
+    
+This exectures the module :mod:`.structure_angle` internally.
+
+The peak detection is performed using :func:`.radial_peak` utilizing :py:mod:`scipy` routines.
+
+Output files are
+
+.. hlist::
+    :columns: 1
+    
+    - :ref:`Output_angle_png`
+    
+.. Todo::
+
+    Additional output of peak detection into file. At the moment only printed into console.
+    
+    Peak detection does not work properly yet.
     
 .. _Usage_paw_structure_hbonds:
 

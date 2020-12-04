@@ -13,6 +13,7 @@ Data extraction from trajectory file.
 
 Dependencies:
     :py:mod:`sys`
+    :mod:`.angle`
     :mod:`.hbonds`
     :mod:`.ion`
     :mod:`.pbc`
@@ -30,6 +31,7 @@ Dependencies:
 import sys
 
 # MODULES WITHIN PROJECT
+from . import angle
 from . import hbonds
 from . import ion
 from . import pbc
@@ -123,3 +125,18 @@ def main():
                                        scntl['!RADIAL']['CUT'], scntl['!RADIAL']['NBINS'])
         radial.radial_save(root, radius, rdf, coord, snapshots_r, scntl['!RADIAL']['ID1'], scntl['!RADIAL']['ID2'],
                            scntl['!RADIAL']['CUT'], scntl['!RADIAL']['NBINS'], rho)
+
+    # check for ANGLE DISTRIBUTION FUNCTION ANALYSIS
+    if '!ANGLE' in scntl.keys():
+        if scntl['!ANGLE']['TRA_EXTRACT']:
+            snapshots_r = tra.tra_read(root, scntl['!ANGLE']['T1'], scntl['!ANGLE']['T2'], scntl['!ANGLE']['N'])
+            # check if atoms project into unit cell
+            if scntl['GENERAL']['PBC_FOLDING']:
+                # pbc.pbc_folding(snapshots_r) non-parallel version
+                snapshots_r = pbc.pbc_folding_parallel(snapshots_r)
+        else:
+            snapshots_r = snapshots
+        degree, adf = angle.angle_calculate(snapshots_r, scntl['!ANGLE']['ID1'], scntl['!ANGLE']['ID2'],
+                                                          scntl['!ANGLE']['CUT'], scntl['!ANGLE']['NBINS'])
+        angle.angle_save(root, degree, adf, snapshots_r, scntl['!ANGLE']['ID1'], scntl['!ANGLE']['ID2'],
+                           scntl['!ANGLE']['CUT'], scntl['!ANGLE']['NBINS'])

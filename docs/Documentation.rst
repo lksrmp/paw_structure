@@ -12,6 +12,7 @@ Here is the documentation of the program.
    ./Modules/paw_structure.structure_ion
    ./Modules/paw_structure.structure_water
    ./Modules/paw_structure.structure_radial
+   ./Modules/paw_structure.structure_angle
    ./Modules/paw_structure.structure_hbonds
    ./Modules/paw_structure.structure_gap
    ./Modules/paw_structure.utility
@@ -23,6 +24,8 @@ Here is the documentation of the program.
    ./Modules/paw_structure.water
    ./Modules/paw_structure.radial
    ./Modules/paw_structure.radial_c
+   ./Modules/paw_structure.angle
+   ./Modules/paw_structure.angle_c
    ./Modules/paw_structure.hbonds
    ./Modules/paw_structure.hbonds_c
    

@@ -117,8 +117,6 @@ PYBIND11_MODULE(hbonds_c, m){
 
         .. _Sphinx: https://www.sphinx-doc.org/en/master/
 
-        XXX REFERENCE TO ALGORITHM EXPLAINATION XXX
-
         Note:
             Documentation especially for internal C++ routines might be incomplete or show wrong argument types.
 

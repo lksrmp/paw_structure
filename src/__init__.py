@@ -1,3 +1,4 @@
+from . import angle
 from . import hbonds
 from . import ion
 from . import neighbor
@@ -10,11 +11,13 @@ from . import water
 
 from . import hbonds_c
 from . import radial_c
+from . import angle_c
 
 from . import structure_fast
 from . import structure_ion
 from . import structure_water
 from . import structure_radial
+from . import structure_angle
 from . import structure_hbonds
 from . import structure_gap
 

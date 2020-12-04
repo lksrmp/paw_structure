@@ -78,14 +78,16 @@ Trajectory extraction control block.
 .. glossary::
     T1
         starting time for snapshot extraction
+        using START flag selects first time available from simulation
         
-        :Type: float 
+        :Type: float, str: START
         :Rules: mandatory
         
     T2
         end time of snapshot extraction
+        using END flag selects last time available from simulation
         
-        :Type: float 
+        :Type: float, str: END
         :Rules: mandatory
         
     N
@@ -273,14 +275,79 @@ As mentioned beforehand, the program uses a discretized approach using a finite 
     
     T1
         starting time for snapshot extraction; overwrites selection from `!TRA`_ if **T2** and **N** are also given
+        using START flag selects first time available from simulation
     
-        :Type: float
+        :Type: float, str: START
         :Rules: optional
         
     T2
         end time for snapshot extraction; overwrites selection from `!TRA`_ if **T1** and **N** are also given
+        using END flag selects last time available from simulation
     
+        :Type: float, str: END
+        :Rules: optional
+        
+    N
+        number of extracted snapshots; overwrites selection from `!TRA`_ if **T1** and **N** are also given
+        
+        :Type: int
+        :Rules: optional
+        
+.. _Control_ANGLE:
+
+!ANGLE
+-------
+Angular distribution function (ADF) control block.
+
+:Rules: optional, requires `!TRA`_ if **T1**, **T2** and **N** are not specified
+
+The angular distribution function (ADF) gives the distribution of angles between the selected atom species averaged over time. **ID1** selects the species used as central atoms and **ID2** selects the species for possible neighbors. For each center atom, all neighbors within a distance smaller than **CUT** are detected. Let :math:`A` be the neighbor atoms and :math:`B` the center atom. The angle is than calculated according to
+
+.. math::
+
+    \angle A_iBA_j,\;i < j
+
+for all neighbor atoms. The angles are taken from **N**  snapshots equally distributed over a time interval [**T1**, **T2**] in the trajectory to account for dynamics and improve the statics. The resulting ADF is the **ID1**-**ID2** ADF.
+
+.. glossary::
+    ID1
+        identifier for atoms used as centers
+        
+        :Type: str
+        :Rules: mandatory
+        
+    ID2
+        identifier for atoms as possible neighbors
+        
+        :Type: str
+        :Rules: mandatory
+        
+    CUT
+        cutoff distance for possible neighbors
+        
         :Type: float
+        :Rules: optional
+        :Default: 5.0
+        
+    NBINS
+        number degree intervals; influences resolution as 180 degrees are equally separated
+        
+        :Type: int
+        :Rules: optional
+        :Default: 1000
+    
+    T1
+        starting time for snapshot extraction; overwrites selection from `!TRA`_ if **T2** and **N** are also given
+        using START flag selects first time available from simulation
+    
+        :Type: float, str: START
+        :Rules: optional
+        
+    T2
+        end time for snapshot extraction; overwrites selection from `!TRA`_ if **T1** and **N** are also given
+        using END flag selects last time available from simulation
+    
+        :Type: float, str: END
         :Rules: optional
         
     N
