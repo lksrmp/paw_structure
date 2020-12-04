@@ -16,6 +16,7 @@ Dependencies:
     :py:mod:`numpy`
     :py:mod:`pandas`
     :py:mod:`scipy`
+    :py:mod:`sys`
     :mod:`.pbc`
     :mod:`.utility`
     :mod:`.radial_c`
@@ -38,11 +39,12 @@ import matplotlib.pyplot as plt
 import matplotlib
 import scipy.integrate as si
 import scipy.signal as signal
+import sys
 
 from . import utility
 from . import pbc
-
 from . import radial_c
+
 
 
 ########################################################################################################################
@@ -281,37 +283,55 @@ def radial_integrate(radius, rdf, rho):
 # ndarray float rdf             radial distribution function corresponding to radii
 # ndarray float integration     coordination number for different radii
 ########################################################################################################################
-def radial_plot(root, radius, rdf, args, integration=None):  # , show=False, peak=False):
+def radial_plot(args):
     """
     Plot the radial distribution function (rdf) and the coordination number integration if selected.
 
     Args:
-        root (str): root name of the files
-        radius (ndarray[float]): radii used for rdf calculation
-        rdf (ndarray[float]): value of rdf corresponding to these radii
         args (:py:mod:`argparse` object): command line arguments
-        integration (ndarray[float], optional): coordination number for different radii
     """
-    matplotlib.rcParams.update({'font.size': 14})
-    plt.figure()
-    plt.plot(radius, rdf)
-    if integration is not None:
-        plt.plot(radius, integration)
-    if args.fwhm:
-        step = radius[1] - radius[0]
-        peaks, fwhm = radial_peak(radius, rdf)
-        plt.plot(radius[peaks], rdf[peaks], 'x', color='green')
-        plt.hlines(fwhm[1], fwhm[2] * step, fwhm[3] * step)
-    plt.grid()
-    plt.xlabel("r [A]")
-    plt.ylabel("g(r)")
+    if args.latex:
+        plt.rcParams.update(utility.tex_fonts)
+        plt.figure(figsize=utility.set_size(args.latex[0], fraction=args.latex[1]))
+        plt.style.use('seaborn')
+    else:
+        matplotlib.rcParams.update({'font.size': 14})
+        plt.figure()
+    for name in args.radial:
+        root = utility.argcheck([sys.argv[0], name], '.radial')
+        data, _ = radial_load(root)
+        if args.latex:
+            label = root.replace("_", "\_")
+        else:
+            label = root
+        plt.plot(data[:, 0], data[:, 1], label=label)
+        if args.integrate:
+            plt.plot(data[:, 0], data[:, 2])
+        if args.fwhm:
+            step = data[:, 0][1] - data[:, 0][0]
+            peaks, fwhm = radial_peak(data[:, 0], data[:, 1])
+            plt.plot(data[:, 0][peaks], data[:, 1][peaks], 'x', color='green')
+            plt.hlines(fwhm[1], fwhm[2] * step, fwhm[3] * step)
+    plt.grid(b=True)
+    if args.key:
+        plt.legend(frameon=True)
     if args.xlim:
         plt.xlim(args.xlim)
     if args.ylim:
         plt.ylim(args.ylim)
     else:
-        plt.ylim([0.0, np.max(rdf)])
-    plt.savefig(root + "_radial.png", dpi=300.0)
+        plt.ylim(bottom=0.0)
+    if args.latex:
+        plt.xlabel(r'$r\;$[\AA]')
+        plt.ylabel(r'$g(r)$')
+        fig_name = root + "_radial.pdf"
+        plt.savefig(fig_name, format='pdf', bbox_inches='tight')
+    else:
+        plt.xlabel("r [A]")
+        plt.ylabel("g(r)")
+        fig_name = root + "_radial.png"
+        plt.savefig(fig_name, dpi=300.0)
+    print('SAVING OF %s SUCCESSFUL' % fig_name)
     if args.plot:
         plt.show()
     return

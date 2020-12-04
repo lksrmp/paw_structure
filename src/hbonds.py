@@ -14,6 +14,7 @@ Dependencies:
     :py:mod:`matplotlib`
     :py:mod:`miniutils`
     :py:mod:`numpy`
+    :py:mod:`sys`
     :mod:`.utility`
     :mod:`.hbonds_c`
 
@@ -32,9 +33,12 @@ import matplotlib
 import matplotlib.pyplot as plt
 import miniutils.progress_bar as progress
 import numpy as np
+import sys
 
 from . import utility
 from . import hbonds_c
+
+
 
 
 def hbonds_single_c(snap, id1, id2, cut1, cut2, angle):
@@ -61,29 +65,46 @@ def hbonds_single_c(snap, id1, id2, cut1, cut2, angle):
     return number
 
 
-def hbonds_plot_c(root, time, n_hbonds, args):
+def hbonds_plot_c(args):
     """
     Plot hydrogen bond number per oxygen atom as a function of time.
 
     Args:
-        root (str): root name of the files
-        time (ndarray[float]): simulation times of snapshots
-        n_hbonds (ndarray[float]): number of average hydrogen bonds per oxygen atom of snapshots
         args (:py:mod:`argparse` object): command line arguments
     """
-    matplotlib.rcParams.update({'font.size': 14})
-    plt.figure()
-    plt.scatter(time, n_hbonds, s=1)
-    plt.grid()
-    plt.xlabel("time [ps]")
-    plt.ylabel("HB / molecule")
+    if args.latex:
+        plt.rcParams.update(utility.tex_fonts)
+        plt.figure(figsize=utility.set_size(args.latex[0], fraction=args.latex[1]))
+        plt.style.use('seaborn')
+    else:
+        matplotlib.rcParams.update({'font.size': 14})
+        plt.figure()
+    for name in args.hbonds:
+        root = utility.argcheck([sys.argv[0], name], '.hbonds_c')
+        data = hbonds_load_c(root)
+        if args.latex:
+            label = root.replace("_", "\_")
+        else:
+            label = root
+        plt.scatter(data[:, 0], data[:, 1], s=1, label=label)
+    plt.grid(b=True)
+    if args.key:
+        plt.legend(frameon=True)
     if args.xlim:
         plt.xlim(args.xlim)
     if args.ylim:
         plt.ylim(args.ylim)
+    if args.latex:
+        plt.xlabel(r'time [ps]')
+        plt.ylabel(r'HB / molecule')
+        fig_name = root + "_hbonds.pdf"
+        plt.savefig(fig_name, format='pdf', bbox_inches='tight')
     else:
-        plt.ylim([0.0, 4.0])
-    plt.savefig(root + "_hbonds.png", dpi=300.0)
+        plt.xlabel("time [ps]")
+        plt.ylabel("HB / molecule")
+        fig_name = root + "_hbonds.png"
+        plt.savefig(fig_name, dpi=300.0)
+    print('SAVING OF %s SUCCESSFUL' % fig_name)
     if args.plot:
         plt.show()
     return

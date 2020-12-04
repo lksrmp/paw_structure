@@ -13,6 +13,7 @@ Dependencies:
     argcheck
     err
     err_file
+    set_size
     structure_fast_input
     structure_gap_input
     structure_hbonds_input
@@ -21,11 +22,23 @@ Dependencies:
     structure_water_input
     timing
 """
-
-
 import sys
 import argparse
 import time
+
+
+tex_fonts = {
+    # Use LaTeX to write all text
+    "text.usetex": True,
+    "font.family": "serif",
+    # Use 10pt font in plots, to match 10pt font in document
+    "axes.labelsize": 12,
+    "font.size": 12,
+    # Make the legend/label fonts a little smaller
+    "legend.fontsize": 10,
+    "xtick.labelsize": 10,
+    "ytick.labelsize": 10
+}
 
 
 def timing(f):
@@ -256,10 +269,12 @@ def structure_hbonds_input():
         :py:mod:`argparse` object
     """
     parser = argparse.ArgumentParser()
-    parser.add_argument("hbonds", type=str, help="give path of hydrogen bond network file\nproduced by structure_fast.py")
+    parser.add_argument("hbonds", nargs='*', type=str, help="give path of hydrogen bond network file\nproduced by structure_fast.py")
     parser.add_argument("-p", "--plot", action="store_true", help="show graph of hydrogen bond number")
+    parser.add_argument("-l", "--latex", nargs=2, metavar=('width', 'fraction'), type=str, help="document width in pts and fraction of this width\ndefaults for thesis and beamer")
     parser.add_argument("-x", "--xlim", nargs=2, metavar=('xmin', 'xmax'), type=float, help="select range for x axis")
     parser.add_argument("-y", "--ylim", nargs=2, metavar=('ymin', 'ymax'), type=float, help="select range for y axis")
+    parser.add_argument("-k", "--key", action="store_true", help="plot key/legend in the graph")
     args = parser.parse_args()
     return args
 
@@ -275,6 +290,7 @@ def structure_ion_input():
     parser = argparse.ArgumentParser()
     parser.add_argument("ion", type=str, help="give path of ion complex file\nproduced by structure_fast.py")
     parser.add_argument("-p", "--plot", action="store_true", help="show graph of atom number in ion complex")
+    parser.add_argument("-l", "--latex", nargs=2, metavar=('width', 'fraction'), type=str, help="document width in pts and fraction of this width\ndefaults for thesis and beamer")
     parser.add_argument("-x", "--xlim", nargs=2, metavar=('xmin', 'xmax'), type=float, help="select range for x axis")
     parser.add_argument("-y", "--ylim", nargs=2, metavar=('ymin', 'ymax'), type=float, help="select range for y axis")
     args = parser.parse_args()
@@ -291,9 +307,11 @@ def structure_water_input():
     """
     parser = argparse.ArgumentParser()
     parser.add_argument("water", type=str, help="give path of water complex file\nproduced by structure_fast.py")
-    parser.add_argument("-i", "--ion", nargs=1, help="give path of ion complex file\nproduced by structure_fast.py",
+    parser.add_argument("-i", "--ion", nargs=1, metavar=('ion'), help="give path of ion complex file\nproduced by structure_fast.py",
                         default=False)
     parser.add_argument("-p", "--plot", action="store_true", help="show graph of atom number in water complex")
+    parser.add_argument("-l", "--latex", nargs=2, metavar=('width', 'fraction'), type=str, help="document width in pts and fraction of this width\ndefaults for thesis and beamer")
+    parser.add_argument("-k", "--key", action="store_true", help="plot key/legend in the graph\nonly works with ion selected")
     parser.add_argument("-x", "--xlim", nargs=2, metavar=('xmin', 'xmax'), type=float, help="select range for x axis")
     parser.add_argument("-y", "--ylim", nargs=2, metavar=('ymin', 'ymax'), type=float, help="select range for y axis")
     args = parser.parse_args()
@@ -309,12 +327,14 @@ def structure_radial_input():
         :py:mod:`argparse` object
     """
     parser = argparse.ArgumentParser()
-    parser.add_argument("radial", type=str, help="give path of radial data file\nproduced by structure_fast.py")
+    parser.add_argument("radial", nargs='*', type=str, help="give path of radial data file\nproduced by structure_fast.py")
     parser.add_argument("-i", "--integrate", action="store_true", help="obtain coordination number from integration")
     parser.add_argument("-fwhm", "--fwhm", action="store_true", help="peak analysis")
     parser.add_argument("-p", "--plot", action="store_true", help="show graph of radial distribution function")
+    parser.add_argument("-k", "--key", action="store_true", help="plot key/legend in the graph")
     parser.add_argument("-x", "--xlim", nargs=2, metavar=('xmin', 'xmax'), type=float, help="select range for x axis")
     parser.add_argument("-y", "--ylim", nargs=2, metavar=('ymin', 'ymax'), type=float, help="select range for y axis")
+    parser.add_argument("-l", "--latex", nargs=2, metavar=('width', 'fraction'), type=str, help="document width in pts and fraction of this width\ndefaults for thesis and beamer")
     args = parser.parse_args()
     return args
 
@@ -328,11 +348,13 @@ def structure_angle_input():
         :py:mod:`argparse` object
     """
     parser = argparse.ArgumentParser()
-    parser.add_argument("angle", type=str, help="give path of angle data file\nproduced by structure_fast.py")
+    parser.add_argument("angle", nargs="*", type=str, help="give path of angle data file\nproduced by structure_fast.py")
     parser.add_argument("-fwhm", "--fwhm", action="store_true", help="peak analysis")
     parser.add_argument("-p", "--plot", action="store_true", help="show graph of angle distribution function")
+    parser.add_argument("-k", "--key", action="store_true", help="plot key/legend in the graph")
     parser.add_argument("-x", "--xlim", nargs=2, metavar=('xmin', 'xmax'), type=float, help="select range for x axis")
     parser.add_argument("-y", "--ylim", nargs=2, metavar=('ymin', 'ymax'), type=float, help="select range for y axis")
+    parser.add_argument("-l", "--latex", nargs=2, metavar=('width', 'fraction'), type=str, help="document width in pts and fraction of this width\ndefaults for thesis and beamer")
     args = parser.parse_args()
     return args
 
@@ -348,6 +370,7 @@ def structure_gap_input():
     parser = argparse.ArgumentParser()
     parser.add_argument("prot", type=str, help="give path of CP-PAW protocol file")
     parser.add_argument("-p", "--plot", action="store_true", help="show graph of energies")
+    parser.add_argument("-l", "--latex", nargs=2, metavar=('width', 'fraction'), type=str, help="document width in pts and fraction of this width\ndefaults for thesis and beamer")
     parser.add_argument("-x", "--xlim", nargs=2, type=float, help="select range for x axis (xmin, xmax)")
     parser.add_argument("-y1", "--ylim1", nargs=2, metavar=('ymin1', 'ymax1'), type=float,
                         help="select range for y axis of energy gap")
@@ -355,3 +378,35 @@ def structure_gap_input():
                         help="select range for y axis of HOMO/LUMO energy")
     args = parser.parse_args()
     return args
+
+
+def set_size(width, fraction="1", subplots=(1, 1)):
+    """
+    Set figure dimensions to avoid scaling in LaTeX.
+
+    Args:
+        width (str): document width in points or string of predefined document type
+        fraction (str): fraction of the width which you wish the figure to occupy
+        subplots (tuple(float), optional): number of rows and columns of subplots; CURRENTLY NOT IN USE
+
+    Returns:
+        tuple(float): dimensions of figure in inches
+    """
+    if width == 'thesis':
+        width_pt = 426.79135
+    elif width == 'beamer':
+        width_pt = 307.28987
+    else:
+        width_pt = float(width)
+    # Width of figure (in pts)
+    fig_width_pt = width_pt * float(fraction)
+    # Convert from pt to inches
+    inches_per_pt = 1 / 72.27
+    # Golden ratio to set aesthetic figure height
+    # https://disq.us/p/2940ij3
+    golden_ratio = (5**.5 - 1) / 2
+    # Figure width in inches
+    fig_width_in = fig_width_pt * inches_per_pt
+    # Figure height in inches
+    fig_height_in = fig_width_in * golden_ratio * (subplots[0] / subplots[1])
+    return (fig_width_in, fig_height_in)

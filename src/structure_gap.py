@@ -15,8 +15,6 @@ Dependencies:
 
     main
 """
-
-
 import matplotlib.pyplot as plt
 import matplotlib
 import sys
@@ -79,27 +77,40 @@ def main():
     homo = homo[1:]
     lumo = lumo[1:]
 
-    matplotlib.rcParams.update({'font.size': 14})
-    fig, ax1 = plt.subplots()
-    color = 'tab:red'
-    ax1.set_xlabel("time [ps]")
-    ax1.set_ylabel("energy gap [eV]", color=color)
-    ax1.scatter(iteration, gap, s=1, color=color, label="gap")
-    ax1.tick_params(axis='y', labelcolor=color)
+    if args.latex:
+        plt.rcParams.update(utility.tex_fonts)
+        fig, ax1 = plt.subplots(figsize=utility.set_size(args.latex[0], fraction=args.latex[1]))
+        plt.style.use('seaborn')
+    else:
+        matplotlib.rcParams.update({'font.size': 14})
+        fig, ax1 = plt.subplots()
+    color1 = 'tab:red'
+    ax1.scatter(iteration, gap, s=1, color=color1, label="gap")
+    ax1.tick_params(axis='y', labelcolor=color1)
     if args.xlim:
         ax1.set_xlim(args.xlim)
     if args.ylim1:
         ax1.set_ylim(args.ylim1)
+    ax1.grid(b=True, axis='x')
     ax2 = ax1.twinx()
-    color = 'tab:blue'
-    ax2.set_ylabel("HOMO/LUMO energy [eV]", color=color)
-    ax2.scatter(iteration, homo, s=1, label="HOMO", color=color)
-    ax2.scatter(iteration, lumo, s=1, label="LUMO", color=color)
-    ax2.tick_params(axis='y', labelcolor=color)
+    color2 = 'tab:blue'
+    ax2.scatter(iteration, homo, s=1, label="HOMO", color=color2)
+    ax2.scatter(iteration, lumo, s=1, label="LUMO", color=color2)
+    ax2.tick_params(axis='y', labelcolor=color2)
     if args.ylim2:
         ax2.set_ylim(args.ylim2)
-    plt.tight_layout()
-    name = root + "_gap.png"
-    plt.savefig(name, dpi=300.0)
+    if args.latex:
+        ax1.set_xlabel(r'time [ps]')
+        ax1.set_ylabel(r"energy gap [eV]", color=color1)
+        ax2.set_ylabel(r"HOMO/LUMO energy [eV]", color=color2)
+        fig_name = root + "_gap.png"
+        plt.savefig(fig_name, format='pdf', bbox_inches='tight')
+    else:
+        ax1.set_xlabel("time [ps]")
+        ax1.set_ylabel("energy gap [eV]", color=color1)
+        ax2.set_ylabel("HOMO/LUMO energy [eV]", color=color2)
+        plt.tight_layout()
+        fig_name = root + "_gap.png"
+        plt.savefig(fig_name, dpi=300.0)
     if args.plot:
         plt.show()

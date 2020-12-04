@@ -164,7 +164,7 @@ Plot of the number of atoms contained in the ion complex detected while running 
 
 In red are actual data points and black are straight lines connecting these. This becomes relevant with a worse time resolution so the user can still identify which are actual results.
 
-Careful interpretation by the user is necessary to understand the results. A sudden change by three atoms for example can be due to an oxygen molecule leaving the cutoff distance of the detection algorithm XXX LINK XXX and therefore, the hydrogen atoms close to it are also not counted anymore.
+Careful interpretation by the user is necessary to understand the results. A sudden change by three atoms for example can be due to an oxygen molecule leaving the cutoff distance of the  :ref:`detection algorithm <CONTROL_ION_algorithm>` and therefore, the hydrogen atoms close to it are also not counted anymore.
 
 .. figure:: Images/mn_ion.png
     :width: 400
@@ -173,6 +173,10 @@ Careful interpretation by the user is necessary to understand the results. A sud
     :figclass: align-center
 
     Plot produced while running :ref:`Usage_paw_structure_ion`.
+    
+.. Note::
+
+    PDF file is produced when using flag **-l**. See :ref:`Usage_paw_structure_ion` for more details.
 
 .. _Output_water_png:
 
@@ -201,6 +205,10 @@ Careful interpretation by the user is necessary to understand the results. A sud
     :figclass: align-center
 
     Plot produced while running :ref:`Usage_paw_structure_water` with ion complex.
+    
+.. Note::
+
+    PDF file is produced when using flag **-l**. See :ref:`Usage_paw_structure_water` for more details.
 
 .. _Output_radial_png:
 
@@ -221,6 +229,12 @@ In blue is the RDF and orange is the coordination number which results from the 
     Plot produced while running :ref:`Usage_paw_structure_radial`.
     **blue**: RDF, **orange**: coordination number, **green**: detected peaks, **black**: FWHM
     
+.. Note::
+
+    PDF file is produced when using flag **-l**. See :ref:`Usage_paw_structure_radial` for more details.
+    
+    When selected, multiple data sets can appear in one graph.
+    
 .. _Output_angle_png:
 
 "_angle.png"
@@ -239,6 +253,12 @@ Plot of the angular distribution function (ADF) saved in the :ref:`Output_angle`
     
     Plot produced while running :ref:`Usage_paw_structure_angle`.
     Angular distribution function of Mn-O.
+    
+.. Note::
+
+    PDF file is produced when using flag **-l**. See :ref:`Usage_paw_structure_angle` for more details.
+    
+    When selected, multiple data sets can appear in one graph.
 
 .. _Output_hbonds_png:
 
@@ -254,6 +274,12 @@ Plot of the average hydrogen bond number per molecule as a function of time prod
     
     Plot produced by running :ref:`Usage_paw_structure_hbonds`. 
     Hydrogen bond per molecule as a function of time.
+    
+.. Note::
+
+    PDF file is produced when using flag **-l**. See :ref:`Usage_paw_structure_hbonds` for more details.
+    
+    When selected, multiple data sets can appear in one graph.
 
 .. _Output_gap_png:
 
