@@ -175,7 +175,8 @@ setup(
                       'scipy>=1.1.0',
                       'Sphinx>=3.1.2',
                       'sphinx_rtd_theme>=0.5.0',
-                      'autodocsumm>=0.1.13',],
+                      'autodocsumm>=0.1.13',
+                      'seaborn>=0.11.0'],
     cmdclass={'build_ext': BuildExt},
     zip_safe=False,
     entry_points={

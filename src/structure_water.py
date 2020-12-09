@@ -9,6 +9,7 @@ Dependencies:
     :py:mod:`matplotlib`
     :py:mod:`numpy`
     :py:mod:`pandas`
+    :py:mod:`seaborn`
     :py:mod:`sys`
     :mod:`.ion`
     :mod:`.tra`
@@ -23,6 +24,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import seaborn as sns
 import sys
 # MODULES WITHIN PROJECT
 from . import ion
@@ -93,7 +95,8 @@ def main():
     if args.latex:
         plt.rcParams.update(utility.tex_fonts)
         plt.figure(figsize=utility.set_size(args.latex[0], fraction=args.latex[1]))
-        plt.style.use('seaborn')
+        sns.set_theme()
+        sns.color_palette(n_colors=8)
     else:
         matplotlib.rcParams.update({'font.size': 14})
         plt.figure()

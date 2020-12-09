@@ -8,6 +8,7 @@ For usage in command line see :ref:`Usage_paw_structure_ion`.
 Dependencies:
     :py:mod:`matplotlib`
     :py:mod:`numpy`
+    :py:mod:`seaborn`
     :py:mod:`sys`
     :mod:`.ion`
     :mod:`.tra`
@@ -21,6 +22,7 @@ import sys
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
+import seaborn as sns
 # MODULES WITHIN PROJECT
 from . import ion
 from . import tra
@@ -56,7 +58,8 @@ def main():
     if args.latex:
         plt.rcParams.update(utility.tex_fonts)
         plt.figure(figsize=utility.set_size(args.latex[0], fraction=args.latex[1]))
-        plt.style.use('seaborn')
+        sns.set_theme()
+        sns.color_palette(n_colors=8)
     else:
         matplotlib.rcParams.update({'font.size': 14})
         plt.figure()
