@@ -7,6 +7,7 @@ For usage in command line see :ref:`Usage_paw_structure_gap`.
 
 Dependencies:
     :py:mod:`matplotlib`
+    :py:mod:`seaborn`
     :py:mod:`sys`
     :mod:`.utility`
 
@@ -17,6 +18,7 @@ Dependencies:
 """
 import matplotlib.pyplot as plt
 import matplotlib
+import seaborn as sns
 import sys
 
 from . import utility
@@ -79,8 +81,9 @@ def main():
 
     if args.latex:
         plt.rcParams.update(utility.tex_fonts)
-        fig, ax1 = plt.subplots(figsize=utility.set_size(args.latex[0], fraction=args.latex[1]))
-        plt.style.use('seaborn')
+        plt.figure(figsize=utility.set_size(args.latex[0], fraction=args.latex[1]))
+        sns.set_theme()
+        sns.set_style("whitegrid")
     else:
         matplotlib.rcParams.update({'font.size': 14})
         fig, ax1 = plt.subplots()

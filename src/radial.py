@@ -295,6 +295,7 @@ def radial_plot(args):
         plt.rcParams.update(utility.tex_fonts)
         plt.figure(figsize=utility.set_size(args.latex[0], fraction=args.latex[1]))
         sns.set_theme()
+        sns.set_style("whitegrid")
         sns.color_palette(n_colors=8)
     else:
         matplotlib.rcParams.update({'font.size': 14})
