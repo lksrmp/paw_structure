@@ -40,10 +40,10 @@ import sys
 from . import utility
 from . import hbonds_c
 
+import pandas as pd
 
 
-
-def hbonds_single_c(snap, id1, id2, cut1, cut2, angle):
+def hbonds_single_c(snap, id1, id2, cut1, cut2, angle, names=False):
     """
     Binding of C++ routines in :mod:`.hbonds_c` for couting of hydrogen bonds in a single snapshot.
 
@@ -54,6 +54,7 @@ def hbonds_single_c(snap, id1, id2, cut1, cut2, angle):
         cut1 (float): maximum distance between two oxygen atoms
         cut2 (float): maximum distance between an oxygen and a hydrogen atom
         angle (float): minimum O-H-O angle in degree
+        names (list[str], optional): names of oxygen atoms used as search centers
 
     Returns:
         float: number of hydrogen bonds found for this snapshot
@@ -63,7 +64,13 @@ def hbonds_single_c(snap, id1, id2, cut1, cut2, angle):
     atoms2 = snap.atoms[snap.atoms['id'] == id2]['pos'].values
     atoms2 = atoms2.reshape(len(atoms2) * 3)
     cell = snap.cell.reshape(9)
-    number = hbonds_c.hbonds(atoms1, atoms2, cut1, cut2, angle, cell)
+    if names:
+        center = snap.atoms.loc[snap.atoms['name'].isin(names)]
+        center = center['pos'].values
+        center = center.reshape(len(center) * 3)
+        number = hbonds_c.hbonds(atoms1, atoms2, center, cut1, cut2, angle, cell)
+    else:
+        number = hbonds_c.hbonds(atoms1, atoms2, atoms1, cut1, cut2, angle, cell)
     return number
 
 
@@ -90,7 +97,12 @@ def hbonds_plot_c(args):
             label = root.replace("_", "\_")
         else:
             label = root
-        plt.scatter(data[:, 0], data[:, 1], s=1, label=label)
+        p = plt.scatter(data[:, 0], data[:, 1], s=1, label=label)
+        if args.average:
+            series = pd.Series(data[:, 1], data[:, 0])
+            rolling_window_obj = series.rolling(args.average)
+            rolling_average = rolling_window_obj.mean()
+            plt.plot(rolling_average, color=p.get_facecolor()[0], lw=2)
     plt.grid(b=True)
     if args.key:
         plt.legend(frameon=True)
@@ -114,7 +126,7 @@ def hbonds_plot_c(args):
     return
 
 
-def hbonds_save_c(root, time, n_hbonds, snapshots, id1, id2, cut1, cut2, angle, ext='.hbonds_c'):
+def hbonds_save_c(root, time, n_hbonds, snapshots, id1, id2, cut1, cut2, angle, names=False, ext='.hbonds_c'):
     """
     Save results to file :ref:`Output_hbonds_c`.
 
@@ -128,6 +140,7 @@ def hbonds_save_c(root, time, n_hbonds, snapshots, id1, id2, cut1, cut2, angle, 
         cut1 (float): maximum distance between two oxygen atoms
         cut2 (float): maximum distance between an oxygen and a hydrogen atom
         angle (float): minimum O-H-O angle in degree
+        names (list[str], optional): names of oxygen atoms used as search centers
         ext (str, optional): default ".hbonds_c" - extension for the saved file: name = root + ext
     """
     path = root + ext
@@ -145,6 +158,11 @@ def hbonds_save_c(root, time, n_hbonds, snapshots, id1, id2, cut1, cut2, angle, 
     f.write("%-14s%14s\n" % ("CUT1", cut1))
     f.write("%-14s%14s\n" % ("CUT2", cut2))
     f.write("%-14s%14s\n" % ("ANGLE", angle))
+    if names:
+        f.write("%-14s" % "NAMES")
+        for name in names:
+            f.write("%s " % name)
+        f.write("\n")
     f.write("%-14s\n" % "UNIT CELL")
     np.savetxt(f, snapshots[0].cell, fmt="%14.8f")
     f.write("\n%14s%14s\n" % ("TIME", "HB / MOLECULE"))
@@ -181,7 +199,7 @@ def hbonds_load_c(root, ext='.hbonds_c'):
     return data
 
 
-def hbonds_find_parallel(root, snapshots, id1, id2, cut1, cut2, angle):
+def hbonds_find_parallel(root, snapshots, id1, id2, cut1, cut2, angle, names=False):
     """
     Calculate the average number of hydrogen bonds per oxygen atom for all snapshots.
 
@@ -193,16 +211,20 @@ def hbonds_find_parallel(root, snapshots, id1, id2, cut1, cut2, angle):
         cut1 (float): maximum distance between two oxygen atoms
         cut2 (float): maximum distance between an oxygen and a hydrogen atom
         angle (float): minimum O-H-O angle in degree
+        names (list[str], optional): names of oxygen atoms used as search centers
 
     Todo:
         Implement atom selection by name.
     """
     print("HYDROGEN BOND DETECTION IN PROGRESS")
-    multi = partial(hbonds_single_c, id1=id1, id2=id2, cut1=cut1, cut2=cut2, angle=angle)
+    multi = partial(hbonds_single_c, id1=id1, id2=id2, cut1=cut1, cut2=cut2, angle=angle, names=names)
     save = progress.parallel_progbar(multi, snapshots)
-    save = np.array(save) / len(snapshots[0].atoms[snapshots[0].atoms['id'] == id1])
+    if names:
+        save = np.array(save) / len(names)
+    else:
+        save = np.array(save) / len(snapshots[0].atoms[snapshots[0].atoms['id'] == id1])
     time = np.array([snap.time for snap in snapshots])
-    hbonds_save_c(root, time, save, snapshots, id1, id2, cut1, cut2, angle)
+    hbonds_save_c(root, time, save, snapshots, id1, id2, cut1, cut2, angle, names=names)
     print("HYDROGEN BOND DETECTION FINISHED")
     return
 

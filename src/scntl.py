@@ -270,7 +270,8 @@ def scntl_read_hbonds(text, idx):
         'ID2': None,
         'CUT1': None,
         'CUT2': None,
-        'ANGLE': None
+        'ANGLE': None,
+        'NAMES': None
         # USED FOR OLD CRITERION
         # 'OO_MIN': None,
         # 'OO_MAX': None,
@@ -280,7 +281,10 @@ def scntl_read_hbonds(text, idx):
     for line in text:
         if len(line) > 1:
             if line[0].casefold() in [x.casefold() for x in list(hbonds_dict.keys())]:
-                hbonds_dict[line[0].upper()] = line[1]
+                if line[0].casefold() == 'NAMES'.casefold():
+                    hbonds_dict[line[0].upper()] = line[1:]
+                else:
+                    hbonds_dict[line[0].upper()] = line[1]
     if hbonds_dict['ID1'] is None or hbonds_dict['ID2'] is None:
         utility.err('scntl_read', 0, ['!HBONDS'], info=" ID1 ID2")
     if hbonds_dict['CUT1'] is None:
