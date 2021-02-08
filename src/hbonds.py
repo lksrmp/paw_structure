@@ -94,7 +94,9 @@ def hbonds_plot_c(args):
         root = utility.argcheck([sys.argv[0], name], '.hbonds_c')
         data = hbonds_load_c(root)
         if args.latex:
-            label = root.replace("_", "\_")
+            #TODO: problems with LaTeX if "_" is in file name
+            label = root
+            #label = root.replace("_", "\_")
         else:
             label = root
         p = plt.scatter(data[:, 0], data[:, 1], s=1, label=label)
@@ -103,9 +105,11 @@ def hbonds_plot_c(args):
             rolling_window_obj = series.rolling(args.average)
             rolling_average = rolling_window_obj.mean()
             plt.plot(rolling_average, color=p.get_facecolor()[0], lw=2)
+            #plt.plot(rolling_average, lw=2, label=label)
     plt.grid(b=True)
     if args.key:
         plt.legend(frameon=True)
+        #plt.legend(ncol=3, frameon=True)
     if args.xlim:
         plt.xlim(args.xlim)
     if args.ylim:
@@ -147,7 +151,7 @@ def hbonds_save_c(root, time, n_hbonds, snapshots, id1, id2, cut1, cut2, angle, 
     try:
         f = open(path, 'w')
     except IOError:
-        utility.err_file('radial_save', path)
+        utility.err_file('hbonds_save', path)
     # write header
     f.write("HYDROGEN BONDS PER MOLECULE\n")
     f.write("%-14s%14.8f\n" % ("T1", snapshots[0].time))
