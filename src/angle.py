@@ -144,7 +144,9 @@ def angle_plot(args):
         else:
             label = root
         if args.sinus:
-            plt.plot(data[:, 0], data[:, 1] * np.sin(data[:, 0] / 180. * np.pi), label=label)
+            data[:, 1] = data[:, 1] * np.sin(data[:, 0] / 180. * np.pi)
+            data[:, 1] = data[:, 1] / np.trapz(data[:, 1], x=data[:, 0])
+            plt.plot(data[:, 0], data[:, 1] , label=label)
         else:
             plt.plot(data[:, 0], data[:, 1], label=label)
         if args.fwhm:
