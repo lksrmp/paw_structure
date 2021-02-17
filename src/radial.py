@@ -304,7 +304,8 @@ def radial_plot(args):
         root = utility.argcheck([sys.argv[0], name], '.radial')
         data, _ = radial_load(root)
         if args.latex:
-            label = root.replace("_", "\_")
+            #label = root.replace("_", "\_")
+            label = root
         else:
             label = root
         plt.plot(data[:, 0], data[:, 1], label=label)
