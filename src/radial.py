@@ -1,7 +1,7 @@
 """
 paw_structure.radial
 --------------------
-Radial distribution function calculation.
+Radial distribution function calculation according to definitions in :ref:`Control_RADIAL`.
 
 Main routine is :func:`.radial_calculate`.
 

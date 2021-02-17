@@ -297,11 +297,11 @@ As mentioned beforehand, the program uses a discretized approach using a finite 
 
 !ANGLE
 -------
-Angular distribution function (ADF) control block.
+Angular probability distribution control block.
 
 :Rules: optional, requires `!TRA`_ if **T1**, **T2** and **N** are not specified
 
-The angular distribution function (ADF) gives the distribution of angles between the selected atom species averaged over time. **ID1** selects the species used as central atoms and **ID2** selects the species for possible neighbors. For each center atom, all neighbors within a distance smaller than **CUT** are detected. Let :math:`A` be the neighbor atoms and :math:`B` the center atom. The angle is than calculated according to
+The angular probability distribution gives the distribution of angles between the selected atom species averaged over time. **ID1** selects the species used as central atoms and **ID2** selects the species for possible neighbors. For each center atom, all neighbors within a distance smaller than **CUT** are detected. Let :math:`A` be the neighbor atoms and :math:`B` the center atom. The angle is than calculated according to
 
 .. math::
 
@@ -411,6 +411,12 @@ The parameters :math:`R_{OO}` and :math:`\phi` can be change by the user but are
         :Type: float
         :Rules: optional
         :Default: 30.0
+
+    NAMES
+        names of oxygen atoms of which the hydrogen bonds will be counted, follows naming in ".strc_out" file
+
+        :Type: str, array
+        :Rules: optional
 
 
 .. [1] Luzar, Alenka, and David Chandler. “Structure and Hydrogen Bond Dynamics of Water–Dimethyl Sulfoxide Mixtures by Computer Simulations.” The Journal of Chemical Physics 98, no. 10 (May 15, 1993): 8160–73. https://doi.org/10.1063/1.464521.

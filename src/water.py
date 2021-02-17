@@ -1,7 +1,7 @@
 """
 paw_structure.water
 -------------------
-Water complex detection.
+Water complex detection using geometric :ref:`algorithm<Control_WATER_algorithm>`.
 
 Find configurations that deviate from the normal molecule structure.
 
@@ -22,8 +22,6 @@ Dependencies:
       water_load
       water_save
       water_single
-
-XXX REFERENCE TO ALGORITHM EXPLANATION XXX
 """
 
 import numpy as np

@@ -7,6 +7,10 @@ Explanation of the output files.
 
 .. contents::
     :local:
+
+Note that images produced with the LaTeX font output flag are saved in PDF format and deviates from the images below in terms of style and axis labels.
+
+THE GIVEN EXAMPLES NEED A REWORK!
     
 .. _Output_snap:
     

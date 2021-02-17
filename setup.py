@@ -14,9 +14,6 @@ import re
 #TODO: adapt file
 #TODO: write MANIFEST.in for including documentation
 
-
-# __version__ = '1.0.1'
-
 def info_search(flag, text, file):
     flag_re = r"^__" + flag + "__ = ['\"]([^'\"]*)['\"]"
     flag_mo = re.search(flag_re, text, re.M)

@@ -5,7 +5,7 @@ Installation
 
 The package is only tested on **Linux** and **OS X** so far.
 
-**Clone** repository (WARNING: currently private so does not work)::
+**Clone** repository::
 
     git clone https://github.com/lksrmp/paw_structure
 

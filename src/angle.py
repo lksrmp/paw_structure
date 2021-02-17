@@ -1,7 +1,7 @@
 """
 paw_structure.angle
 -------------------
-Angle distribution function calculation.
+Angle probability distribution calculation according to :ref:`selection<Control_ANGLE>`.
 
 Main routine is :func:`.angle_calculate`.
 
@@ -29,7 +29,6 @@ Dependencies:
     angle_plot
     angle_save
     angle_single_c
-
 """
 import numpy as np
 from functools import partial

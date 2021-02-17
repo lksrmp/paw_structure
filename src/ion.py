@@ -1,7 +1,7 @@
 """
 paw_structure.ion
 -----------------
-Ion complex detection.
+Ion complex detection using geometric :ref:`algorithm<Control_ION_algorithm>`.
 
 Main routine is :func:`.ion_find_parallel`.
 
@@ -20,8 +20,6 @@ Dependencies:
       ion_load
       ion_save
       ion_single
-
-XXX REFERENCE TO ALGORITHM EXPLANATION XXX
 """
 
 import numpy as np

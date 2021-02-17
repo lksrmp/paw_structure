@@ -351,12 +351,12 @@ def structure_angle_input():
     parser = argparse.ArgumentParser()
     parser.add_argument("angle", nargs="*", type=str, help="give path of angle data file\nproduced by structure_fast.py")
     parser.add_argument("-fwhm", "--fwhm", action="store_true", help="peak analysis")
+    parser.add_argument("-sin", "--sinus", action="store_true", help="multiply angle distribution with sin(angle)")
     parser.add_argument("-p", "--plot", action="store_true", help="show graph of angle distribution function")
     parser.add_argument("-k", "--key", action="store_true", help="plot key/legend in the graph")
     parser.add_argument("-x", "--xlim", nargs=2, metavar=('xmin', 'xmax'), type=float, help="select range for x axis")
     parser.add_argument("-y", "--ylim", nargs=2, metavar=('ymin', 'ymax'), type=float, help="select range for y axis")
     parser.add_argument("-l", "--latex", nargs=2, metavar=('width', 'fraction'), type=str, help="document width in pts and fraction of this width\ndefaults for thesis and beamer")
-    parser.add_argument("-sin", "--sinus", action="store_true", help="multiply angle distribution with sin(angle)")
     args = parser.parse_args()
     return args
 

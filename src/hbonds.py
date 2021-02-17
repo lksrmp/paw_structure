@@ -1,7 +1,7 @@
 """
 paw_structure.hbonds
 --------------------
-Hydrogen bond detection.
+Hydrogen bond detection using geometric :ref:`algorithm<Control_HBONDS_algorithm>`.
 
 Main routine is :func:`.hbonds_find_parallel`.
 
@@ -14,6 +14,7 @@ Dependencies:
     :py:mod:`matplotlib`
     :py:mod:`miniutils`
     :py:mod:`numpy`
+    :py:mod:`pandas`
     :py:mod:`seaborn`
     :py:mod:`sys`
     :mod:`.utility`
@@ -26,8 +27,6 @@ Dependencies:
     hbonds_plot_c
     hbonds_save_c
     hbonds_single_c
-
-XXX REFERENCE TO ALGORITHM EXPLANATION XXX
 """
 from functools import partial
 import matplotlib

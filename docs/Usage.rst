@@ -157,7 +157,7 @@ The routine is started inside the directory containing the input data with::
 :-l [width fraction]: PDF output in LaTeX font, width of document in pts and fraction of this width; defaults given for beamer and thesis
 :-x [xmin xmax]: select range for x axis of plot
 :-y [ymin ymax]: select range for y axis of plot
-:-k: plot key/legend in the graph
+:-k: plot key/legend in the graph (label is file name compiled in LaTeX)
     
 This exectures the module :mod:`.structure_radial` internally.
 
@@ -184,7 +184,7 @@ Plotting of the angular distribution function (ADF) extracted by :ref:`Usage_paw
 
 The routine is started inside the directory containing the input data with::
 
-    paw_structure_angle [-fwhm] [-p] [-l width fraction] [-x xmin xmax] [-y ymin ymax] [-k] angle
+    paw_structure_angle [-fwhm] [-sin] [-p] [-l width fraction] [-x xmin xmax] [-y ymin ymax] [-k] angle
     
 **mandatory**  
 
@@ -193,11 +193,12 @@ The routine is started inside the directory containing the input data with::
 **optional**
 
 :-fwhm: peak detection and analysis
+:-sin: multiply angle distribution with :math:`\sin (\theta)` and normalize
 :-p: show interactive graph of angular distribution function
 :-l [width fraction]: PDF output in LaTeX font, width of document in pts and fraction of this width; defaults given for beamer and thesis
 :-x [xmin xmax]: select range for x axis of plot
 :-y [ymin ymax]: select range for y axis of plot
-:-k: plot key/legend in the graph
+:-k: plot key/legend in the graph (label is file name compiled in LaTeX)
     
 This exectures the module :mod:`.structure_angle` internally.
 
@@ -236,7 +237,7 @@ The routine is started inside the directory containing the input data with::
 :-l [width fraction]: PDF output in LaTeX font, width of document in pts and fraction of this width; defaults given for beamer and thesis
 :-x [xmin xmax]: select range for x axis of plot
 :-y [ymin ymax]: select range for y axis of plot
-:-k: plot key/legend in the graph
+:-k: plot key/legend in the graph (label is file name compiled in LaTeX)
     
 This exectures the module :mod:`.structure_hbonds` internally.
 
