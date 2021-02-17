@@ -143,7 +143,12 @@ def angle_plot(args):
             label = root.replace("_", "\_")
         else:
             label = root
-        plt.plot(data[:, 0], data[:, 1], label=label)
+        if args.sinus:
+            data[:, 1] = data[:, 1] * np.sin(data[:, 0] / 180. * np.pi)
+            data[:, 1] = data[:, 1] / np.trapz(data[:, 1], x=data[:, 0])
+            plt.plot(data[:, 0], data[:, 1] , label=label)
+        else:
+            plt.plot(data[:, 0], data[:, 1], label=label)
         if args.fwhm:
             step = data[:, 0][1] - data[:, 0][0]
             peaks, fwhm = angle_peak(data[:, 0], data[:, 1])
@@ -160,12 +165,15 @@ def angle_plot(args):
         plt.ylim(bottom=0.0)
     if args.latex:
         plt.xlabel(r'$\theta\;$[$^\circ$]')
-        plt.ylabel(r'$P(\theta)$')
+        if args.sinus:
+            plt.ylabel(r'$P(\theta)\sin(\theta)$')
+        else:
+            plt.ylabel(r'$P(\theta)$')
         fig_name = root + "_angle.pdf"
         plt.savefig(fig_name, format='pdf', bbox_inches='tight')
     else:
         plt.xlabel("angle [°]")
-        plt.ylabel("ADF [a.u.]")
+        plt.ylabel("ADF * sin [a.u.]")
         fig_name = root + "_angle.png"
         plt.savefig(fig_name, dpi=300.0)
     print('SAVING OF %s SUCCESSFUL' % fig_name)
