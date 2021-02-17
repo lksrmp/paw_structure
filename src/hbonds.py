@@ -152,6 +152,7 @@ def hbonds_save_c(root, time, n_hbonds, snapshots, id1, id2, cut1, cut2, angle, 
     except IOError:
         utility.err_file('hbonds_save', path)
     # write header
+    f.write(utility.write_header())
     f.write("HYDROGEN BONDS PER MOLECULE\n")
     f.write("%-14s%14.8f\n" % ("T1", snapshots[0].time))
     f.write("%-14s%14.8f\n" % ("T2", snapshots[-1].time))

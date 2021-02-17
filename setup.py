@@ -6,10 +6,29 @@ import sys
 import setuptools
 import pathlib
 import os
+from datetime import datetime, timezone
+from git import Repo
 
 import re
 
-
+def info_write():
+    now = datetime.now(timezone.utc)
+    now = now.astimezone().strftime("%Y-%m-%d %H:%M:%S%z")
+    path = pathlib.Path(__file__).parent.absolute()
+    repo = Repo(path)
+    with open("src/_info.py", "w") as info:
+        info.write('__name__ = "paw_structure"\n__author__ = "Lukas Rump"\n__email__ = "lukas.rump@stud.uni-goettingen.de"\n')
+        info.write('__branch__ = "{}"\n'.format(repo.active_branch))
+        info.write('__url__ = "{}"\n'.format(repo.remotes[0].url))
+        info.write('__commit_rev__ = "{}"\n'.format(repo.head.commit.count()))
+        info.write('__commit_hex__ = "{}"\n'.format(repo.head.commit.hexsha))
+        info.write('__commit_author__ = "{}"\n'.format(repo.head.log()[-1][2]))
+        info.write('__commit_email__ = "{}"\n'.format(repo.head.log()[-1][2].email))
+        info.write('__commit_time__ = "{}"\n'.format(repo.head.commit.authored_datetime))
+        info.write('__version__ = "{}"\n'.format(repo.tags[0]))
+        #info.write('__version_commit__ = "{}"\n'.format(repo.head.log()[-1][0]))
+        info.write('__version_commit__ = "{}"\n'.format(repo.commit(repo.tags[0])))
+        info.write('__install_time__ = "{}"\n'.format(now))
 
 #TODO: adapt file
 #TODO: write MANIFEST.in for including documentation
@@ -20,8 +39,9 @@ def info_search(flag, text, file):
     if flag_mo:
         return flag_mo.group(1)
     else:
-        raise RuntimeError("Unable to find $s string in %s." % (flag, file,))
+        raise RuntimeError("Unable to find %s string in %s." % (flag, file,))
 
+info_write()
 info_file = "src/_info.py"
 infostrline = open(info_file, "rt").read()
 __name__ = info_search("name", infostrline, info_file)
@@ -162,7 +182,9 @@ setup(
     package_dir={'paw_structure': 'src'},
     packages=['paw_structure'],# find_packages(where='src'),
     ext_modules=ext_modules,
-    setup_requires=['pybind11>=2.5.0'],
+    setup_requires=['pybind11>=2.5.0',
+                    'datetime',
+                    'GitPython>=3.1.13'],
     install_requires=['pybind11>=2.5.0',
                       'numpy>=1.17.0',
                       'miniutils>=1.0.1',

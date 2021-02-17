@@ -237,6 +237,7 @@ def angle_save(root, degree, adf, snapshots, id1, id2, cut, nbins, ext='.angle')
     except IOError:
         utility.err_file('angle_save', path)
     # write header
+    f.write(utility.write_header())
     f.write("ANGLE DISTRIBUTION FUNCTION\n")
     f.write("%-14s%14.8f\n" % ("T1", snapshots[0].time))
     f.write("%-14s%14.8f\n" % ("T2", snapshots[-1].time))

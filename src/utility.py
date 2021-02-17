@@ -25,6 +25,9 @@ Dependencies:
 import sys
 import argparse
 import time
+from datetime import datetime, timezone
+
+from . import _info
 
 
 tex_fonts = {
@@ -245,6 +248,24 @@ def argcheck(argv, extension):
         err('argcheck', 1, ['*' + extension])
     return argv[1][:-len(extension)]
 
+
+def write_header():
+    now = datetime.now(timezone.utc)
+    now = now.astimezone().strftime("%Y-%m-%d %H:%M:%S%z")
+    header = '{}\n{}\n'.format(84*'#', _info.__name__.center(84))
+    text = 'developed by {} under MIT license'.format(_info.__author__).center(84)
+    text = text + '\nbranch: {}; remotes: {};\n' \
+                  'revision: {}; commit: {}\n' \
+                  'by {} {} on {}\n' \
+                  'installed on: {}\n'.format(_info.__branch__, _info.__url__,
+                                              _info.__commit_rev__, _info.__commit_hex__,
+                                              _info.__commit_author__, _info.__commit_email__, _info.__commit_time__,
+                                              _info.__install_time__)
+    header = header + text
+    text = 'latest release: {} with commit {}\n' \
+           'program started: {}\n'.format(_info.__version__, _info.__version_commit__, now)
+    header = header + text + 84*'#' +'\n'
+    return header
 
 def structure_fast_input():
     """
