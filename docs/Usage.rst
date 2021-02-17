@@ -225,7 +225,7 @@ Plotting of the average hydrogen bond number per oxygen atom as a function of ti
 
 The routine is started inside the directory containing the input data with::
 
-    paw_structure_hbonds [-p] [-l width fraction] [-x xmin xmax] [-y ymin ymax] [-k] hbonds
+    paw_structure_hbonds [-p] [-avg points] [-l width fraction] [-x xmin xmax] [-y ymin ymax] [-k] hbonds
     
 **mandatory**  
 
@@ -234,6 +234,7 @@ The routine is started inside the directory containing the input data with::
 **optional**
 
 :-p: show interactive graph of hydrogen bond number
+:-avg [points]: plot running average over selected number of data points
 :-l [width fraction]: PDF output in LaTeX font, width of document in pts and fraction of this width; defaults given for beamer and thesis
 :-x [xmin xmax]: select range for x axis of plot
 :-y [ymin ymax]: select range for y axis of plot
