@@ -357,6 +357,7 @@ def tra_save(root, snapshots):
     except IOError:
         utility.err_file('tra_save', path)
     # write header
+    f.write(utility.write_header())
     f.write("SELECTED SNAPSHOTS FROM TRAJECTORY FILE\n")
     f.write("%-14s%14.8f\n" % ("T1", snapshots[0].time))  # start time
     f.write("%-14s%14.8f\n" % ("T2", snapshots[-1].time))  # end time
@@ -411,20 +412,23 @@ def tra_load(root):
     for i in range(len(text)):
         text[i] = text[i].split()  # split each line into list with strings as elements
     snapshots = []  # storage list
-    n_atoms = int(text[4][1])  # get number of atoms
-    cell = np.array(text[6:9], dtype=float)  # get unit cell
     for i in range(len(text)):
-        if text[i][0] == "TIME":  # search for trigger of new snapshot
-            iter = int(text[i][3])
-            time = float(text[i][1])
-            test = np.array(text[i+2:i+2+n_atoms])
-            atoms = {}
-            atoms['name'] = test[:, 0]
-            atoms['id'] = test[:, 1]
-            atoms['index'] = np.array(test[:, 2], dtype=int)
-            df = pd.DataFrame(data=atoms)
-            # save information as class Snap
-            snapshots.append(Snap(iter, time, cell, np.array(test[:, 3:6], dtype=np.float64), df))
+        if len(text[i]) > 1:
+            if text[i][0] == "ATOMS":
+                n_atoms = int(text[i][1])  # get number of atoms
+            if text[i][0] == "UNIT":
+                cell = np.array(text[i+1:i+4], dtype=float)  # get unit cell
+            if text[i][0] == "TIME":  # search for trigger of new snapshot
+                iter = int(text[i][3])
+                time = float(text[i][1])
+                test = np.array(text[i+2:i+2+n_atoms])
+                atoms = {}
+                atoms['name'] = test[:, 0]
+                atoms['id'] = test[:, 1]
+                atoms['index'] = np.array(test[:, 2], dtype=int)
+                df = pd.DataFrame(data=atoms)
+                # save information as class Snap
+                snapshots.append(Snap(iter, time, cell, np.array(test[:, 3:6], dtype=np.float64), df))
     return snapshots
 
 

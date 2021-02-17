@@ -21,9 +21,10 @@ from . import structure_angle
 from . import structure_hbonds
 from . import structure_gap
 
-from ._info import __name__
-from ._info import __version__
-from ._info import __author__
-from ._info import __email__
-from ._info import __url__
+from . import _info
+#from ._info import __name__
+#from ._info import __version__
+#from ._info import __author__
+#from ._info import __email__
+#from ._info import __url__
 

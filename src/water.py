@@ -124,6 +124,7 @@ def water_save(root, snapshots, id1, id2, cut, ext='.water'):
     except IOError:
         utility.err_file('water_save', path)
     # write header
+    f.write(utility.write_header())
     f.write("WATER COMPLEXES\n")
     f.write("%-14s%14.8f\n" % ("T1", snapshots[0].time))
     f.write("%-14s%14.8f\n" % ("T2", snapshots[-1].time))
@@ -183,25 +184,27 @@ def water_load(root, ext='.water'):
     for i in range(len(text)):
         text[i] = text[i].split()  # split each line into list with strings as elements
     snapshots = []  # storage list
-    cell = np.array(text[8:11], dtype=float)  # get unit cell
     for i in range(len(text)):
-        if text[i][0] == "TIME":  # search for trigger of new snapshot
-            iteration = int(text[i][3])
-            time = float(text[i][1])
-            n_atoms = int(text[i][5])
-            # TODO: check read and write functions for compatibility for empty input
-            if n_atoms == 0:
-                df = pd.DataFrame(columns=['name', 'id', 'index', 'pos', 'pos', 'pos'])
-                snapshots.append(Snap(iteration, time, cell, None, None, dataframe=df))
-            else:
-                test = np.array(text[i + 2:i + 2 + n_atoms])
-                atoms = {}
-                atoms['name'] = test[:, 0]
-                atoms['id'] = test[:, 1]
-                atoms['index'] = np.array(test[:, 2], dtype=int)
-                df = pd.DataFrame(data=atoms)
-                # save information as class Snap
-                snapshots.append(Snap(iteration, time, cell, np.array(test[:, 3:6], dtype=np.float64), df))
+        if len(text[i]) > 1:
+            if text[i][0] == "UNIT":
+                cell = np.array(text[i+1:i+4], dtype=float)  # get unit cell
+            if text[i][0] == "TIME":  # search for trigger of new snapshot
+                iteration = int(text[i][3])
+                time = float(text[i][1])
+                n_atoms = int(text[i][5])
+                # TODO: check read and write functions for compatibility for empty input
+                if n_atoms == 0:
+                    df = pd.DataFrame(columns=['name', 'id', 'index', 'pos', 'pos', 'pos'])
+                    snapshots.append(Snap(iteration, time, cell, None, None, dataframe=df))
+                else:
+                    test = np.array(text[i + 2:i + 2 + n_atoms])
+                    atoms = {}
+                    atoms['name'] = test[:, 0]
+                    atoms['id'] = test[:, 1]
+                    atoms['index'] = np.array(test[:, 2], dtype=int)
+                    df = pd.DataFrame(data=atoms)
+                    # save information as class Snap
+                    snapshots.append(Snap(iteration, time, cell, np.array(test[:, 3:6], dtype=np.float64), df))
     return snapshots
 
 

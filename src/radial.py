@@ -412,6 +412,7 @@ def radial_save(root, radius, rdf, coord, snapshots, id1, id2, cut, nbins, rho, 
     except IOError:
         utility.err_file('radial_save', path)
     # write header
+    f.write(utility.write_header())
     f.write("RADIAL DISTRIBUTION FUNCTION\n")
     f.write("%-14s%14.8f\n" % ("T1", snapshots[0].time))
     f.write("%-14s%14.8f\n" % ("T2", snapshots[-1].time))
