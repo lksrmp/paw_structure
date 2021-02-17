@@ -57,16 +57,16 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = paw_structure.__name__ # u'paw_structure'
+project = paw_structure._info.__name__ # u'paw_structure'
 copyright = u'2020, Lukas Rump'
-author = paw_structure.__author__  # u'Lukas Rump'
+author = paw_structure._info.__author__  # u'Lukas Rump'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
 # The short X.Y version.
-version = paw_structure.__version__ #  u'1.0.0'
+version = paw_structure._info.__version__ #  u'1.0.0'
 # The full version, including alpha/beta/rc tags.
 # release = u'1.0.0'
 
@@ -132,7 +132,7 @@ html_theme_options = {}
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
-html_title = 'paw_structure'
+html_title = paw_structure._info.__name__
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
 #html_short_title = None
@@ -235,7 +235,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'paw_structure.tex', u'paw\_structure Documentation',
-     paw_structure.__author__, 'manual'),
+     paw_structure._info.__author__, 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of

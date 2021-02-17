@@ -264,7 +264,7 @@ def write_header():
     text = 'developed by {} under MIT license'.format(_info.__author__).center(84)
     text = text + '\nbranch: {}; remotes: {};\n' \
                   'revision: {}; commit: {}\n' \
-                  'by {} {} on {}\n' \
+                  'by {} <{}> on {}\n' \
                   'installed on: {}\n'.format(_info.__branch__, _info.__url__,
                                               _info.__commit_rev__, _info.__commit_hex__,
                                               _info.__commit_author__, _info.__commit_email__, _info.__commit_time__,
