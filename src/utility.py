@@ -270,6 +270,7 @@ def structure_hbonds_input():
     """
     parser = argparse.ArgumentParser()
     parser.add_argument("hbonds", nargs='*', type=str, help="give path of hydrogen bond network file\nproduced by structure_fast.py")
+    parser.add_argument("-avg", "--average", type=int, metavar=('average'), help="select length of running average in data points")
     parser.add_argument("-p", "--plot", action="store_true", help="show graph of hydrogen bond number")
     parser.add_argument("-l", "--latex", nargs=2, metavar=('width', 'fraction'), type=str, help="document width in pts and fraction of this width\ndefaults for thesis and beamer")
     parser.add_argument("-x", "--xlim", nargs=2, metavar=('xmin', 'xmax'), type=float, help="select range for x axis")

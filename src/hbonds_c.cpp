@@ -11,14 +11,14 @@ namespace py = pybind11;
 
 
 // void pbc_apply3x3(const double * pos, int len, double * pbc, double a);
-int hbonds_number(const double* array1, int len1, const double* array2, int len2,
+int hbonds_number(const double* array1, int len1, const double* array2, int len2, const double* array3, int len3,
         double cut1, double cut2, double angle, const double * cell);
-int hbonds(py::array_t<const double>& array1, py::array_t<const double>& array2,
+int hbonds(py::array_t<const double>& array1, py::array_t<const double>& array2, py::array_t<const double>& array3,
         double cut1, double cut2, double angle, py::array_t<const double>& cell);
 
 
 
-int hbonds_number(const double* array1, int len1, const double* array2, int len2,
+int hbonds_number(const double* array1, int len1, const double* array2, int len2, const double* array3, int len3,
         double cut1, double cut2, double angle, const double * cell){
     // follows Luzar, Chandler: J. Chem. Phys. 98, 8160 (1993), A. Luzar and D. Chandler, Nature London 379, 55 (1996)
     //         Dawson, Gygi: J. Chem. Phys. 148, 124501 (2018)
@@ -31,10 +31,10 @@ int hbonds_number(const double* array1, int len1, const double* array2, int len2
     double dist11, dist12, dist21, angle121;
     int center_count = 0;
 
-    for(int i = 0; i < len1; i++){
-        center[0] = array1[3 * i];
-        center[1] = array1[3 * i + 1];
-        center[2] = array1[3 * i + 2];
+    for(int i = 0; i < len3; i++){
+        center[0] = array3[3 * i];
+        center[1] = array3[3 * i + 1];
+        center[2] = array3[3 * i + 2];
 
         for(int j = 0; j < 27 * len1; j++){
             neighbor1[0] = pbc1[3 * j];
@@ -82,12 +82,13 @@ int hbonds_number(const double* array1, int len1, const double* array2, int len2
     return counter;
 }
 
-int hbonds(py::array_t<const double>& array1, py::array_t<const double>& array2,
+int hbonds(py::array_t<const double>& array1, py::array_t<const double>& array2, py::array_t<const double>& array3,
         double cut1, double cut2, double angle, py::array_t<const double>& cell){
     py::buffer_info buf1 = array1.request();
     py::buffer_info buf2 = array2.request();
-    py::buffer_info buf3 = cell.request();
-    if (buf1.ndim != 1 || buf2.ndim != 1 || buf3.ndim != 1)
+    py::buffer_info buf3 = array3.request();
+    py::buffer_info buf4 = cell.request();
+    if (buf1.ndim != 1 || buf2.ndim != 1 || buf3.ndim != 1 || buf4.ndim != 1)
     {
         throw std::runtime_error("numpy.ndarray dims must be 1!");
     }
@@ -95,10 +96,11 @@ int hbonds(py::array_t<const double>& array1, py::array_t<const double>& array2,
     const double* ptr1 = (const double*)buf1.ptr;
     const double* ptr2 = (const double*)buf2.ptr;
     const double * ptr3 = (const double *)buf3.ptr;
+    const double * ptr4 = (const double *)buf4.ptr;
     //for(int i = 0; i < buf1.size / 3; i++){
     //    cout << ptr1[3 * i] << " " << ptr1[3 * i + 1] << " " << ptr1[3 * i + 2] << "\n";
     //}
-    number = hbonds_number(ptr1, buf1.size / 3, ptr2, buf2.size / 3, cut1, cut2, angle, ptr3);
+    number = hbonds_number(ptr1, buf1.size / 3, ptr2, buf2.size / 3, ptr3, buf3.size / 3, cut1, cut2, angle, ptr4);
     return number;
 }
 
@@ -147,6 +149,8 @@ PYBIND11_MODULE(hbonds_c, m){
                 len1 (int): length of first array
                 array2 (double *): contains atomic positions of hydrogen atoms
                 len2 (int): length of second array
+                array3 (double *): contains atomic positions of center oxygen atoms
+                len3 (int): length of third array
                 cut1 (double): maximum oxygen - oxygen distance
                 cut2 (double): maximum oxygen - hydrogen distance
                 angle (float): minimum angle criterion
@@ -154,7 +158,7 @@ PYBIND11_MODULE(hbonds_c, m){
 
             Returns:
                 int: number of hydrogen bonds found
-        )pbdoc", py::arg("array1"), py::arg("len1"), py::arg("array2"), py::arg("len2"),
+        )pbdoc", py::arg("array1"), py::arg("len1"), py::arg("array2"), py::arg("len2"), py::arg("array3"), py::arg("len3"),
         py::arg("cut1"), py::arg("cut2"), py::arg("angle"), py::arg("cell")
     );
 
@@ -166,6 +170,7 @@ PYBIND11_MODULE(hbonds_c, m){
             Args:
                 array1 (ndarray[float]): contains atomic positions of oxygen atoms
                 array2 (ndarray[float]): contains atomic positions of hydrogen atoms
+                array2 (ndarray[float]): contains atomic positions of center oxygen atoms
                 cut1 (float): maximum oxygen - oxygen distance
                 cut2 (float): maximum oxygen - hydrogen distance
                 angle (float): minimum angle criterion
@@ -173,7 +178,7 @@ PYBIND11_MODULE(hbonds_c, m){
 
             Returns:
                 int: number of hydrogen bonds found
-        )pbdoc", py::arg("array1"), py::arg("array2"), py::arg("cut1"), py::arg("cut2"), py::arg("angle"), py::arg("cell")
+        )pbdoc", py::arg("array1"), py::arg("array2"), py::arg("array3"),py::arg("cut1"), py::arg("cut2"), py::arg("angle"), py::arg("cell")
     );
 
     m.def("pbc_apply3x3_c", &pbc_apply3x3, R"pbdoc(

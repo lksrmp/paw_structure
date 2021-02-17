@@ -108,8 +108,13 @@ def main():
         # USED FOR OLD CRITERION
         # args = [scntl['!HBONDS']['OO_MIN'], scntl['!HBONDS']['OO_MAX'], scntl['!HBONDS']['G_FACTOR'],
         #         scntl['!HBONDS']['THRESHOLD']]
-        hbonds.hbonds_find_parallel(root, snapshots, scntl['!HBONDS']['ID1'], scntl['!HBONDS']['ID2'],
-                                    scntl['!HBONDS']['CUT1'], scntl['!HBONDS']['CUT2'], scntl['!HBONDS']['ANGLE'])
+        if 'NAMES' in scntl['!HBONDS'].keys():
+            hbonds.hbonds_find_parallel(root, snapshots, scntl['!HBONDS']['ID1'], scntl['!HBONDS']['ID2'],
+                                    scntl['!HBONDS']['CUT1'], scntl['!HBONDS']['CUT2'], scntl['!HBONDS']['ANGLE'],
+                                        names=scntl['!HBONDS']['NAMES'])
+        else:
+            hbonds.hbonds_find_parallel(root, snapshots, scntl['!HBONDS']['ID1'], scntl['!HBONDS']['ID2'],
+                                        scntl['!HBONDS']['CUT1'], scntl['!HBONDS']['CUT2'], scntl['!HBONDS']['ANGLE'])
 
     # check for RADIAL DISTRIBUTION FUNCTION ANALYSIS
     if '!RADIAL' in scntl.keys():
