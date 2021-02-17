@@ -5,6 +5,7 @@ Error and input handling.
 
 Dependencies:
     :py:mod:`argparse`
+    :py:mod:`datetime`
     :py:mod:`sys`
     :py:mod:`time`
 
@@ -21,6 +22,7 @@ Dependencies:
     structure_radial_input
     structure_water_input
     timing
+    write_header
 """
 import sys
 import argparse
@@ -250,6 +252,12 @@ def argcheck(argv, extension):
 
 
 def write_header():
+    """
+    Build header for output files containing information about the paw_structure package like author, version control, installation/running time.
+
+    Returns:
+        str: text for the header
+    """
     now = datetime.now(timezone.utc)
     now = now.astimezone().strftime("%Y-%m-%d %H:%M:%S%z")
     header = '{}\n{}\n'.format(84*'#', _info.__name__.center(84))
