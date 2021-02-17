@@ -81,7 +81,7 @@ def main():
 
     if args.latex:
         plt.rcParams.update(utility.tex_fonts)
-        plt.figure(figsize=utility.set_size(args.latex[0], fraction=args.latex[1]))
+        fig, ax1 = plt.subplots(figsize=utility.set_size(args.latex[0], fraction=args.latex[1]))
         sns.set_theme()
         sns.set_style("whitegrid")
     else:
@@ -94,8 +94,9 @@ def main():
         ax1.set_xlim(args.xlim)
     if args.ylim1:
         ax1.set_ylim(args.ylim1)
-    ax1.grid(b=True, axis='x')
+    ax1.grid(b=False)
     ax2 = ax1.twinx()
+    ax2.grid(b=False)
     color2 = 'tab:blue'
     ax2.scatter(iteration, homo, s=1, label="HOMO", color=color2)
     ax2.scatter(iteration, lumo, s=1, label="LUMO", color=color2)
@@ -105,8 +106,8 @@ def main():
     if args.latex:
         ax1.set_xlabel(r'time [ps]')
         ax1.set_ylabel(r"energy gap [eV]", color=color1)
-        ax2.set_ylabel(r"HOMO/LUMO energy [eV]", color=color2)
-        fig_name = root + "_gap.png"
+        ax2.set_ylabel(r"HOMO/LUMO [eV]", color=color2)
+        fig_name = root + "_gap.pdf"
         plt.savefig(fig_name, format='pdf', bbox_inches='tight')
     else:
         ax1.set_xlabel("time [ps]")
