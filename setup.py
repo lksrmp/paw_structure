@@ -28,7 +28,7 @@ def info_write():
         latest_release = repo.git.tag(sort='creatordate').split('\n')[-1]
         info.write('__version__ = "{}"\n'.format(latest_release))
         #info.write('__version_commit__ = "{}"\n'.format(repo.head.log()[-1][0]))
-        info.write('__version_commit__ = "{}"\n'.format(latest_release))
+        info.write('__version_commit__ = "{}"\n'.format(repo.commit(latest_release)))
         info.write('__install_time__ = "{}"\n'.format(now))
 
 #TODO: adapt file
