@@ -25,9 +25,10 @@ def info_write():
         info.write('__commit_author__ = "{}"\n'.format(repo.head.log()[-1][2]))
         info.write('__commit_email__ = "{}"\n'.format(repo.head.log()[-1][2].email))
         info.write('__commit_time__ = "{}"\n'.format(repo.head.commit.authored_datetime))
-        info.write('__version__ = "{}"\n'.format(repo.tags[0]))
+        latest_release = repo.git.tag(sort='creatordate').split('\n')[-1]
+        info.write('__version__ = "{}"\n'.format(latest_release))
         #info.write('__version_commit__ = "{}"\n'.format(repo.head.log()[-1][0]))
-        info.write('__version_commit__ = "{}"\n'.format(repo.commit(repo.tags[0])))
+        info.write('__version_commit__ = "{}"\n'.format(latest_release))
         info.write('__install_time__ = "{}"\n'.format(now))
 
 #TODO: adapt file
