@@ -261,7 +261,7 @@ def write_header():
     now = datetime.now(timezone.utc)
     now = now.astimezone().strftime("%Y-%m-%d %H:%M:%S%z")
     header = '{}\n{}\n'.format(84*'#', _info.__name__.center(84))
-    text = 'developed by {} under MIT license'.format(_info.__author__).center(84)
+    text = 'developed by {} under Apache license, version 2.0'.format(_info.__author__).center(84)
     text = text + '\nbranch: {}; remotes: {};\n' \
                   'revision: {}; commit: {}\n' \
                   'by {} <{}> on {}\n' \
