@@ -10,6 +10,7 @@ Main routine is :func:`.radial_calculate`.
 Utilizes C++ code connected by pybind11_ in :mod:`.radial_c`.
 
 Dependencies:
+    :py:mod:`cycler`
     :py:mod:`functools`
     :py:mod:`matplotlib`
     :py:mod:`miniutils`
@@ -33,11 +34,12 @@ Dependencies:
     radial_single_c
 """
 
-import numpy as np
+from cycler import cycler
 from functools import partial
 import miniutils.progress_bar as progress
 import matplotlib.pyplot as plt
 import matplotlib
+import numpy as np
 import scipy.integrate as si
 import scipy.signal as signal
 import seaborn as sns
@@ -291,15 +293,20 @@ def radial_plot(args):
     Args:
         args (:py:mod:`argparse` object): command line arguments
     """
+    shift_count = 0.0
     if args.latex:
         plt.rcParams.update(utility.tex_fonts)
-        plt.figure(figsize=utility.set_size(args.latex[0], fraction=args.latex[1]))
+        plt.figure(figsize=utility.set_size(args.latex[0], fraction=args.latex[1], vertical=(args.shift[0] != 0.0)))
         sns.set_theme()
         sns.set_style("whitegrid")
-        sns.color_palette(n_colors=8)
+        sns.color_palette(palette='colorblind', n_colors=8)
+        prop_cycle = plt.rcParams['axes.prop_cycle']
+        prop_cycle = (prop_cycle + cycler(linestyle=['-', '--', ':', '-.', '-', '--', ':', '-.', '-', '--']))
+        plt.rc('axes', prop_cycle=prop_cycle)
     else:
         matplotlib.rcParams.update({'font.size': 14})
         plt.figure()
+
     for name in args.radial:
         root = utility.argcheck([sys.argv[0], name], '.radial')
         data, _ = radial_load(root)
@@ -308,9 +315,10 @@ def radial_plot(args):
             label = root
         else:
             label = root
-        plt.plot(data[:, 0], data[:, 1], label=label)
+        line, = plt.plot(data[:, 0], data[:, 1] + shift_count, label=label)
+        shift_count = shift_count + args.shift[0]
         if args.integrate:
-            plt.plot(data[:, 0], data[:, 2])
+            plt.plot(data[:, 0], data[:, 2], linestyle=line.get_linestyle(), color=line.get_color(), alpha=0.5)
         if args.fwhm:
             step = data[:, 0][1] - data[:, 0][0]
             peaks, fwhm = radial_peak(data[:, 0], data[:, 1])
@@ -318,7 +326,10 @@ def radial_plot(args):
             plt.hlines(fwhm[1], fwhm[2] * step, fwhm[3] * step)
     plt.grid(b=True)
     if args.key:
-        plt.legend(frameon=True)
+        if args.shift[0] != 0.0:
+            plt.legend(ncol=2, frameon=True)
+        else:
+            plt.legend(frameon=True)
     if args.xlim:
         plt.xlim(args.xlim)
     if args.ylim:

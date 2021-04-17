@@ -143,7 +143,7 @@ Plotting of the radial distribution function (RDF) extracted by :ref:`Usage_paw_
 
 The routine is started inside the directory containing the input data with::
 
-    paw_structure_radial [-i] [-fwhm] [-p] [-l width fraction] [-x xmin xmax] [-y ymin ymax] [-k] radial
+    paw_structure_radial [-i] [-fwhm] [-s] [-p] [-l width fraction] [-x xmin xmax] [-y ymin ymax] [-k] radial
     
 **mandatory**  
 
@@ -153,6 +153,7 @@ The routine is started inside the directory containing the input data with::
 
 :-i: integrate RDF to obtain the coordination number
 :-fwhm: peak detection and analysis
+:-s [shift]: shift each graph compared to the previous one
 :-p: show interactive graph of radial distribution function
 :-l [width fraction]: PDF output in LaTeX font, width of document in pts and fraction of this width; defaults given for beamer and thesis
 :-x [xmin xmax]: select range for x axis of plot

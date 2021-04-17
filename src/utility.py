@@ -360,6 +360,7 @@ def structure_radial_input():
     parser.add_argument("radial", nargs='*', type=str, help="give path of radial data file\nproduced by structure_fast.py")
     parser.add_argument("-i", "--integrate", action="store_true", help="obtain coordination number from integration")
     parser.add_argument("-fwhm", "--fwhm", action="store_true", help="peak analysis")
+    parser.add_argument("-s", "--shift", nargs=1, metavar=('shift'), type=float, default=[0.0], help="shift each graph in y direction")
     parser.add_argument("-p", "--plot", action="store_true", help="show graph of radial distribution function")
     parser.add_argument("-k", "--key", action="store_true", help="plot key/legend in the graph")
     parser.add_argument("-x", "--xlim", nargs=2, metavar=('xmin', 'xmax'), type=float, help="select range for x axis")
@@ -411,7 +412,7 @@ def structure_gap_input():
     return args
 
 
-def set_size(width, fraction="1", subplots=(1, 1)):
+def set_size(width, fraction="1", subplots=(1, 1), vertical=False):
     """
     Set figure dimensions to avoid scaling in LaTeX.
 
@@ -422,6 +423,9 @@ def set_size(width, fraction="1", subplots=(1, 1)):
 
     Returns:
         tuple(float): dimensions of figure in inches
+
+    Todo:
+        Vertical option might not work with multiple subplots.
     """
     if width == 'thesis':
         width_pt = 426.79135
@@ -439,5 +443,8 @@ def set_size(width, fraction="1", subplots=(1, 1)):
     # Figure width in inches
     fig_width_in = fig_width_pt * inches_per_pt
     # Figure height in inches
-    fig_height_in = fig_width_in * golden_ratio * (subplots[0] / subplots[1])
+    if vertical:
+        fig_height_in = fig_width_in / golden_ratio * (subplots[0] / subplots[1])
+    else:
+        fig_height_in = fig_width_in * golden_ratio * (subplots[0] / subplots[1])
     return (fig_width_in, fig_height_in)
