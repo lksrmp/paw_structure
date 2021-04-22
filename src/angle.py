@@ -10,6 +10,7 @@ Main routine is :func:`.angle_calculate`.
 Utilizes C++ code connected by pybind11_ in :mod:`.angle_c`.
 
 Dependencies:
+    :py:mod:`cycler`
     :py:mod:`functools`
     :py:mod:`matplotlib`
     :py:mod:`miniutils`
@@ -30,6 +31,7 @@ Dependencies:
     angle_save
     angle_single_c
 """
+from cycler import cycler
 import numpy as np
 from functools import partial
 import miniutils.progress_bar as progress
@@ -131,7 +133,10 @@ def angle_plot(args):
         plt.figure(figsize=utility.set_size(args.latex[0], fraction=args.latex[1]))
         sns.set_theme()
         sns.set_style("whitegrid")
-        sns.color_palette(n_colors=8)
+        sns.color_palette(palette='colorblind', n_colors=8)
+        prop_cycle = plt.rcParams['axes.prop_cycle']
+        prop_cycle = (prop_cycle + cycler(linestyle=['-', '--', ':', '-.', '-', '--', ':', '-.', '-', '--']))
+        plt.rc('axes', prop_cycle=prop_cycle)
     else:
         matplotlib.rcParams.update({'font.size': 14})
         plt.figure()
@@ -139,7 +144,8 @@ def angle_plot(args):
         root = utility.argcheck([sys.argv[0], name], '.angle')
         data = angle_load(root)
         if args.latex:
-            label = root.replace("_", "\_")
+            #label = root.replace("_", "\_")
+            label = root
         else:
             label = root
         if args.sinus:
