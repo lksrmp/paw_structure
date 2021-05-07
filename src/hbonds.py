@@ -99,7 +99,7 @@ def hbonds_plot_c(args):
         else:
             label = root
         # if it should be plotted in addition to the data points, please activate:
-        p = plt.scatter(data[:, 0], data[:, 1], s=1, label=label)
+        # p = plt.scatter(data[:, 0], data[:, 1], s=1, label=label)
         if args.average:
             series = pd.Series(data[:, 1], data[:, 0])
             rolling_window_obj = series.rolling(args.average)
