@@ -98,13 +98,17 @@ def hbonds_plot_c(args):
             #label = root.replace("_", "\_")
         else:
             label = root
+        # if it should be plotted in addition to the data points, please activate:
         p = plt.scatter(data[:, 0], data[:, 1], s=1, label=label)
         if args.average:
             series = pd.Series(data[:, 1], data[:, 0])
             rolling_window_obj = series.rolling(args.average)
             rolling_average = rolling_window_obj.mean()
-            plt.plot(rolling_average, color=p.get_facecolor()[0], lw=2)
-            #plt.plot(rolling_average, lw=2, label=label)
+            # if it should be plotted in addition to the data points, please activate:
+            # plt.plot(rolling_average, color=p.get_facecolor()[0], lw=2)
+            plt.plot(rolling_average, lw=2, label=label)
+        else:
+            p = plt.scatter(data[:, 0], data[:, 1], s=1, label=label)
     plt.grid(b=True)
     if args.key:
         plt.legend(frameon=True)
