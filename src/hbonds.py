@@ -106,7 +106,7 @@ def hbonds_plot_c(args):
             rolling_average = rolling_window_obj.mean()
             # if it should be plotted in addition to the data points, please activate:
             # plt.plot(rolling_average, color=p.get_facecolor()[0], lw=2)
-            plt.plot(rolling_average, lw=2, label=label)
+            plt.plot(rolling_average, label=label)
         else:
             p = plt.scatter(data[:, 0], data[:, 1], s=1, label=label)
     plt.grid(b=True)
