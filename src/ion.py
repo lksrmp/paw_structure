@@ -186,7 +186,7 @@ def ion_load(root, ext='.ion'):
     for i in range(len(text)):
         if len(text[i]) > 1:
             if text[i][0] == 'UNIT':
-                cell = np.array(text[i+1:i+4]) # get unit cell
+                cell = np.array(text[i+1:i+4], dtype=float) # get unit cell
             if text[i][0] == "TIME":  # search for trigger of new snapshot
                 iter = int(text[i][3])
                 time = float(text[i][1])
