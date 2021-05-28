@@ -12,6 +12,9 @@ Dependencies:
 .. autosummary::
 
     video_save_xyz
+
+.. Todo::
+    create command line access to tool
 """
 import numpy as np
 import re

@@ -28,4 +28,5 @@ Here is the documentation of the program.
    ./Modules/paw_structure.angle_c
    ./Modules/paw_structure.hbonds
    ./Modules/paw_structure.hbonds_c
+   ./Modules/paw_structure.video
    
