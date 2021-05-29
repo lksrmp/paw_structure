@@ -29,7 +29,7 @@ def video_save_xyz(root, snapshots):
         root (str): root name for file
         snapshots (list[:class:`.Snap`]): snapshots to be saved
     Note:
-        Takes atom ID and removes "_" (e.g. "H_" -> "H"). !SPECIES:NAME in structure file needs to fit the atom name in Avogadro.
+        Takes atom ID and removes "\_" (e.g. "H\_" -> "H"). !SPECIES:NAME in structure file needs to fit the atom name in Avogadro.
     """
     path = root + '_movie.xyz'
     try:
