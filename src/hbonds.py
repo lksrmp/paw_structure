@@ -10,6 +10,7 @@ Main routine is :func:`.hbonds_find_parallel`.
 Utilizes C++ code connected by pybind11_ in :mod:`.hbonds_c`.
 
 Dependencies:
+    :py:mod:`cycler`
     :py:mod:`functools`
     :py:mod:`matplotlib`
     :py:mod:`miniutils`
@@ -28,6 +29,7 @@ Dependencies:
     hbonds_save_c
     hbonds_single_c
 """
+from cycler import cycler
 from functools import partial
 import matplotlib
 import matplotlib.pyplot as plt
@@ -85,7 +87,10 @@ def hbonds_plot_c(args):
         plt.figure(figsize=utility.set_size(args.latex[0], fraction=args.latex[1]))
         sns.set_theme()
         sns.set_style("whitegrid")
-        sns.color_palette(n_colors=8)
+        sns.color_palette(palette='colorblind', n_colors=8)
+        prop_cycle = plt.rcParams['axes.prop_cycle']
+        prop_cycle = (prop_cycle + cycler(linestyle=['-', '--', ':', '-.', '-', '--', ':', '-.', '-', '--']))
+        plt.rc('axes', prop_cycle=prop_cycle)
     else:
         matplotlib.rcParams.update({'font.size': 14})
         plt.figure()
