@@ -10,7 +10,6 @@ Main routine is :func:`.hbonds_find_parallel`.
 Utilizes C++ code connected by pybind11_ in :mod:`.hbonds_c`.
 
 Dependencies:
-    :py:mod:`cycler`
     :py:mod:`functools`
     :py:mod:`matplotlib`
     :py:mod:`miniutils`
@@ -29,7 +28,6 @@ Dependencies:
     hbonds_save_c
     hbonds_single_c
 """
-from cycler import cycler
 from functools import partial
 import matplotlib
 import matplotlib.pyplot as plt
