@@ -197,7 +197,8 @@ setup(
                       'sphinx_rtd_theme>=0.5.0',
                       'autodocsumm>=0.1.13',
                       'seaborn>=0.11.0',
-                      'cycler>=0.10.0'],
+                      'cycler>=0.10.0',
+                      'PyContracts @ git+https://github.com/AndreaCensi/contracts.git'],
     cmdclass={'build_ext': BuildExt},
     zip_safe=False,
     entry_points={
