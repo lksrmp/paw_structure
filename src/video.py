@@ -22,7 +22,8 @@ from collections import Counter
 
 from . import utility
 
-def video_save_xyz(root, snapshots):
+
+def video_save_xyz(root, snapshots, cell=False):
     """
     Save information of selected snapshots to file XXX xyz movie file XXX.
     Args:
@@ -49,13 +50,20 @@ def video_save_xyz(root, snapshots):
     # write information for different time steps
     for snap in snapshots:
         f.write("%d\n" % len(ID))
-        # time and iteration of snapshot
-        f.write("%-14s%-14.8f%-14s%-14d\n" % ("TIME", snap.time, "ITERATION", snap.iter))
-        data = np.array(snap.atoms[['id', 'pos']].values, dtype='<U32')
-        data[:, 0] = np.char.replace(data[:, 0], "_", "")
-        current_counter = Counter(data[:, 0])
-        for k in counter.keys():
-            for i in range(counter[k] - current_counter[k]):
-                data = np.vstack((data, np.array([k, '100.0', '100.0', '100.0'], dtype='<U32')))
-        np.savetxt(f, data, fmt="%-14s%-14s%-14s%-14s")
+        if(cell):
+            f.write('Lattice=" ')
+            f.write(" ".join(map(str, snap.cell.ravel())))
+            f.write(' "\n')
+        else:
+            # time and iteration of snapshot
+            f.write("%-14s%-14.8f%-14s%-14d\n" % ("TIME", snap.time, "ITERATION", snap.iter))
+        data = snap.atoms[['id', 'pos']].copy()
+        data['id'] = data['id'].str.replace("_", "")
+        data['id'] = data['id'].str.capitalize()
+        # TODO: deal with fluctuation of atoms in viewbox
+        # current_counter = Counter(data[:, 0])
+        # for k in counter.keys():
+        #     for i in range(counter[k] - current_counter[k]):
+        #         data = np.vstack((data, np.array([k, '100.0', '100.0', '100.0'])))
+        np.savetxt(f, data.values, fmt="%-14.10s%14.8f%14.8f%14.8f")
     f.close()
